@@ -42,6 +42,18 @@ class User implements UserInterface
      */
     private $plainPassword;
 
+    /**
+     *  @ORM\Column(type="array",length=30)
+     */
+    private $roles = ['ROLE_USER'];
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->email;
+    }
 
     public function getId(): ?int
     {
@@ -64,7 +76,17 @@ class User implements UserInterface
      */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        return $this->roles;
+    }
+
+    /**
+     * @param string $role
+     * @return User
+     */
+    public function addRole(string $role): self
+    {
+        $this->roles[] = $role;
+        return $this;
     }
 
     /**
@@ -77,7 +99,7 @@ class User implements UserInterface
      */
     public function getPassword()
     {
-        // TODO: Implement getPassword() method.
+        return $this->password;
     }
 
     /**
@@ -99,7 +121,7 @@ class User implements UserInterface
      */
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return $this->getEmail();
     }
 
     /**
@@ -112,6 +134,7 @@ class User implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
+
 
     public function getFirstname(): ?string
     {
@@ -178,5 +201,8 @@ class User implements UserInterface
 
         return $this;
     }
-    
+
+
+
+
 }
