@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -48,6 +50,41 @@ class User implements UserInterface
     private $roles = ['ROLE_USER'];
 
     /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $zipcode;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $country;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $skills = [];
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Team")
+     */
+    private $teams;
+
+    public function __construct()
+    {
+        $this->teams = new ArrayCollection();
+    }
+
+    /**
      * @return string
      */
     public function __toString(): string
@@ -86,6 +123,18 @@ class User implements UserInterface
     public function addRole(string $role): self
     {
         $this->roles[] = $role;
+        return $this;
+    }
+
+    /**
+     * @param string $roles
+     * @return User
+     */
+    public function removeRole(string $role):self
+    {
+        $key = array_search($role,$this->roles);
+        unset($this->roles[$key]);
+
         return $this;
     }
 
@@ -202,7 +251,92 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
 
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
 
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getZipcode(): ?string
+    {
+        return $this->zipcode;
+    }
+
+    public function setZipcode(?string $zipcode): self
+    {
+        $this->zipcode = $zipcode;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?string $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getSkills(): ?array
+    {
+        return $this->skills;
+    }
+
+    public function setSkills(?array $skills): self
+    {
+        $this->skills = $skills;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Team[]
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams[] = $team;
+            $team->addManager($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        if ($this->teams->contains($team)) {
+            $this->teams->removeElement($team);
+            $team->removeManager($this);
+        }
+
+        return $this;
+    }
 
 }
