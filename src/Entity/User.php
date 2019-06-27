@@ -90,6 +90,18 @@ class User implements UserInterface
     }
 
     /**
+     * @param string $roles
+     * @return User
+     */
+    public function removeRole(string $role):self
+    {
+        $key = array_search($role,$this->roles);
+        unset($this->roles[$key]);
+
+        return $this;
+    }
+
+    /**
      * Returns the password used to authenticate the user.
      *
      * This should be the encoded password. On authentication, a plain-text
