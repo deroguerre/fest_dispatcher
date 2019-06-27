@@ -34,6 +34,9 @@ class UserFixtures extends Fixture
             $user->setFirstname($faker->firstName)
                 ->setLastname($faker->lastName)
                 ->setEmail($faker->email)
+                ->setAddress($faker->address)
+                ->setZipcode($faker->postcode)
+                ->setCountry($faker->country)
                 ->setPassword($this->userPasswordEncorder->encodePassword(
                     $user,
 
@@ -51,6 +54,9 @@ class UserFixtures extends Fixture
             ->setEmail('admin@admin.com')
             ->addRole('ROLE_ADMIN')
             ->removeRole('ROLE_USER')
+            ->setAddress($faker->address)
+            ->setZipcode($faker->postcode)
+            ->setCountry($faker->country)
             ->setPassword($this->userPasswordEncorder->encodePassword(
                 $user,
 
