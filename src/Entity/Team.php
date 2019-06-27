@@ -24,16 +24,6 @@ class Team
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\user")
-     */
-    private $managers;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\user")
-     */
-    private $neededUsers;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
@@ -44,15 +34,20 @@ class Team
     private $backgroundColor;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="subteams")
+     * @ORM\ManyToMany(targetEntity="App\Entity\user", inversedBy="teams")
      */
-    private $subteams;
+    private $managers;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $neededVolunteers;
 
     public function __construct()
     {
         $this->managers = new ArrayCollection();
-        $this->neededUsers = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -67,6 +62,31 @@ class Team
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getBackgroundColor(): ?string
+    {
+        return $this->backgroundColor;
+    }
+
+    public function setBackgroundColor(?string $backgroundColor): self
+    {
+        $this->backgroundColor = $backgroundColor;
 
         return $this;
     }
@@ -97,65 +117,17 @@ class Team
         return $this;
     }
 
-    /**
-     * @return Collection|user[]
-     */
-    public function getNeededUsers(): Collection
+    public function getNeededVolunteers(): ?int
     {
-        return $this->neededUsers;
+        return $this->neededVolunteers;
     }
 
-    public function addNeededUser(user $neededUser): self
+    public function setNeededVolunteers(?int $neededVolunteers): self
     {
-        if (!$this->neededUsers->contains($neededUser)) {
-            $this->neededUsers[] = $neededUser;
-        }
+        $this->neededVolunteers = $neededVolunteers;
 
         return $this;
     }
 
-    public function removeNeededUser(user $neededUser): self
-    {
-        if ($this->neededUsers->contains($neededUser)) {
-            $this->neededUsers->removeElement($neededUser);
-        }
 
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getBackgroundColor(): ?string
-    {
-        return $this->backgroundColor;
-    }
-
-    public function setBackgroundColor(?string $backgroundColor): self
-    {
-        $this->backgroundColor = $backgroundColor;
-
-        return $this;
-    }
-
-    public function getSubteams(): ?self
-    {
-        return $this->subteams;
-    }
-
-    public function setSubteams(?self $subteams): self
-    {
-        $this->subteams = $subteams;
-
-        return $this;
-    }
 }

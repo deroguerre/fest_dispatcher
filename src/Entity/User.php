@@ -75,7 +75,7 @@ class User implements UserInterface
     private $skills = [];
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Team")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Team", mappedBy="managers")
      */
     private $teams;
 
