@@ -13,37 +13,37 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-//    /**
-//     * @Route("/registration")
-//     */
-//    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
-//    {
-//        $user = new User();
-//        $form = $this->createForm(UserType::class, $user);
-//
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted()) {
-//            if ($form->isValid()) {
-//                $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-//
-//                $user->setPassword($password);
-//
-//                $entityManager->persist($user);
-//                $entityManager->flush();
-//
-//                $this->addFlash('success', 'Votre compte est créé');
-//
-////                return $this->redirectToRoute('app_index_index');
-//            } else {
-//                $this->addFlash('error', 'Le formulaire contient des erreurs');
-//            }
-//        }
-//
-//        return $this->render('security/register.html.twig', [
-//            'form' => $form->createView()
-//        ]);
-//    }
+    /**
+     * @Route("/registration")
+     */
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+
+                $user->setPassword($password);
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Votre compte est créé');
+
+//                return $this->redirectToRoute('app_index_index');
+            } else {
+                $this->addFlash('error', 'Le formulaire contient des erreurs');
+            }
+        }
+
+        return $this->render('security/register.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 
     /**
      * @Route("/login")
@@ -75,4 +75,6 @@ class SecurityController extends AbstractController
         // pour être passée dnas la section logout de
         // config/package/security.yaml
     }
+
+
 }

@@ -84,16 +84,10 @@ class User implements UserInterface
      */
     private $jobs;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\VolunteersAvailability", mappedBy="user")
-     */
-    private $availabilities;
-
     public function __construct()
     {
         $this->teams = new ArrayCollection();
         $this->jobs = new ArrayCollection();
-        $this->availabilities = new ArrayCollection();
     }
 
     /**
@@ -376,37 +370,6 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($job->getUser() === $this) {
                 $job->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|VolunteersAvailability[]
-     */
-    public function getAvailabilities(): Collection
-    {
-        return $this->availabilities;
-    }
-
-    public function addAvailability(VolunteersAvailability $availability): self
-    {
-        if (!$this->availabilities->contains($availability)) {
-            $this->availabilities[] = $availability;
-            $availability->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAvailability(VolunteersAvailability $availability): self
-    {
-        if ($this->availabilities->contains($availability)) {
-            $this->availabilities->removeElement($availability);
-            // set the owning side to null (unless already changed)
-            if ($availability->getUser() === $this) {
-                $availability->setUser(null);
             }
         }
 
