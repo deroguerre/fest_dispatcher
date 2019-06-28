@@ -79,9 +79,21 @@ class User implements UserInterface
      */
     private $teams;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Job", mappedBy="user")
+     */
+    private $jobs;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VolunteersAvailability", mappedBy="user")
+     */
+    private $availabilities;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
+        $this->jobs = new ArrayCollection();
+        $this->availabilities = new ArrayCollection();
     }
 
     /**
@@ -334,6 +346,68 @@ class User implements UserInterface
         if ($this->teams->contains($team)) {
             $this->teams->removeElement($team);
             $team->removeManager($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Job[]
+     */
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): self
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs[] = $job;
+            $job->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): self
+    {
+        if ($this->jobs->contains($job)) {
+            $this->jobs->removeElement($job);
+            // set the owning side to null (unless already changed)
+            if ($job->getUser() === $this) {
+                $job->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VolunteersAvailability[]
+     */
+    public function getAvailabilities(): Collection
+    {
+        return $this->availabilities;
+    }
+
+    public function addAvailability(VolunteersAvailability $availability): self
+    {
+        if (!$this->availabilities->contains($availability)) {
+            $this->availabilities[] = $availability;
+            $availability->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvailability(VolunteersAvailability $availability): self
+    {
+        if ($this->availabilities->contains($availability)) {
+            $this->availabilities->removeElement($availability);
+            // set the owning side to null (unless already changed)
+            if ($availability->getUser() === $this) {
+                $availability->setUser(null);
+            }
         }
 
         return $this;

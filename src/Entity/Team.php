@@ -43,9 +43,21 @@ class Team
      */
     private $neededVolunteers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Job", mappedBy="team")
+     */
+    private $jobs;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="team")
+     */
+    private $notes;
+
     public function __construct()
     {
         $this->managers = new ArrayCollection();
+        $this->jobs = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
 
@@ -125,6 +137,68 @@ class Team
     public function setNeededVolunteers(?int $neededVolunteers): self
     {
         $this->neededVolunteers = $neededVolunteers;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Job[]
+     */
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): self
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs[] = $job;
+            $job->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): self
+    {
+        if ($this->jobs->contains($job)) {
+            $this->jobs->removeElement($job);
+            // set the owning side to null (unless already changed)
+            if ($job->getTeam() === $this) {
+                $job->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Note[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->contains($note)) {
+            $this->notes->removeElement($note);
+            // set the owning side to null (unless already changed)
+            if ($note->getTeam() === $this) {
+                $note->setTeam(null);
+            }
+        }
 
         return $this;
     }
