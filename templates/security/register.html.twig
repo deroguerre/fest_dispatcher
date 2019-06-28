@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{  form_row(form.lastname) }}
+    {{  form_row(form.firstname) }}
+    {{  form_row(form.email) }}
+    {{  form_row(form.plainPassword) }}
+    {{ form_row(form.roles) }}
+    {{ form_row(form.phone) }}
+    {{ form_row(form.address) }}
+    {{ form_row(form.zipcode) }}
+    {{ form_row(form.country) }}
+    {{ form_row(form.skills) }}
+    <div class="text-right">
+        <button type="submit" class="btn btn-outline-primary">
+            Enregistrer
+        </button>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

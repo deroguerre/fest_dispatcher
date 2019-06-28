@@ -79,9 +79,21 @@ class User implements UserInterface
      */
     private $teams;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Job", mappedBy="user")
+     */
+    private $jobs;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VolunteerAvailability", mappedBy="user")
+     */
+    private $volunteerAvailabilities;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
+        $this->jobs = new ArrayCollection();
+        $this->volunteerAvailabilities = new ArrayCollection();
     }
 
     /**
@@ -222,9 +234,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPlainPassword(): string
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
@@ -334,6 +346,68 @@ class User implements UserInterface
         if ($this->teams->contains($team)) {
             $this->teams->removeElement($team);
             $team->removeManager($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Job[]
+     */
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): self
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs[] = $job;
+            $job->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): self
+    {
+        if ($this->jobs->contains($job)) {
+            $this->jobs->removeElement($job);
+            // set the owning side to null (unless already changed)
+            if ($job->getUser() === $this) {
+                $job->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VolunteerAvailability[]
+     */
+    public function getVolunteerAvailabilities(): Collection
+    {
+        return $this->volunteerAvailabilities;
+    }
+
+    public function addVolunteerAvailability(VolunteerAvailability $volunteerAvailability): self
+    {
+        if (!$this->volunteerAvailabilities->contains($volunteerAvailability)) {
+            $this->volunteerAvailabilities[] = $volunteerAvailability;
+            $volunteerAvailability->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVolunteerAvailability(VolunteerAvailability $volunteerAvailability): self
+    {
+        if ($this->volunteerAvailabilities->contains($volunteerAvailability)) {
+            $this->volunteerAvailabilities->removeElement($volunteerAvailability);
+            // set the owning side to null (unless already changed)
+            if ($volunteerAvailability->getUser() === $this) {
+                $volunteerAvailability->setUser(null);
+            }
         }
 
         return $this;

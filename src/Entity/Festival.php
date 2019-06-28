@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +47,17 @@ class Festival
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $country;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VolunteerAvailability", mappedBy="festival")
+     */
+    private $volunteerAvailabilities;
+
+    public function __construct()
+    {
+        $this->volunteerAvailabilities = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -122,4 +135,36 @@ class Festival
 
         return $this;
     }
+
+    /**
+     * @return Collection|VolunteerAvailability[]
+     */
+    public function getVolunteerAvailabilities(): Collection
+    {
+        return $this->volunteerAvailabilities;
+    }
+
+    public function addVolunteerAvailability(VolunteerAvailability $volunteerAvailability): self
+    {
+        if (!$this->volunteerAvailabilities->contains($volunteerAvailability)) {
+            $this->volunteerAvailabilities[] = $volunteerAvailability;
+            $volunteerAvailability->setFestival($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVolunteerAvailability(VolunteerAvailability $volunteerAvailability): self
+    {
+        if ($this->volunteerAvailabilities->contains($volunteerAvailability)) {
+            $this->volunteerAvailabilities->removeElement($volunteerAvailability);
+            // set the owning side to null (unless already changed)
+            if ($volunteerAvailability->getFestival() === $this) {
+                $volunteerAvailability->setFestival(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
