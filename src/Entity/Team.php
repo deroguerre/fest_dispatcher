@@ -53,6 +53,11 @@ class Team
      */
     private $notes;
 
+    /**
+     * @var Team $subteams
+     */
+    private $subteams;
+
     public function __construct()
     {
         $this->managers = new ArrayCollection();
@@ -203,5 +208,23 @@ class Team
         return $this;
     }
 
+    /**
+     * @return Team
+     */
+    public function getSubteams(): Team
+    {
+        return $this->subteams;
+    }
+
+    /**
+     * @param Team $team
+     * @return Team
+     */
+    public function addSubteam(Team $team): self
+    {
+        $this->subteams[] = $team;
+
+        return $this;
+    }
 
 }
