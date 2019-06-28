@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New VolunteerAvailability{% endblock %}
+
+{% block body %}
+    <h1>Create new VolunteerAvailability</h1>
+
+    {{ include('volunteer_availability/_form.html.twig') }}
+
+    <a href="{{ path('volunteer_availability_index') }}">back to list</a>
+{% endblock %}
