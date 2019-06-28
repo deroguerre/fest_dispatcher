@@ -44,7 +44,7 @@ class UserFixtures extends Fixture
                 ));
 
             $manager->persist($user);
-
+            $this->addReference('user' .$i, $user);
         }
         // personnal user
         $user = new User();
