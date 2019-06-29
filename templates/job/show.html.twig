@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Job{% endblock %}
+
+{% block body %}
+    <h1>Job</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ job.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ job.title }}</td>
+            </tr>
+            <tr>
+                <th>StartDate</th>
+                <td>{{ job.startDate ? job.startDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>EndDate</th>
+                <td>{{ job.endDate ? job.endDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>BackgroundColor</th>
+                <td>{{ job.backgroundColor }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('job_index') }}">back to list</a>
+
+    <a href="{{ path('job_edit', {'id': job.id}) }}">edit</a>
+
+    {{ include('job/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}VolunteerAvailability index{% endblock %}
+
+{% block body %}
+    <h1>VolunteerAvailability index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for volunteer_availability in volunteer_availabilities %}
+            <tr>
+                <td>{{ volunteer_availability.id }}</td>
+                <td>{{ volunteer_availability.startDate ? volunteer_availability.startDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ volunteer_availability.endDate ? volunteer_availability.endDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('volunteer_availability_show', {'id': volunteer_availability.id}) }}">show</a>
+                    <a href="{{ path('volunteer_availability_edit', {'id': volunteer_availability.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('volunteer_availability_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Festival{% endblock %}
+
+{% block body %}
+    <h1>Edit Festival</h1>
+
+    {{ include('festival/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('festival_index') }}">back to list</a>
+
+    {{ include('festival/_delete_form.html.twig') }}
+{% endblock %}

@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFixtures extends Fixture
 {
 
-    const COUNT = 10;
+    const COUNT = 25;
 
     private $userPasswordEncorder;
 
@@ -24,8 +24,7 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        // $manager->persist($product);
-        // $product = new Product();
+
         $faker = Factory::create("fr_FR");
 
         for ($i = 0; $i < self::COUNT; $i++) {
@@ -44,7 +43,7 @@ class UserFixtures extends Fixture
                 ));
 
             $manager->persist($user);
-
+            $this->addReference('user' .$i, $user);
         }
         // personnal user
         $user = new User();
