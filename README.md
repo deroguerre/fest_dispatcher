@@ -1,11 +1,19 @@
-###Getting Started
+## Introduction
 
+[![Build Status](https://travis-ci.org/deroguerre/fest_dispatcher.svg?branch=dev)](https://travis-ci.org/deroguerre/fest_dispatcher)
+
+FestDispatcher permet de gérer facilement des bénévoles lors d'un festival.
+
+## Getting Started
+
+```bash
 composer install  
 bin/console doctrine:database:create  
 bin/console doctrine:schema:validate  
 bin/console doctrine:schema:update  
+```
 
-###Shortcuts
+## Storm shortcuts
 
 show intention = ALT + ENTER  
 reformat code =  CRTL + ALT + L  
