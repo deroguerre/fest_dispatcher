@@ -20,17 +20,17 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=80, nullable=true)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=80, nullable=true)
      */
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=80, unique=true)
      */
     private $email;
 

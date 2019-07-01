@@ -18,3 +18,14 @@
 ###< symfony/web-server-bundle ###
 
 .idea/
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+# Dependency directories
+node_modules/
+jspm_packages/
