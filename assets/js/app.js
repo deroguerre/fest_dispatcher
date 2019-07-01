@@ -6,9 +6,10 @@
  */
 
 // any CSS you require will output into a single css file (app.scss in this case)
-require('../css/app.scss');
-var $ = require('jquery');
+import '../css/app.scss';
 import 'bootstrap';
+require("expose-loader?jQuery!jquery");
+require("startbootstrap-sb-admin-2/js/sb-admin-2");
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // const $ = require('jquery');
