@@ -7,6 +7,13 @@ import listPlugin from '@fullcalendar/list';
 
 import frLocale from '@fullcalendar/core/locales/fr';
 
+
+jQuery( document ).ready(function() {
+    jQuery('.festival-card').on('click', function () {
+
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 

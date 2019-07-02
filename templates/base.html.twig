@@ -22,6 +22,27 @@
             <div class="sidebar-brand-text mx-3">fest dispatcher</div>
         </a>
 
+        {% if render(controller('App\\Controller\\IndexController::currentFestival')) == "" %}
+            <a href="#" class="btn btn-warning btn-icon-split selected-fest">
+                <span class="icon text-white-50">
+                    <i class="fas fa-flag"></i>
+                </span>
+                <span class="text">
+                    aucun festival selectionné
+                </span>
+            </a>
+        {% else %}
+
+            <a href="#" class="btn btn-success btn-icon-split selected-fest">
+                <span class="icon text-white-50">
+                    <i class="fas fa-flag"></i>
+                </span>
+                <span class="text">
+                    {{ render(controller('App\\Controller\\IndexController::currentFestival')) }}
+                </span>
+            </a>
+        {% endif %}
+
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
 
