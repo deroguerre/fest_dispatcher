@@ -6,5 +6,9 @@
 @import "~startbootstrap-sb-admin-2/css/sb-admin-2.min.css";
 
 body {
-    background-color: lightgray;
+    //background-color: lightgray;
+}
+
+.scroll-to-top {
+  z-index: 1;
 }
