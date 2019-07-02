@@ -1,10 +1,12 @@
 <?php
-
+// api/src/Entity/User.php
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass="App\Repository\NoteRepository")
  */
 class Note
