@@ -14,6 +14,15 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        api:
+            pattern: ^/_(profiler|wdt)
+            stateless: true
+            anonymous: true
+#            provider: app_user_provider
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
         main:
             anonymous: true
             form_login:
@@ -21,6 +30,12 @@ security:
                 check_path: app_security_login
             logout:
                 path: app_security_logout
+            json_login:
+                check_path: /authentication_token
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
             provider: db
 

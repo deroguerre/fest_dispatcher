@@ -12,6 +12,7 @@ bin/console doctrine:database:create
 bin/console doctrine:schema:validate  
 bin/console doctrine:schema:update  
 ```
+## API
 
 ## Storm shortcuts
 
