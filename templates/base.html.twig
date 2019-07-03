@@ -22,7 +22,7 @@
             <div class="sidebar-brand-text mx-3">fest dispatcher</div>
         </a>
 
-        {% if render(controller('App\\Controller\\IndexController::currentFestival')) == "" %}
+        {% if render(controller('App\\Controller\\FestivalController::displayCurrentFestival')) == "" %}
             <a href="#" class="btn btn-warning btn-icon-split selected-fest">
                 <span class="icon text-white-50">
                     <i class="fas fa-flag"></i>
@@ -33,12 +33,12 @@
             </a>
         {% else %}
 
-            <a href="#" class="btn btn-success btn-icon-split selected-fest">
+            <a href="{{ path('festival_change', {"id": 999}) }}" class="btn btn-success btn-icon-split selected-fest">
                 <span class="icon text-white-50">
                     <i class="fas fa-flag"></i>
                 </span>
                 <span class="text">
-                    {{ render(controller('App\\Controller\\IndexController::currentFestival')) }}
+                    {{ render(controller('App\\Controller\\FestivalController::displayCurrentFestival')) }}
                 </span>
             </a>
         {% endif %}

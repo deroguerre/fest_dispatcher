@@ -8,6 +8,7 @@ use App\Repository\FestivalRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -15,6 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FestivalController extends AbstractController
 {
+    /** @var Festival|null $currentFestival */
+    private $currentFestival = null;
+
+    public function __construct(SessionInterface $session, FestivalRepository $festivalRepository)
+    {
+        if ($session->get('selected-festival-id') != null) {
+            $festival = $festivalRepository->find($session->get('selected-festival-id'));
+            $this->currentFestival = $festival;
+        }
+    }
+
     /**
      * @Route("/", name="festival_index", methods={"GET"})
      */
@@ -49,7 +61,7 @@ class FestivalController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="festival_show", methods={"GET"})
+     * @Route("/{id}", name="festival_show", methods={"GET"}, requirements={"id":"\d+"})
      */
     public function show(Festival $festival): Response
     {
@@ -85,12 +97,44 @@ class FestivalController extends AbstractController
      */
     public function delete(Request $request, Festival $festival): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$festival->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $festival->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($festival);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('festival_index');
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/{id}/select", name="festival_select", methods={"GET"}, requirements={"id":"\d+"})
+     */
+    public function select(Festival $festival, SessionInterface $session)
+    {
+        $session->set('selected-festival-id', $festival->getId());
+        return $this->redirectToRoute('app_index_index');
+    }
+
+    /**
+     * @return Response
+     */
+    public function displayCurrentFestival()
+    {
+        $response = new Response();
+        if ($this->currentFestival != null) {
+            $response->setContent($this->currentFestival->getName());
+        }
+        return $response;
+    }
+
+    /**
+     * @param Festival
+     * @Route("/change", name="festival_change", methods={"GET"})
+     */
+    public function removeCurrentFestival(SessionInterface $session)
+    {
+        $session->clear();
+        return $this->redirectToRoute("app_index_index");
     }
 }
