@@ -1,8 +1,9 @@
 <?php
-// api/src/Entity/job.php
+
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,21 +21,25 @@ class Job
 
     /**
      * @ORM\Column(type="string", length=255)
+
      */
     private $title;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+
      */
     private $endDate;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+
      */
     private $backgroundColor;
 
@@ -47,6 +52,7 @@ class Job
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="jobs")
      * @ORM\JoinColumn(nullable=false)
+
      */
     private $user;
 

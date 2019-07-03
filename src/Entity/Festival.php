@@ -1,5 +1,4 @@
 <?php
-// api/src/Entity/Festival.php
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
