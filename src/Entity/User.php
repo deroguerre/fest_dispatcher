@@ -1,5 +1,4 @@
 <?php
-// api/src/Entity/User.php
 
 namespace App\Entity;
 
@@ -12,7 +11,29 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *              attributes={
+ *                  "access_control"="is_granted('ROLE_ADMIN')"
+ *              },
+ *              collectionOperations={
+ *                  "get",
+ *                  "post"={
+ *                      "access_control"="is_granted('ROLE_ADMIN')",
+ *                      "access_control_message"="Only admins can add user."
+ *                   }
+ *              },
+ *              itemOperations={
+ *                  "get"={
+ *                      "access_control"="is_granted('ROLE_ADMIN') and object.owner == user"
+ *                  },
+ *                  "put"={
+ *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
+ *                  },
+ *                  "delete"={
+ *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
+ *                  },
+ *              }
+ * )
  * @ApiFilter(searchFilter::class, properties={"zipcode":"partial"})
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */

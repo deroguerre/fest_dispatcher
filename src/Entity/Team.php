@@ -1,5 +1,4 @@
 <?php
-// api/src/Entity/Team.php
 
 namespace App\Entity;
 
@@ -9,7 +8,29 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource
+@ApiResource(
+ *              attributes={
+ *                  "access_control"="is_granted('ROLE_ADMIN')"
+ *              },
+ *              collectionOperations={
+ *                  "get",
+ *                  "post"={
+ *                      "access_control"="is_granted('ROLE_ADMIN')",
+ *                      "access_control_message"="Only admins can add team."
+ *                   }
+ *              },
+ *              itemOperations={
+ *                  "get"={
+ *                      "access_control"="is_granted('ROLE_ADMIN') and object.owner == user"
+ *                  },
+ *                  "put"={
+ *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
+ *                  },
+ *                  "delete"={
+ *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
+ *                  },
+ *              }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
  */
 class Team

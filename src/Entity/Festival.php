@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -8,9 +9,32 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource(normalizationContext={"groups"={"festival"}})
+ * @ApiResource(
+ *              attributes={
+ *                  "access_control"="is_granted('ROLE_ADMIN')"
+ *              },
+ *              collectionOperations={
+ *                  "get",
+ *                  "post"={
+ *                      "access_control"="is_granted('ROLE_ADMIN')",
+ *                      "access_control_message"="Only admins can add Festival."
+ *                   }
+ *              },
+ *              itemOperations={
+ *                  "get"={
+ *                      "access_control"="is_granted('ROLE_ADMIN') and object.owner == user"
+ *                  },
+ *                  "put"={
+ *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
+ *                  },
+ *                  "delete"={
+ *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
+ *                  },
+ *              }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\FestivalRepository")
  */
+
 class Festival
 {
     /**
@@ -22,7 +46,6 @@ class Festival
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("festival")
      */
     private $name;
 

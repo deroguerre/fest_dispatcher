@@ -3,8 +3,32 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *              attributes={
+ *                  "access_control"="is_granted('ROLE_USER')"
+ *              },
+ *              collectionOperations={
+ *                  "get",
+ *                  "post"={
+ *                      "access_control"="is_granted('ROLE_USER')",
+ *                   }
+ *              },
+ *              itemOperations={
+ *                  "get"={
+ *                      "access_control"="is_granted('ROLE_USER') and object.owner == user"
+ *                  },
+ *                  "put"={
+ *                      "access_control"="is_granted('ROLE_USER') and previous_object.owner == user"
+ *                  },
+ *                  "delete"={
+ *                      "access_control"="is_granted('ROLE_USER') and previous_object.owner == user"
+ *                  },
+ *              }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\VolunteerAvailabilityRepository")
  */
 class VolunteerAvailability
