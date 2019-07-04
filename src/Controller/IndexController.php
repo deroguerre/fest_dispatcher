@@ -22,8 +22,8 @@ class IndexController extends AbstractController
 
 
         $currentFestival = null;
-        if($session->get('selected-festival-id') != null) {
-            $festival = $festivalRepository->find($session->get('selected-festival-id'));
+        if($session->get('current-festival-id') != null) {
+            $festival = $festivalRepository->find($session->get('current-festival-id'));
             $currentFestival = $festival;
         }
 

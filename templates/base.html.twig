@@ -23,12 +23,12 @@
         </a>
 
         {% if render(controller('App\\Controller\\FestivalController::displayCurrentFestival')) == "" %}
-            <a href="#" class="btn btn-warning btn-icon-split selected-fest">
+            <a href="{{ path('app_index_index') }}" class="btn btn-warning btn-icon-split selected-fest">
                 <span class="icon text-white-50">
                     <i class="fas fa-flag"></i>
                 </span>
                 <span class="text">
-                    aucun festival selectionné
+                    Selectionner un festival
                 </span>
             </a>
         {% else %}
@@ -71,8 +71,26 @@
                     <span>Festivals</span></a>
             </li>
 
-        {% endif %}
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                   aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Membres</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        {#                    <h6 class="collapse-header">Login Screens:</h6>#}
 
+                        {% if app.session.get('current-festival-id') != "" %}
+                            <a class="collapse-item"
+                               href="{{ path('volunteer_availability_by_festival', {"id": app.session.get('current-festival-id')}) }}">Bénévoles</a>
+                        {% endif %}
+                        <a class="collapse-item" href="{{ path('user_index') }}">Tous les utilisateurs</a>
+                    </div>
+                </div>
+            </li>
+        {% endif %}
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -81,22 +99,6 @@
         <div class="sidebar-heading">
             Festival
         </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-               aria-expanded="true" aria-controls="collapsePages">
-                <i class="fas fa-fw fa-folder"></i>
-                <span>Membres</span>
-            </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    {#                    <h6 class="collapse-header">Login Screens:</h6>#}
-                    <a class="collapse-item" href="{{ path('volunteer_availability_index') }}">Bénévoles</a>
-                    <a class="collapse-item" href="{{ path('user_index') }}">Tous les utilisateurs</a>
-                </div>
-            </div>
-        </li>
 
         <!-- Nav Item - Pages Collapse Menu -->
         {#        <li class="nav-item">#}

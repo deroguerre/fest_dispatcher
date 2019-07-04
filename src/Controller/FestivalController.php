@@ -21,8 +21,8 @@ class FestivalController extends AbstractController
 
     public function __construct(SessionInterface $session, FestivalRepository $festivalRepository)
     {
-        if ($session->get('selected-festival-id') != null) {
-            $festival = $festivalRepository->find($session->get('selected-festival-id'));
+        if ($session->get('current-festival-id') != null) {
+            $festival = $festivalRepository->find($session->get('current-festival-id'));
             $this->currentFestival = $festival;
         }
     }
@@ -112,7 +112,7 @@ class FestivalController extends AbstractController
      */
     public function select(Festival $festival, SessionInterface $session)
     {
-        $session->set('selected-festival-id', $festival->getId());
+        $session->set('current-festival-id', $festival->getId());
         return $this->redirectToRoute('app_index_index');
     }
 

@@ -27,14 +27,15 @@ class VolunteerAvailabilityController extends AbstractController
     }
 
     /**
-     * @Route("/volunteers-festival/{id}", name="volunteers_by_festival")
+     * @Route("/festival/{id}", name="volunteer_availability_by_festival", requirements={"\d+"})
      */
     public function indexByFestival(Festival $festival, VolunteerAvailabilityRepository $volunteerAvailabilityRepository): Response {
 
         $volunteers = $volunteerAvailabilityRepository->findAllByFestival($festival->getId());
 
-        return $this->render('volunteer_availability/index.html.twig', [
+        return $this->render('volunteer_availability/indexByFestival.html.twig', [
             'volunteer_availabilities' => $volunteers,
+            'current_festival' => $festival
         ]);
 
     }
