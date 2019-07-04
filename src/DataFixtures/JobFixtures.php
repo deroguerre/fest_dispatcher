@@ -33,8 +33,8 @@ class JobFixtures extends Fixture implements DependentFixtureInterface
             $job->setTitle($team->getName() . '_job')
                 ->setUser($user)
                 ->setTeam($team)
-                ->setStartDate($faker->dateTimeBetween($volunteerAvailability->getStartDate(), $volunteerAvailability->getEndDate()))
-                ->setEndDate($faker->dateTimeBetween($job->getStartDate(), $volunteerAvailability->getEndDate()))
+                ->setStartDate($faker->dateTimeBetween($volunteerAvailability->getStartDate()->format('Y-m-d H'), $volunteerAvailability->getEndDate()->format('Y-m-d H')))
+                ->setEndDate($faker->dateTimeBetween($job->getStartDate()->format('Y-m-d H'), $volunteerAvailability->getEndDate()->format('Y-m-d H')))
                 ->setBackgroundColor($faker->hexColor);
 
 
