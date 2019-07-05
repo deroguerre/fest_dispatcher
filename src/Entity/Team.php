@@ -37,7 +37,7 @@ class Team
     private $backgroundColor;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\user", inversedBy="teams")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="teams")
      */
     private $managers;
 
@@ -60,6 +60,12 @@ class Team
      * @var Team $subteams
      */
     private $subteams;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Festival", inversedBy="teams")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $festival;
 
     public function __construct()
     {
@@ -226,6 +232,18 @@ class Team
     public function addSubteam(Team $team): self
     {
         $this->subteams[] = $team;
+
+        return $this;
+    }
+
+    public function getFestival(): ?Festival
+    {
+        return $this->festival;
+    }
+
+    public function setFestival(?Festival $festival): self
+    {
+        $this->festival = $festival;
 
         return $this;
     }

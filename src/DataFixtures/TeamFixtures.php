@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Festival;
 use App\Entity\Team;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -33,11 +34,15 @@ class TeamFixtures extends Fixture implements DependentFixtureInterface
             /** @var User $teamManager */
             $teamManager = $this->getReference('user' . rand(0, UserFixtures::COUNT - 1));
 
+            /** @var Festival $festival */
+            $festival = $this->getReference('festival' . rand(0, FestivalFixtures::COUNT - 1));
+
             $team->setName(self::TEAMSNAME[$i])
                 ->setDescription($faker->text)
                 ->setBackgroundColor($faker->hexColor)
                 ->setNeededVolunteers(rand(2, 19))
-                ->addManager($teamManager);
+                ->addManager($teamManager)
+                ->setFestival($festival);
 
             $manager->persist($team);
 

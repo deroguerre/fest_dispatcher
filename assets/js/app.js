@@ -9,6 +9,7 @@
 import '../css/app.scss';
 import 'bootstrap';
 require("expose-loader?jQuery!jquery");
+require("expose-loader?$!jquery");
 require("jquery.easing");
 require("startbootstrap-sb-admin-2/js/sb-admin-2");
 

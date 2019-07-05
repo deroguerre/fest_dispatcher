@@ -2,16 +2,21 @@
 
 namespace App\Tests;
 
+use PHPUnit\Runner\Exception;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\VarDumper\Test\VarDumperTestTrait;
 
 class IndexControllerTest extends WebTestCase
 {
-    public function testIndexPageIsReachable()
+    use VarDumperTestTrait;
+
+    public function testIndexPage()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/');
 
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
-//        $this->assertContains('Hello', $crawler->filter('h1')->text());
+        $client->request('GET', '/');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
+
 }

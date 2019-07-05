@@ -50,7 +50,7 @@ class Job
     private $team;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="jobs")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="jobs")
      * @ORM\JoinColumn(nullable=false)
 
      */

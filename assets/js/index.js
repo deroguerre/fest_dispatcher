@@ -8,14 +8,7 @@ import interaction from "@fullcalendar/interaction";
 
 import frLocale from "@fullcalendar/core/locales/fr";
 
-
-jQuery(document).ready(function () {
-    jQuery(".festival-card").on("click", function () {
-
-    });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
+$(document).ready(function () {
 
     var calendarEl = document.getElementById("calendar");
 
@@ -25,17 +18,21 @@ document.addEventListener("DOMContentLoaded", function () {
         plugins: [interaction, dayGridPlugin, timeGridPlugin, listPlugin],
         defaultView: "timeGridWeek",
         editable: true,
+        selectable: true,
         header: {
             left: "prev, next today",
             // center: "title",
             right: "timeGridDay, timeGridWeek, dayGridMonth"
         },
         locales: [frLocale],
-        locale: "fr"
+        locale: "fr",
+        select: function(info) {
+            console.log('selected ' + info.startStr + ' to ' + info.endStr);
+        }
     });
     calendar.render();
 
-    jQuery.ajax({
+    $.ajax({
         type: "GET",
         url: window.location.href + "api/jobs",
         dataType: "json",
@@ -52,5 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     });
+
+    $('#newJobModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    }).modal();
 
 });

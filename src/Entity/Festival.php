@@ -56,9 +56,15 @@ class Festival
      */
     private $volunteerAvailabilities;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="festival")
+     */
+    private $teams;
+
     public function __construct()
     {
         $this->volunteerAvailabilities = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
 
@@ -164,6 +170,37 @@ class Festival
             // set the owning side to null (unless already changed)
             if ($volunteerAvailability->getFestival() === $this) {
                 $volunteerAvailability->setFestival(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Team[]
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams[] = $team;
+            $team->setFestival($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        if ($this->teams->contains($team)) {
+            $this->teams->removeElement($team);
+            // set the owning side to null (unless already changed)
+            if ($team->getFestival() === $this) {
+                $team->setFestival(null);
             }
         }
 

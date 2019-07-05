@@ -29,10 +29,8 @@ class JobFixtures extends Fixture implements DependentFixtureInterface
             /** @var Team $team */
             $team = $this->getReference('team' . $nbTeam);
 
-            $nbRand = rand(0,23);
-
-            $startDate = $faker->dateTimeBetween($volunteerAvailability->getStartDate(), $volunteerAvailability->getEndDate())->setTime($nbRand, 0, 0);
-            $endDate = $faker->dateTimeBetween($startDate, $volunteerAvailability->getEndDate())->setTime(rand($nbRand, 23), 30, 0);
+            $startDate = $faker->dateTimeBetween($volunteerAvailability->getStartDate(), $volunteerAvailability->getEndDate())->setTime(rand(0,10), 0, 0);
+            $endDate = $faker->dateTimeBetween($startDate, $volunteerAvailability->getEndDate())->setTime(rand(11,23), 0, 0);
 
             $job = new Job();
             $job->setTitle($team->getName() . '_job')

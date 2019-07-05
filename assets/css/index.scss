@@ -14,3 +14,9 @@
 #calendar {
   height: 80vh;
 }
+
+.new-job-modal {
+  top: 0;
+  z-index: 10;
+  position: absolute;
+}

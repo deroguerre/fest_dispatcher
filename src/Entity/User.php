@@ -178,7 +178,7 @@ class User implements UserInterface
      */
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+        return "rajouteUnPeuDeSel";
     }
 
     /**
