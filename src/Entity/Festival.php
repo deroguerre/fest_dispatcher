@@ -10,28 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource(
- *              attributes={
- *                  "access_control"="is_granted('ROLE_ADMIN')"
- *              },
- *              collectionOperations={
- *                  "get",
- *                  "post"={
- *                      "access_control"="is_granted('ROLE_ADMIN')",
- *                      "access_control_message"="Only admins can add Festival."
- *                   }
- *              },
- *              itemOperations={
- *                  "get"={
- *                      "access_control"="is_granted('ROLE_ADMIN') and object.owner == user"
- *                  },
- *                  "put"={
- *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
- *                  },
- *                  "delete"={
- *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
- *                  },
- *              }
- * )
+ *              normalizationContext={"groups"={"festival"}},
+ *              )
  * @ORM\Entity(repositoryClass="App\Repository\FestivalRepository")
  */
 
@@ -45,17 +25,20 @@ class Festival
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255),
+     * @Groups({"festival"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"festival"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"festival"})
      */
     private $endDate;
 
@@ -71,6 +54,7 @@ class Festival
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("festival")
      */
     private $country;
 

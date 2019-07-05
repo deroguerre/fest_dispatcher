@@ -13,7 +13,7 @@ bin/console doctrine:schema:validate
 bin/console doctrine:schema:update  
 ```
 ## API
-
+Documentattion : ../api/docs.json
 ## Storm shortcuts
 
 show intention = ALT + ENTER  

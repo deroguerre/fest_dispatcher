@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-@ApiResource(
+ * @ApiResource(
+ *              normalizationContext={"groups"={"festival"}},
  *              attributes={
  *                  "access_control"="is_granted('ROLE_ADMIN')"
  *              },
@@ -44,6 +46,7 @@ class Team
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("festival")
      */
     private $name;
 
@@ -59,6 +62,7 @@ class Team
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\user", inversedBy="teams")
+     * @Groups("festival")
      */
     private $managers;
 
@@ -69,6 +73,7 @@ class Team
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Job", mappedBy="team")
+     * @Groups("festival")
      */
     private $jobs;
 

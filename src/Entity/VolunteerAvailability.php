@@ -59,6 +59,7 @@ class VolunteerAvailability
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="volunteerAvailabilities")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("festival")
      */
     private $user;
 

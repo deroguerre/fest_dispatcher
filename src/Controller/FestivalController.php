@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Api\ApiClient;
+use App\Api\ApiRequest;
+use App\Api\Client\FestivalClient;
 use App\Entity\Festival;
 use App\Form\FestivalType;
 use App\Repository\FestivalRepository;
@@ -17,9 +20,16 @@ class FestivalController extends AbstractController
 {
     /**
      * @Route("/", name="festival_index", methods={"GET"})
+     * @param FestivalRepository $festivalRepository
+     * @param FestivalClient $festivalClient
+     * @return Response
      */
-    public function index(FestivalRepository $festivalRepository): Response
+    public function index(FestivalRepository $festivalRepository, ApiRequest $apiRequest): Response
     {
+
+        dump($apiRequest->request('http://127.0.0.1:8000/api/festivals'));
+        die;
+
         return $this->render('festival/index.html.twig', [
             'festivals' => $festivalRepository->findAll(),
         ]);
