@@ -20,11 +20,8 @@ class FestivalFixtures extends Fixture
         for ($i = 0; $i < self::COUNT; $i++) {
             $festival = new Festival();
 
-            $startDate = $faker->dateTimeInInterval('now', '+2 days')->format('Y-m-d H');
-            $startDate = date_create_from_format('Y-m-d H', $startDate);
-
-            $endDate = $faker->dateTimeInInterval('+3 days', '+5 days')->format('Y-m-d H');
-            $endDate = date_create_from_format('Y-m-d H', $endDate);
+            $startDate = $faker->dateTimeInInterval('-1 days', '+1 days')->setTime(0,0,0);
+            $endDate = $faker->dateTimeInInterval('+2 days', '+4 days')->setTime(0,0,0);
 
             $festival->setName($faker->colorName . '_festival')
                 ->setStartDate($startDate)

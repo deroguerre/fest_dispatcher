@@ -28,11 +28,16 @@ class VolunteerAvailabilityFixtures extends Fixture implements DependentFixtureI
             /** @var User $user */
             $user = $this->getReference('user' . $i);
 
+            $nbRand = rand(0,23);
+
+            $startDate = $faker->dateTimeBetween($festival->getStartDate(), $festival->getEndDate())->setTime($nbRand,0,0);
+            $endDate = $faker->dateTimeBetween($startDate, $festival->getEndDate())->setTime(rand($nbRand,23),0,0);
+
             $availability
                 ->setFestival($festival)
                 ->setUser($user)
-                ->setStartDate($faker->dateTimeBetween($festival->getStartDate(), $festival->getEndDate()))
-                ->setEndDate($faker->dateTimeBetween($availability->getStartDate(), $festival->getEndDate()));
+                ->setStartDate($startDate)
+                ->setEndDate($endDate);
 
 
             $manager->persist($availability);

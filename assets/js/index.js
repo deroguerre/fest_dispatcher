@@ -20,12 +20,14 @@ document.addEventListener("DOMContentLoaded", function () {
     var calendarEl = document.getElementById("calendar");
 
     var calendar = new Calendar(calendarEl, {
+        height: 'parent',
+        allDaySlot: false,
         plugins: [interaction, dayGridPlugin, timeGridPlugin, listPlugin],
         defaultView: "timeGridWeek",
         editable: true,
         header: {
             left: "prev, next today",
-            center: "title",
+            // center: "title",
             right: "timeGridDay, timeGridWeek, dayGridMonth"
         },
         locales: [frLocale],
@@ -50,9 +52,5 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     });
-
-    function getJobs() {
-
-    }
 
 });
