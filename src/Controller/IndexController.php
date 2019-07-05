@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Festival;
+use App\Entity\User;
 use App\Repository\FestivalRepository;
 use App\Repository\TeamRepository;
+use App\Repository\UserRepository;
+use App\Repository\VolunteerAvailabilityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -17,7 +20,13 @@ class IndexController extends AbstractController
     /**
      * @Route("/")
      */
-    public function index(FestivalRepository $festivalRepository, TeamRepository $teamRepository, SessionInterface $session)
+    public function index(
+        FestivalRepository $festivalRepository,
+        TeamRepository $teamRepository,
+        UserRepository $userRepository,
+        VolunteerAvailabilityRepository $availabilityRepository,
+        SessionInterface $session
+    )
     {
         $renderData = [];
 
@@ -25,12 +34,20 @@ class IndexController extends AbstractController
         $renderData['festivals'] = $festivals;
 
         $currentFestival = null;
-        if($session->get('current-festival-id') != null) {
+        if ($session->get('current-festival-id') != null) {
             $festival = $festivalRepository->find($session->get('current-festival-id'));
             $currentFestival = $festival;
             $renderData['currentFestival'] = $currentFestival;
 
-//            $teamRepository->findBy(['festival']);
+            $teams = $teamRepository->findBy(['festival' => $currentFestival]);
+            $renderData['teams'] = $teams;
+
+            /** @var User $volunteers */
+            $volunteers = $userRepository->findVolunteersByFestival($festival);
+            $renderData['volunteers'] = $volunteers;
+
+            dump($volunteers);
+
         }
 
         return $this->render('index/index.html.twig', $renderData);

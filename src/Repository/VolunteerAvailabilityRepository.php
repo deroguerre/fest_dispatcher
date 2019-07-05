@@ -19,18 +19,6 @@ class VolunteerAvailabilityRepository extends ServiceEntityRepository
         parent::__construct($registry, VolunteerAvailability::class);
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function findAllByFestival($id) {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.festival = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getResult();
-    }
-
     // /**
     //  * @return VolunteerAvailability[] Returns an array of VolunteerAvailability objects
     //  */

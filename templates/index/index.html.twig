@@ -9,72 +9,91 @@
 
 {% block body %}
 
-    {% if currentFestival is not defined %}
-        <div class="row">
-            {% for festival in festivals %}
-                <!-- Earnings (Monthly) Card Example -->
-                <a href="{{ path('festival_select', {"id": festival.id }) }}"
-                   class="col-xl-3 col-md-6 mb-4 festival-card">
-                    <div class="card border-left-primary shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="h5 mb-0 font-weight-bold text-primary text-uppercase mb-1">{{ festival.name }}</div>
-                                    <div class="text-xs font-weight-bold text-grey-800 mb-1">
-                                        du {{ festival.startDate|date('d') }} au {{ festival.endDate|date('d') }}
+    {% if app.user %}
+        {% if currentFestival is not defined %}
+            <div class="row">
+                {% for festival in festivals %}
+                    <!-- Earnings (Monthly) Card Example -->
+                    <a href="{{ path('festival_select', {"id": festival.id }) }}"
+                       class="col-xl-3 col-md-6 mb-4 festival-card">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="h5 mb-0 font-weight-bold text-primary text-uppercase mb-1">{{ festival.name }}</div>
+                                        <div class="text-xs font-weight-bold text-grey-800 mb-1">
+                                            du {{ festival.startDate|date('d') }} au {{ festival.endDate|date('d') }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </a>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div id='calendar'></div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div id='calendar'></div>
+        {% endif %}
     {% endif %}
 
-    <!-- Modal -->
-    <div class="modal fade" id="newJobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Ajouter un créneau</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="new-job-title" class="col-form-label">Titre</label>
-                            <input type="text" class="form-control" id="new-job-title">
-                        </div>
-                        <div class="form-group">
-                            <label for="new-job-team" class="col-form-label">Equipe</label>
-                            <select name="" class="form-control" id="new-job-team"></select>
-                        </div>
-                        <div class="form-group">
-                            <label for="new-job-start" class="col-form-label">Debut</label>
-                            <input type="date" class="form-control" id="new-job-start">
-                        </div>
-                        <div class="form-group">
-                            <label for="new-job-end" class="col-form-label">Fin</label>
-                            <input type="date" class="form-control" id="new-job-end">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+
+    {% if is_granted('ROLE_ADMIN') and currentFestival is defined %}
+
+        <!-- Modal -->
+        <div class="modal fade" id="newJobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Ajouter des créneaux</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="new-job-title" class="col-form-label">Titre</label>
+                                <input type="text" class="form-control" id="new-job-title">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-job-team" class="col-form-label">Equipe</label>
+                                <select name="" class="form-control" id="new-job-team">
+                                    {% for team in teams %}
+                                        <option value="{{ team.id }}">{{ team.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-job-users" class="col-form-label">Bénévoles</label>
+                                <select multiple name="" class="form-control" id="new-job-users">
+                                    {% for volunteer in volunteers %}
+                                        <option value="{{ volunteer.id }}">{{ volunteer.lastname }} {{ volunteer.firstname }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-job-start" class="col-form-label">Debut</label>
+                                <input type="datetime-local" class="form-control" id="new-job-start">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-job-end" class="col-form-label">Fin</label>
+                                <input type="datetime-local" class="form-control" id="new-job-end">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-primary" id="new-job-save">Ajouter</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+    {% endif %}
 
 {% endblock %}
 

@@ -19,6 +19,20 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * @param $festival
+     * @return mixed
+     */
+    public function findVolunteersByFestival($festival) {
+
+        return $this->createQueryBuilder('u')
+            ->join('u.volunteerAvailabilities', 'v')
+            ->where('v.festival = :id')
+            ->setParameter('id', $festival)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return UserFixtures[] Returns an array of UserFixtures objects
     //  */

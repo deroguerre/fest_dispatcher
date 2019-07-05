@@ -27,7 +27,7 @@ $(document).ready(function () {
         locales: [frLocale],
         locale: "fr",
         select: function(info) {
-            console.log('selected ' + info.startStr + ' to ' + info.endStr);
+            openNewJobModal(info);
         }
     });
     calendar.render();
@@ -50,8 +50,52 @@ $(document).ready(function () {
         }
     });
 
-    $('#newJobModal').on('shown.bs.modal', function () {
-        $('#myInput').trigger('focus')
-    }).modal();
+    function openNewJobModal(info) {
+
+        $('#new-job-start').val(info.startStr.split('+')[0]);
+        $('#new-job-end').val(info.endStr.split('+')[0]);
+
+        $('#newJobModal').on('shown.bs.modal', function () {
+            $('#new-job-title').trigger('focus')
+        }).modal();
+
+        // $('#new-job-start').val(info.startStr);
+        // $('#new-job-end').val(info.endStr);
+    }
+
+    $('#new-job-save').on('click', function () {
+        let title = $('#new-job-title').val();
+        let team = $('#new-job-team').val();
+        let users = document.getElementById('#new-job-users').options;
+        let start = $('#new-job-start').val();
+        let end = $('#new-job-end').val();
+
+        users.forEach(function (user) {
+            let job = {
+                title: title,
+                team: team,
+                user: user,
+                startDate: start,
+                endDate: end
+            };
+
+            // $.ajax({
+            //     url:"{{ (path('app_bundle_route')) }}",
+            //     type: "POST",
+            //     dataType: "json",
+            //     data: {
+            //         "some_var_name": "some_var_value"
+            //     },
+            //     async: true,
+            //     success: function (data)
+            //     {
+            //         console.log(data)
+            //         $('div#ajax-results').html(data.output);
+            //
+            //     }
+            // });
+            // return false;
+        })
+    });
 
 });
