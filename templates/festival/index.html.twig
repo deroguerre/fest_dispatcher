@@ -3,9 +3,11 @@
 {% block title %}Festival index{% endblock %}
 
 {% block body %}
-    <h1>Festival index</h1>
+    <h1>Festivals</h1>
 
-    <table class="table">
+    <a href="{{ path('festival_new') }}" class="btn btn-primary">Ajouter</a>
+
+    <table class="table mt-lg-3">
         <thead>
             <tr>
                 <th>Id</th>
@@ -41,5 +43,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('festival_new') }}">Create new</a>
 {% endblock %}

@@ -27,7 +27,7 @@ class VolunteerAvailabilityController extends AbstractController
     }
 
     /**
-     * @Route("/festival/{id}", name="volunteer_availability_by_festival", requirements={"\d+"})
+     * @Route("/festival/{id}", name="volunteer_availability_by_festival")
      */
     public function indexByFestival(Festival $festival, VolunteerAvailabilityRepository $volunteerAvailabilityRepository): Response {
 
