@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Job;
 use App\Form\JobType;
 use App\Repository\JobRepository;
+use App\Repository\TeamRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,10 +45,49 @@ class JobController extends AbstractController
             return $this->redirectToRoute('job_index');
         }
 
+
         return $this->render('job/new.html.twig', [
             'job' => $job,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @Route("/ajax_new", name="ajax_job_new", methods={"POST"}, options={"expose"=true})
+     * @throws \Exception
+     */
+    public function newFromAjax(Request $request, TeamRepository $teamRepository, UserRepository $userRepository): Response
+    {
+
+        if ($request->isXmlHttpRequest()) {
+
+            $data = $request->request->get('job');
+
+            $team = $teamRepository->find($data['team']);
+            $user = $userRepository->find($data['user']);
+            $startDate = new \DateTime($data['startDate']);
+            $endDate = new \DateTime($data['endDate']);
+
+            $job = new Job();
+            $job->setTitle($data['title'])
+                ->setTeam($team)
+                ->setUser($user)
+                ->setStartDate($startDate)
+                ->setEndDate($endDate);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($job);
+            $entityManager->flush();
+
+            $response = new Response("job created", 200);
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }
+
+        return new Response("erreur : ce n'est pas une requete ajax", 400);
     }
 
     /**
@@ -85,7 +127,7 @@ class JobController extends AbstractController
      */
     public function delete(Request $request, Job $job): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$job->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $job->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($job);
             $entityManager->flush();

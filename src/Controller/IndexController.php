@@ -46,8 +46,6 @@ class IndexController extends AbstractController
             $volunteers = $userRepository->findVolunteersByFestival($festival);
             $renderData['volunteers'] = $volunteers;
 
-            dump($volunteers);
-
         }
 
         return $this->render('index/index.html.twig', $renderData);

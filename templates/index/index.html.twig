@@ -100,4 +100,51 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('index') }}
+
+    <script>
+
+        $(document).ready(function () {
+            $('#new-job-save').on('click', function () {
+                let title = $('#new-job-title').val();
+                let team = $('#new-job-team').val();
+                let users = $('#new-job-users option:selected');
+                let start = $('#new-job-start').val();
+                let end = $('#new-job-end').val();
+
+
+                users.each(function (key, user) {
+                    let job = {
+                        title: title,
+                        team: team,
+                        user: user.value,
+                        startDate: start,
+                        endDate: end
+                    };
+
+                    console.log(job);
+
+                    $.ajax({
+                        url: "{{ path('ajax_job_new') }}",
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            "job": job
+                        },
+                        async: true,
+                        success: function (response) {
+                            console.log("####################### SUCCESS #####################");
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(status);
+                            console.log(xhr.responseText);
+                            console.log(error);
+                        }
+                    });
+
+                })
+            });
+
+        });
+    </script>
 {% endblock %}
