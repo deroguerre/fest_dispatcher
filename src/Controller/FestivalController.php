@@ -2,13 +2,11 @@
 
 namespace App\Controller;
 
-use App\Api\ApiClient;
-use App\Api\ApiRequest;
-use App\Api\Client\FestivalClient;
 use App\Entity\Festival;
 use App\Form\FestivalType;
 use App\Repository\FestivalRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -33,14 +31,10 @@ class FestivalController extends AbstractController
     /**
      * @Route("/", name="festival_index", methods={"GET"})
      * @param FestivalRepository $festivalRepository
-     * @param FestivalClient $festivalClient
      * @return Response
      */
-    public function index(FestivalRepository $festivalRepository, ApiRequest $apiRequest): Response
+    public function index(FestivalRepository $festivalRepository): Response
     {
-
-        dump($apiRequest->request('http://127.0.0.1:8000/api/festivals'));
-        die;
 
         return $this->render('festival/index.html.twig', [
             'festivals' => $festivalRepository->findAll(),
@@ -49,6 +43,8 @@ class FestivalController extends AbstractController
 
     /**
      * @Route("/new", name="festival_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -72,6 +68,8 @@ class FestivalController extends AbstractController
 
     /**
      * @Route("/{id}", name="festival_show", methods={"GET"}, requirements={"id":"\d+"})
+     * @param Festival $festival
+     * @return Response
      */
     public function show(Festival $festival): Response
     {
@@ -82,6 +80,9 @@ class FestivalController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="festival_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Festival $festival
+     * @return Response
      */
     public function edit(Request $request, Festival $festival): Response
     {
@@ -104,6 +105,9 @@ class FestivalController extends AbstractController
 
     /**
      * @Route("/{id}", name="festival_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Festival $festival
+     * @return Response
      */
     public function delete(Request $request, Festival $festival): Response
     {
@@ -117,8 +121,10 @@ class FestivalController extends AbstractController
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/{id}/select", name="festival_select", methods={"GET"}, requirements={"id":"\d+"})
+     * @param Festival $festival
+     * @param SessionInterface $session
+     * @return RedirectResponse
      */
     public function select(Festival $festival, SessionInterface $session)
     {
@@ -139,8 +145,9 @@ class FestivalController extends AbstractController
     }
 
     /**
-     * @param Festival
      * @Route("/change", name="festival_change", methods={"GET"})
+     * @param SessionInterface $session
+     * @return RedirectResponse
      */
     public function removeCurrentFestival(SessionInterface $session)
     {

@@ -23,13 +23,13 @@ use Doctrine\ORM\Mapping as ORM;
  *              },
  *              itemOperations={
  *                  "get"={
- *                      "access_control"="is_granted('ROLE_ADMIN') and object.owner == user"
+ *                      "access_control"="is_granted('ROLE_ADMIN')"
  *                  },
  *                  "put"={
- *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
+ *                      "access_control"="is_granted('ROLE_ADMIN')"
  *                  },
  *                  "delete"={
- *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
+ *                      "access_control"="is_granted('ROLE_ADMIN')"
  *                  },
  *              }
  * )

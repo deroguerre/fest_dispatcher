@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,13 +19,13 @@ use Doctrine\ORM\Mapping as ORM;
  *              },
  *              itemOperations={
  *                  "get"={
- *                      "access_control"="is_granted('ROLE_ADMIN') and object.owner == user"
+ *                      "access_control"="is_granted('ROLE_ADMIN')"
  *                  },
  *                  "put"={
- *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
+ *                      "access_control"="is_granted('ROLE_ADMIN')"
  *                  },
  *                  "delete"={
- *                      "access_control"="is_granted('ROLE_ADMIN') and previous_object.owner == user"
+ *                      "access_control"="is_granted('ROLE_ADMIN')"
  *                  },
  *              }
  * )
@@ -43,7 +42,6 @@ class Job
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("festival")
      */
     private $title;
 

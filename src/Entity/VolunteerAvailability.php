@@ -19,13 +19,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              },
  *              itemOperations={
  *                  "get"={
- *                      "access_control"="is_granted('ROLE_USER') and object.owner == user"
+ *                      "access_control"="is_granted('ROLE_USER')"
  *                  },
  *                  "put"={
- *                      "access_control"="is_granted('ROLE_USER') and previous_object.owner == user"
+ *                      "access_control"="is_granted('ROLE_USER')"
  *                  },
  *                  "delete"={
- *                      "access_control"="is_granted('ROLE_USER') and previous_object.owner == user"
+ *                      "access_control"="is_granted('ROLE_USER')"
  *                  },
  *              }
  * )

@@ -3,15 +3,34 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource(
- *              normalizationContext={"groups"={"festival"}},
- *              )
+ *              attributes={
+ *                  "access_control"="is_granted('ROLE_ADMIN')"
+ *              },
+ *              collectionOperations={
+ *                  "get",
+ *                  "post"={
+ *                      "access_control"="is_granted('ROLE_ADMIN')",
+ *                      "access_control_message"="Only admins can add job."
+ *                   }
+ *              },
+ *              itemOperations={
+ *                  "get"={
+ *                      "access_control"="is_granted('ROLE_ADMIN')"
+ *                  },
+ *                  "put"={
+ *                      "access_control"="is_granted('ROLE_ADMIN')"
+ *                  },
+ *                  "delete"={
+ *                      "access_control"="is_granted('ROLE_ADMIN')"
+ *                  },
+ *              }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\FestivalRepository")
  */
 
@@ -26,19 +45,16 @@ class Festival
 
     /**
      * @ORM\Column(type="string", length=255),
-     * @Groups({"festival"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"festival"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"festival"})
      */
     private $endDate;
 
@@ -54,7 +70,6 @@ class Festival
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Groups("festival")
      */
     private $country;
 
