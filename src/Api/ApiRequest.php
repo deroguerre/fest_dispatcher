@@ -13,7 +13,7 @@ class ApiRequest
 
     private $httpClient, $apiUrl;
 
-    public function __construct(HttpClientInterface $httpClient, string $apiUrl = "http://127.0.0.1:8000/api")
+    public function __construct(HttpClientInterface $httpClient, string $apiUrl = "http://127.0.0.1:8000/api/festivals/2")
     {
         $this->httpClient = $httpClient;
         $this->apiUrl = $apiUrl;
