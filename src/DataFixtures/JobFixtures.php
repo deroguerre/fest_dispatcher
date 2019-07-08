@@ -29,12 +29,15 @@ class JobFixtures extends Fixture implements DependentFixtureInterface
             /** @var Team $team */
             $team = $this->getReference('team' . $nbTeam);
 
+            $startDate = $faker->dateTimeBetween($volunteerAvailability->getStartDate(), $volunteerAvailability->getEndDate())->setTime(rand(0,10), 0, 0);
+            $endDate = $faker->dateTimeBetween($startDate, $volunteerAvailability->getEndDate())->setTime(rand(11,23), 0, 0);
+
             $job = new Job();
             $job->setTitle($team->getName() . '_job')
                 ->setUser($user)
                 ->setTeam($team)
-                ->setStartDate($faker->dateTimeBetween($volunteerAvailability->getStartDate(), $volunteerAvailability->getEndDate()))
-                ->setEndDate($faker->dateTimeBetween($job->getStartDate(), $volunteerAvailability->getEndDate()))
+                ->setStartDate($startDate)
+                ->setEndDate($endDate)
                 ->setBackgroundColor($faker->hexColor);
 
 

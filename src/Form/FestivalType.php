@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Festival;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,12 +14,30 @@ class FestivalType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('startDate')
-            ->add('endDate')
-            ->add('address')
-            ->add('zipcode')
-            ->add('country')
+            ->add('name',TextType::class, [
+                'label' => 'Nom',
+                'required' => true
+            ])
+            ->add('startDate', DateType::class, [
+                'label' => 'Début',
+                'required' => false,
+            ])
+            ->add('endDate', DateType::class, [
+                'label' => 'Fin',
+                'required' => false,
+            ])
+            ->add('address', TextType::class, [
+                'label' => 'Adresse',
+                'required' => false
+            ])
+            ->add('zipcode', TextType::class, [
+                'label' => 'Code postal',
+                'required' => false
+            ])
+            ->add('country', TextType::class, [
+                'label' => 'Pays',
+                'required' => false
+            ])
         ;
     }
 

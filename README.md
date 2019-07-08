@@ -11,6 +11,20 @@ composer install
 bin/console doctrine:database:create  
 bin/console doctrine:schema:validate  
 bin/console doctrine:schema:update  
+npm install
+```
+
+## Dev
+
+```bash
+# compile assets once
+yarn encore dev
+
+# or, recompile assets automatically when files change
+yarn encore dev --watch
+
+# on deploy, create a production build
+yarn encore production
 ```
 ## API
 Documentattion : ../api/docs.json
@@ -18,4 +32,4 @@ Documentattion : ../api/docs.json
 
 show intention = ALT + ENTER  
 reformat code =  CRTL + ALT + L  
-move up /down =  maj + alt + up or down
+move line up/down =  MAJ + ALT + UP or DOWN

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Festival;
 use App\Entity\VolunteerAvailability;
 use App\Form\VolunteerAvailabilityType;
 use App\Repository\VolunteerAvailabilityRepository;
@@ -23,6 +24,20 @@ class VolunteerAvailabilityController extends AbstractController
         return $this->render('volunteer_availability/index.html.twig', [
             'volunteer_availabilities' => $volunteerAvailabilityRepository->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/festival/{id}", name="volunteer_availability_by_festival")
+     */
+    public function indexByFestival(Festival $festival, VolunteerAvailabilityRepository $volunteerAvailabilityRepository): Response {
+
+        $volunteers = $volunteerAvailabilityRepository->findAllByFestival($festival->getId());
+
+        return $this->render('volunteer_availability/indexByFestival.html.twig', [
+            'volunteer_availabilities' => $volunteers,
+            'current_festival' => $festival
+        ]);
+
     }
 
     /**

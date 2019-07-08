@@ -20,16 +20,19 @@ class FestivalFixtures extends Fixture
         for ($i = 0; $i < self::COUNT; $i++) {
             $festival = new Festival();
 
+            $startDate = $faker->dateTimeInInterval('-1 days', '+1 days')->setTime(0,0,0);
+            $endDate = $faker->dateTimeInInterval('+2 days', '+4 days')->setTime(0,0,0);
+
             $festival->setName($faker->colorName . '_festival')
-                ->setStartDate($faker->dateTimeInInterval('now', '+2 days'))
-                ->setEndDate($faker->dateTimeInInterval('+3 days', '+5 days'))
+                ->setStartDate($startDate)
+                ->setEndDate($endDate)
                 ->setAddress($faker->address)
                 ->setZipcode($faker->postcode)
                 ->setCountry($faker->country);
 
             $manager->persist($festival);
 
-            $this->addReference('festival'.$i, $festival);
+            $this->addReference('festival' . $i, $festival);
         }
 
         $manager->flush();

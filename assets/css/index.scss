@@ -1,0 +1,22 @@
+@import "~@fullcalendar/core/main.css";
+@import "~@fullcalendar/daygrid/main.css";
+@import "~@fullcalendar/timegrid/main.css";
+@import "~@fullcalendar/list/main.css";
+
+//#content {
+//  background-color: red !important;
+//}
+
+.festival-card {
+  //cursor: pointer;
+}
+
+#calendar {
+  height: 80vh;
+}
+
+.new-job-modal {
+  top: 0;
+  z-index: 10;
+  position: absolute;
+}

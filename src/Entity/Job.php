@@ -49,19 +49,16 @@ class Job
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-
      */
     private $endDate;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
-
      */
     private $backgroundColor;
 
@@ -72,9 +69,8 @@ class Job
     private $team;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="jobs")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="jobs")
      * @ORM\JoinColumn(nullable=false)
-
      */
     private $user;
 

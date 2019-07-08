@@ -50,7 +50,7 @@ class Note
     private $updateDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\team", inversedBy="notes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="notes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $team;
