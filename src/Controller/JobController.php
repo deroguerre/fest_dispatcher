@@ -81,7 +81,9 @@ class JobController extends AbstractController
             $entityManager->persist($job);
             $entityManager->flush();
 
-            $response = new Response("job created", 200);
+            $response = new Response(json_encode(array(
+              'message' => "job created"
+            )));
             $response->headers->set('Content-Type', 'application/json');
 
             return $response;
