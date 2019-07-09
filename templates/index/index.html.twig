@@ -42,9 +42,14 @@
 
     {% if is_granted('ROLE_ADMIN') and currentFestival is defined %}
 
+        <div hidden id="data-from-twig"
+             data-new-job-controller="{{ path('ajax_job_new') }}"
+             data-edit-job-controller="{{ path('ajax_job_edit') }}"
+        ></div>
+
         <!-- Modal -->
         <div class="modal fade" id="newJobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-             aria-hidden="true" data-job-controller="{{ path('ajax_job_new') }}">
+             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

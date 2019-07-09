@@ -53,6 +53,40 @@ class JobController extends AbstractController
     }
 
     /**
+     * @Route("/ajax_edit", name="ajax_job_edit", methods={"POST"}, options={"expose"=true})
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function  editFromAjax(Request $request, JobRepository $jobRepository) {
+        if($request->isXmlHttpRequest()) {
+
+            $data = $request->request->get('job');
+
+            $start = new \DateTime($data['start']);
+            $end = new \DateTime($data['end']);
+
+            $job = $jobRepository->find($data['id']);
+
+            $job->setStartDate($start)
+                ->setEndDate($end);
+
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            $response = new Response(json_encode(array(
+                'message' => "job edited"
+            )));
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }
+
+        return new Response("erreur : ce n'est pas une requete ajax", 400);
+    }
+
+    /**
      * @param Request $request
      * @return Response
      * @Route("/ajax_new", name="ajax_job_new", methods={"POST"}, options={"expose"=true})

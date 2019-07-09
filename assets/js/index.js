@@ -25,10 +25,52 @@ $(document).ready(function () {
             // center: "title",
             right: "timeGridDay, timeGridWeek, dayGridMonth"
         },
+        timeZone: 'none',
         locales: [frLocale],
         locale: "fr",
         select: function (info) {
             openNewJobModal(info);
+        },
+        eventDrop: function(info) {
+
+            // alert(info.event.title + " was dropped on " + info.event.start.toISOString());
+            console.log(info.event.id);
+            if (!confirm("Are you sure about this change?")) {
+                info.revert();
+            } else {
+
+                console.log(info.event);
+
+                let job = {
+                    id: info.event.id,
+                    start: info.event.start,
+                    end: info.event.end
+                };
+
+                console.log("job", job);
+
+                var editJobControllerUri = $('#data-from-twig').data('edit-job-controller');
+
+                calendar.editable = false;
+
+                $.ajax({
+                    url: editJobControllerUri,
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        "job": job
+                    },
+                    async: true,
+                    success: function (response) {
+                        calendar.editable = true;
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(status);
+                        console.log(xhr.responseText);
+                        console.log(error);
+                    }
+                });
+            }
         }
     });
     calendar.render();
@@ -41,6 +83,7 @@ $(document).ready(function () {
         success: function (jobs) {
             jobs.forEach(function (event) {
                 let currEvent = {
+                    id: event.id,
                     title: event.title,
                     start: event.startDate,
                     end: event.endDate
@@ -59,7 +102,6 @@ $(document).ready(function () {
         $('#newJobModal').on('shown.bs.modal', function () {
             $('#new-job-users').trigger('focus')
         }).modal();
-
     }
 
     // click on save btn
@@ -89,10 +131,10 @@ $(document).ready(function () {
                 endDate: end
             };
 
-            var JobControllerUri = $('#newJobModal').data('job-controller');
+            var newJobControllerUri = $('#data-from-twig').data('new-job-controller');
 
             $.ajax({
-                url: JobControllerUri,
+                url: newJobControllerUri,
                 type: "POST",
                 dataType: 'json',
                 data: {
