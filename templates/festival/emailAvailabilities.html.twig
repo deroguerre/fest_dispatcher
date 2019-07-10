@@ -2,9 +2,35 @@
 
 {% block body %}
 
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.body) }}
+    <table id="table_id" class="display">
+        <thead>
+        <tr>
+            <th>nom</th>
+            <th>Prénom</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {{ form_end(form) }}
+
 {% endblock %}
 
 {% block title %}
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('emailAvailabilities') }}
 {% endblock %}
 

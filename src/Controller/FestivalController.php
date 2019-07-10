@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Festival;
 use App\Form\FestivalType;
+use App\Form\PrepareEmailAvailibilitiesType;
 use App\Repository\FestivalRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -153,5 +155,25 @@ class FestivalController extends AbstractController
     {
         $session->clear();
         return $this->redirectToRoute("app_index_index");
+    }
+
+    /**
+     * @Route("/{id}/email", name="festival_email", methods={"GET"})
+     * @return Response
+     * préparer un email
+     */
+    public function createEmail(
+        UserRepository $userRepository,
+        Festival $festival
+    )
+    {
+        $prepareEmailAvail = $this->createForm(PrepareEmailAvailibilitiesType::class);
+
+        $users = $userRepository->findAll();
+
+        return $this->render('festival/emailAvailabilities.html.twig', [
+            'form' => $prepareEmailAvail->createView(),
+            'users'=> $users
+        ]);
     }
 }
