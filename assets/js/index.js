@@ -32,45 +32,7 @@ $(document).ready(function () {
             openNewJobModal(info);
         },
         eventDrop: function(info) {
-
-            // alert(info.event.title + " was dropped on " + info.event.start.toISOString());
-            console.log(info.event.id);
-            if (!confirm("Are you sure about this change?")) {
-                info.revert();
-            } else {
-
-                console.log(info.event);
-
-                let job = {
-                    id: info.event.id,
-                    start: info.event.start,
-                    end: info.event.end
-                };
-
-                console.log("job", job);
-
-                var editJobControllerUri = $('#data-from-twig').data('edit-job-controller');
-
-                calendar.editable = false;
-
-                $.ajax({
-                    url: editJobControllerUri,
-                    type: "POST",
-                    dataType: 'json',
-                    data: {
-                        "job": job
-                    },
-                    async: true,
-                    success: function (response) {
-                        calendar.editable = true;
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(status);
-                        console.log(xhr.responseText);
-                        console.log(error);
-                    }
-                });
-            }
+            editDatetimeJob(info);
         }
     });
     calendar.render();
@@ -169,5 +131,37 @@ $(document).ready(function () {
         }
 
     });
+
+    function editDatetimeJob(info) {
+
+        //parse to string and format
+        let start = info.event.start.toISOString().split('.')[0];
+        let end = info.event.end.toISOString().split('.')[0];
+
+        let job = {
+            id: info.event.id,
+            start: start,
+            end: end
+        };
+
+        var editJobControllerUri = $('#data-from-twig').data('edit-job-controller');
+
+        $.ajax({
+            url: editJobControllerUri,
+            type: "POST",
+            dataType: 'json',
+            data: {
+                "job": job
+            },
+            async: true,
+            success: function (response) {
+            },
+            error: function (xhr, status, error) {
+                console.log(status);
+                console.log(xhr.responseText);
+                console.log(error);
+            }
+        });
+    }
 
 });
