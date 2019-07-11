@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -158,22 +159,35 @@ class FestivalController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/email", name="festival_email", methods={"GET"})
+     * @Route("/email", name="festival_email", methods={"GET","POST"})
      * @return Response
      * préparer un email
      */
     public function createEmail(
         UserRepository $userRepository,
-        Festival $festival
+        Request $request,
+        Session $session
     )
     {
-        $prepareEmailAvail = $this->createForm(PrepareEmailAvailibilitiesType::class);
-
+        $prepareMailForm = $this->createForm(PrepareEmailAvailibilitiesType::class);
         $users = $userRepository->findAll();
 
+        if ($prepareMailForm->isSubmitted()) {
+            if ($prepareMailForm->isValid()) {
+
+                $festivalId = $session->get('current-festival-id');
+                $selectedUsers = $request->request->get('volunteers_list');
+
+                dump($selectedUsers);
+                dump($festivalId);
+
+                return null;
+            }
+        }
+
         return $this->render('festival/emailAvailabilities.html.twig', [
-            'form' => $prepareEmailAvail->createView(),
-            'users'=> $users
+            'form' => $prepareMailForm->createView(),
+            'users' => $users
         ]);
     }
 }
