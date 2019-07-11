@@ -14,11 +14,11 @@ class PrepareEmailAvailibilitiesType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Title',
+                'label' => 'Titre',
                 'required' => true
             ])
             ->add('body', TextareaType::class,[
-                'label' => 'body',
+                'label' => "Corps de l'email",
                 'required' => false
             ]);
     }
