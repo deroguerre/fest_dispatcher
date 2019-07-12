@@ -205,9 +205,9 @@ class FestivalController extends AbstractController
                 }
                 $this->addFlash('success', 'Votre email a bien été envoyé');
                 return $this->redirectToRoute("festival_show", ['id'=> $festival->getId()]);
+            }else {
+                $this->addFlash('error',"Le formulaire contient des erreurs");
             }
-        } else {
-            $this->addFlash('error',"Le formulaire contient des erreurs");
         }
 
         return $this->render('festival/emailAvailabilities.html.twig', [
