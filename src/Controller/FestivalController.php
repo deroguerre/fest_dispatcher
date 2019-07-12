@@ -175,11 +175,17 @@ class FestivalController extends AbstractController
         if ($prepareMailForm->isSubmitted()) {
             if ($prepareMailForm->isValid()) {
 
-                $festivalId = $session->get('current-festival-id');
-                $selectedUsers = $request->request->get('volunteers_list');
+                $selectedUsers = $request->request->get('volunteers');
+                $selectedUsers = explode(",", $selectedUsers);
 
-                dump($selectedUsers);
-                dump($festivalId);
+                foreach ($selectedUsers as $key => $value) {
+                    dump($value);
+                }
+
+                $festivalId = $session->get('current-festival-id');
+
+//                dump($festivalId);
+//                dump($selectedUsers);
 
                 return null;
             }

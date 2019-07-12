@@ -12,6 +12,8 @@
     {{ form_row(form.body) }}
 
     <button class="btn btn-primary submit">Envoyer</button>
+
+    <input type="hidden" name="volunteers">
     
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -19,7 +21,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="table_id" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="volunteers_table" width="100%" cellspacing="0">
                     <thead>
                     <tr>
                         <th></th>
@@ -30,10 +32,9 @@
                     <tbody>
                     {% for user in users %}
                         <tr>
-                            <td></td>
-{#                            <td class="align-content-center" style="width: 10px;">#}
-{#                                <input type="checkbox" checked name="volunteers_list[]" value="{{user.id}}">#}
-{#                            </td>#}
+                            <td class="align-content-center" style="width: 10px;">
+                                <input type="checkbox"  class="volunteers-checkbox" value="{{user.id}}" checked>
+                            </td>
                             <td>{{ user.firstname }}</td>
                             <td>{{ user.lastname }}</td>
                         </tr>

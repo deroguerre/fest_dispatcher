@@ -1,7 +1,5 @@
 ## Introduction
 
-[![Build Status](https://travis-ci.org/deroguerre/fest_dispatcher.svg?branch=dev)](https://travis-ci.org/deroguerre/fest_dispatcher)
-
 FestDispatcher permet de gérer facilement des bénévoles lors d'un festival.
 
 ## Getting Started
@@ -12,6 +10,17 @@ bin/console doctrine:database:create
 bin/console doctrine:schema:validate  
 bin/console doctrine:schema:update  
 npm install
+```
+
+## One Line Update Command
+
+```bash
+composer install &&
+yarn install &&
+bin/console doctrine:schema:drop --force &&
+bin/console doctrine:schema:validate &&
+bin/console doctrine:schema:update --force &&
+bin/console doctrine:fixtures:load
 ```
 
 ## Dev
