@@ -107,5 +107,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('index') }}
+    {% if is_granted('ROLE_ADMIN') and currentFestival is defined %}
+        {{ encore_entry_script_tags('index') }}
+    {% endif %}
 {% endblock %}

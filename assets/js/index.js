@@ -33,8 +33,12 @@ $(document).ready(function () {
         },
         eventDrop: function(info) {
             editDatetimeJob(info);
+        },
+        eventResize: function (info) {
+            editDatetimeJob(info);
         }
     });
+
     calendar.render();
 
     // populate fullcalendar with jobs
@@ -136,7 +140,13 @@ $(document).ready(function () {
 
         //parse to string and format
         let start = info.event.start.toISOString().split('.')[0];
-        let end = info.event.end.toISOString().split('.')[0];
+        let end;
+
+        if(typeof info.event.end !== 'undefined') {
+            end = info.event.end.toISOString().split('.')[0];
+        } else {
+            end = start;
+        }
 
         let job = {
             id: info.event.id,
@@ -155,6 +165,7 @@ $(document).ready(function () {
             },
             async: true,
             success: function (response) {
+                console.log("event edited");
             },
             error: function (xhr, status, error) {
                 console.log(status);
