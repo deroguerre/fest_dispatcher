@@ -11,9 +11,7 @@
     {{ form_row(form.title) }}
     {{ form_row(form.body) }}
 
-    <button class="btn btn-primary submit">Envoyer</button>
-
-    <input type="hidden" name="volunteers">
+    <input type="hidden" name="ignoredUsers">
     
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -44,6 +42,9 @@
             </div>
         </div>
     </div>
+
+    <button class="btn btn-primary submit mb-4 float-right">Envoyer</button>
+
     {{ form_end(form) }}
 
 {% endblock %}
