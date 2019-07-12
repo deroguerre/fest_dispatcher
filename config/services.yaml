@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     api_url: 'http://127.0.0.1:8000/api'
+    contact_email: 'contact@festdispatcher.fr'
 
 services:
     # default configuration for services in *this* file

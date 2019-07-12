@@ -33,6 +33,17 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param array $ids
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function findAllUsersExceptIds(array $ids) {
+
+        $query = $this->createQueryBuilder('u');
+        $query->where($query->expr()->notIn('u.id',$ids));
+
+        return $query->getQuery()->getResult();
+    }
     // /**
     //  * @return UserFixtures[] Returns an array of UserFixtures objects
     //  */

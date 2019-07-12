@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Festival;
 use App\Form\FestivalType;
-use App\Form\PrepareEmailAvailibilitiesType;
+use App\Form\PrepareEmailAvailabilitiesType;
 use App\Repository\FestivalRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -159,36 +159,55 @@ class FestivalController extends AbstractController
     }
 
     /**
-     * @Route("/email", name="festival_email", methods={"GET","POST"})
+     * @Route("/{id}/email", name="festival_email", methods={"GET","POST"})
      * @return Response
      * préparer un email
+     *
      */
-    public function createEmail(
+    public function email(
+        Festival $festival,
         UserRepository $userRepository,
         Request $request,
-        Session $session
+        Session $session,
+        \Swift_Mailer $mailer
     )
     {
-        $prepareMailForm = $this->createForm(PrepareEmailAvailibilitiesType::class);
+        $prepareMailForm = $this->createForm(PrepareEmailAvailabilitiesType::class);
+        $prepareMailForm->handleRequest($request);
         $users = $userRepository->findAll();
 
         if ($prepareMailForm->isSubmitted()) {
             if ($prepareMailForm->isValid()) {
 
-                $selectedUsers = $request->request->get('volunteers');
-                $selectedUsers = explode(",", $selectedUsers);
+                $ignoredUsers = $request->request->get('volunteers');
+//                $ignoredUsers = explode(",", $ignoredUsers);
+                $ignoredUsers = array_map('intval', explode(",", $ignoredUsers));
 
-                foreach ($selectedUsers as $key => $value) {
-                    dump($value);
+                dump($ignoredUsers);
+
+                $userslist = $userRepository->findAllUsersExceptIds($ignoredUsers);
+
+                dump($userslist);
+
+                $contactEmail = $this->getParameter('contact_email');
+                $mail=$mailer->createMessage();
+                $data = $request->request->get('prepare_email_availabilities');
+
+                foreach ( $userslist as $key => $value) {
+                    /** @var \Swift_Mime_SimpleMessage $mail */
+                    $mail
+                        ->setSubject($data['title'])
+                        ->setFrom($contactEmail)
+                        ->setTo($value->getEmail())
+                        ->setBody($data['body'], 'text/html');
+                    dump($mail);
+                    $mailer->send($mail);
                 }
-
-                $festivalId = $session->get('current-festival-id');
-
-//                dump($festivalId);
-//                dump($selectedUsers);
-
-                return null;
+                $this->addFlash('success', 'Votre email a bien été envoyé');
+                return $this->redirectToRoute("festival_show", ['id'=> $festival->getId()]);
             }
+        } else {
+            $this->addFlash('error',"Le formulaire contient des erreurs");
         }
 
         return $this->render('festival/emailAvailabilities.html.twig', [
@@ -196,4 +215,6 @@ class FestivalController extends AbstractController
             'users' => $users
         ]);
     }
+
+
 }
