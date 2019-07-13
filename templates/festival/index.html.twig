@@ -2,37 +2,38 @@
 
 {% block title %}Festival index{% endblock %}
 
+
 {% block body %}
     <h1>Festivals</h1>
 
-    <a href="{{ path('festival_new') }}" class="btn btn-primary">Ajouter</a>
-
     <table class="table mt-lg-3">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
-                <th>Address</th>
-                <th>Zipcode</th>
-                <th>Country</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>{%  trans %}Name{% endtrans %}</th>
+            <th>Debut</th>
+            <th>Fin</th>
+            {#                <th>Addresse</th>#}
+            {#                <th>Code postal</th>#}
+            {#                <th>Pays</th>#}
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for festival in festivals %}
             <tr>
                 <td>{{ festival.id }}</td>
-                <td>{{ festival.name }}</td>
-                <td>{{ festival.startDate ? festival.startDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ festival.endDate ? festival.endDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ festival.address }}</td>
-                <td>{{ festival.zipcode }}</td>
-                <td>{{ festival.country }}</td>
+                <td><a href="{{ path('festival_show', {'id': festival.id}) }}">{{ festival.name }}</a></td>
+                <td>{{ festival.startDate ? festival.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ festival.endDate ? festival.endDate|date('Y-m-d') : '' }}</td>
+                {#                <td>{{ festival.address }}</td>#}
+                {#                <td>{{ festival.zipcode }}</td>#}
+                {#                <td>{{ festival.country }}</td>#}
                 <td>
-                    <a href="{{ path('festival_show', {'id': festival.id}) }}">show</a>
-                    <a href="{{ path('festival_edit', {'id': festival.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('festival_show', {'id': festival.id}) }}"><i
+                                class="far fa-eye"></i></a>
+                    <a class="btn btn-primary" href="{{ path('festival_edit', {'id': festival.id}) }}"><i
+                                class="far fa-edit"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -42,5 +43,7 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <a href="{{ path('festival_new') }}" class="btn btn-primary mb-4">Ajouter</a>
 
 {% endblock %}

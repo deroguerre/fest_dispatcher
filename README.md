@@ -4,23 +4,23 @@ FestDispatcher permet de gérer facilement des bénévoles lors d'un festival.
 
 ## Getting Started
 
+Make sur your .env is configured then run :
+
 ```bash
-composer install  
-bin/console doctrine:database:create  
-bin/console doctrine:schema:validate  
-bin/console doctrine:schema:update  
-npm install
+composer install
+yarn install
+yarn encore dev
+bin/console doctrine:database:create
+bin/console doctrine:schema:update
+bin/console doctrine:fixtures:load
 ```
 
 ## One Line Update Command
 
+Do the stuff above
+
 ```bash
-composer install &&
-yarn install &&
-bin/console doctrine:schema:drop --force &&
-bin/console doctrine:schema:validate &&
-bin/console doctrine:schema:update --force &&
-bin/console doctrine:fixtures:load
+bin/console app:update
 ```
 
 ## Dev
