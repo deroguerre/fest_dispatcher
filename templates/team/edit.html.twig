@@ -5,9 +5,24 @@
 {% block body %}
     <h1>Edit Team</h1>
 
-    {{ include('team/_form.html.twig', {'button_label': 'Update'}) }}
+{#    {{ include('team/_form.html.twig', {'button_label': 'Update'}) }}#}
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.managers) }}
+    {{ form_row(form.neededVolunteers) }}
+    {{ form_row(form.backgroundColor) }}
 
-    <a href="{{ path('team_index') }}">back to list</a>
+    <div class="text-right">
+        <button type="submit" class="btn btn-primary">
+            Enregistrer
+        </button>
+        <a href="{{ path('team_index') }}" class="btn btn-outline-secondary">
+            Retour
+        </a>
+    </div>
+
+    {{ form_end(form) }}
 
     {{ include('team/_delete_form.html.twig') }}
 {% endblock %}

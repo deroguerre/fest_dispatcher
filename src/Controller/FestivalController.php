@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Festival;
+use App\Entity\User;
 use App\Form\FestivalType;
 use App\Form\PrepareEmailAvailabilitiesType;
 use App\Repository\FestivalRepository;
@@ -192,7 +193,10 @@ class FestivalController extends AbstractController
                 $contactEmail = $this->getParameter('contact_email');
                 $mail=$mailer->createMessage();
                 $data = $request->request->get('prepare_email_availabilities');
-
+                /**
+                 * @var int $key
+                 * @var User $value
+                 */
                 foreach ( $userslist as $key => $value) {
                     /** @var \Swift_Mime_SimpleMessage $mail */
                     $mail

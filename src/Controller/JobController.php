@@ -52,39 +52,6 @@ class JobController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/ajax_edit", name="ajax_job_edit", methods={"POST"}, options={"expose"=true})
-     * @param Request $request
-     * @return Response
-     * @throws \Exception
-     */
-    public function  editFromAjax(Request $request, JobRepository $jobRepository) {
-        if($request->isXmlHttpRequest()) {
-
-            $data = $request->request->get('job');
-
-            $start = new \DateTime($data['start']);
-            $end = new \DateTime($data['end']);
-
-            $job = $jobRepository->find($data['id']);
-
-            $job->setStartDate($start)
-                ->setEndDate($end);
-
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->flush();
-
-            $response = new Response(json_encode(array(
-                'message' => "job edited"
-            )));
-            $response->headers->set('Content-Type', 'application/json');
-
-            return $response;
-        }
-
-        return new Response("erreur : ce n'est pas une requete ajax", 400);
-    }
 
     /**
      * @param Request $request
@@ -103,20 +70,23 @@ class JobController extends AbstractController
             $user = $userRepository->find($data['user']);
             $startDate = new \DateTime($data['startDate']);
             $endDate = new \DateTime($data['endDate']);
+            $backgroundColor = $data['backgroundColor'];
 
             $job = new Job();
             $job->setTitle($data['title'])
                 ->setTeam($team)
                 ->setUser($user)
                 ->setStartDate($startDate)
-                ->setEndDate($endDate);
+                ->setEndDate($endDate)
+                ->setBackgroundColor($backgroundColor);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($job);
             $entityManager->flush();
 
             $response = new Response(json_encode(array(
-              'message' => "job created"
+                'message' => "job created",
+                'id' => $job->getId()
             )));
             $response->headers->set('Content-Type', 'application/json');
 
@@ -159,6 +129,41 @@ class JobController extends AbstractController
     }
 
     /**
+     * @Route("/ajax_edit", name="ajax_job_edit", methods={"POST"}, options={"expose"=true})
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function editFromAjax(Request $request, JobRepository $jobRepository)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            $data = $request->request->get('job');
+
+            $start = new \DateTime($data['start']);
+            $end = new \DateTime($data['end']);
+
+            $job = $jobRepository->find($data['id']);
+
+            $job->setStartDate($start)
+                ->setEndDate($end);
+
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            $response = new Response(json_encode(array(
+                'message' => "job edited"
+            )));
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }
+
+        return new Response("erreur : ce n'est pas une requete ajax", 400);
+    }
+
+    /**
      * @Route("/{id}", name="job_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Job $job): Response
@@ -170,5 +175,36 @@ class JobController extends AbstractController
         }
 
         return $this->redirectToRoute('job_index');
+    }
+
+
+    /**
+     * @Route("/ajax_remove", name="ajax_job_remove", methods={"POST"}, options={"expose"=true})
+     * @param Request $request
+     * @param JobRepository $jobRepository
+     * @return Response
+     * @throws \Exception
+     */
+    public function removeFromAjax(Request $request, JobRepository $jobRepository)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            $data = $request->request->get('job');
+
+            $job = $jobRepository->find($data['id']);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($job);
+            $entityManager->flush();
+
+            $response = new Response(json_encode(array(
+                'message' => "job removed"
+            )));
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }
+
+        return new Response("erreur : ce n'est pas une requete ajax", 400);
     }
 }

@@ -31,11 +31,18 @@ $(document).ready(function () {
         select: function (info) {
             openNewJobModal(info);
         },
-        eventDrop: function(info) {
+        eventDrop: function (info) {
             editDatetimeJob(info);
         },
         eventResize: function (info) {
             editDatetimeJob(info);
+        },
+        eventClick: function (info) {
+            info.jsEvent.preventDefault(); // don't let the browser navigate
+
+            if (confirm('Delete "' + info.event.title + '"?')) {
+                removeJob(info);
+            }
         }
     });
 
@@ -52,23 +59,13 @@ $(document).ready(function () {
                     id: event.id,
                     title: event.title,
                     start: event.startDate,
-                    end: event.endDate
+                    end: event.endDate,
+                    color: event.backgroundColor
                 };
                 calendar.addEvent(currEvent)
             });
         }
     });
-
-    // open modal for new jobs
-    function openNewJobModal(info) {
-
-        $('#new-job-start').val(info.startStr.split('+')[0]);
-        $('#new-job-end').val(info.endStr.split('+')[0]);
-
-        $('#newJobModal').on('shown.bs.modal', function () {
-            $('#new-job-users').trigger('focus')
-        }).modal();
-    }
 
     // click on save btn
     $('#new-job-save').on('click', function () {
@@ -80,8 +77,9 @@ $(document).ready(function () {
         $(this).hide();
         spinner.show();
 
-        let title = $('#new-job-title').val();
-        let team = $('#new-job-team').val();
+        // let title = $('#new-job-title').val();
+        // let title = $('#new-job-title').val();
+        let team = $('#new-job-team option:selected');
         let users = $('#new-job-users option:selected');
         let start = $('#new-job-start').val();
         let end = $('#new-job-end').val();
@@ -89,13 +87,19 @@ $(document).ready(function () {
         this.nbUsers = users.length;
 
         users.each(function (key, user) {
+
+            console.log("team", team);
+
             let job = {
-                title: title,
-                team: team,
+                title: user.text,
+                team: team.val(),
                 user: user.value,
                 startDate: start,
-                endDate: end
+                endDate: end,
+                backgroundColor: team.data("team-color")
             };
+
+            console.log(job);
 
             var newJobControllerUri = $('#data-from-twig').data('new-job-controller');
 
@@ -108,10 +112,13 @@ $(document).ready(function () {
                 },
                 async: false,
                 success: function (response) {
+
                     let currEvent = {
-                        title: title,
-                        start: start,
-                        end: end
+                        id: response.id,
+                        title: job.title,
+                        start: job.startDate,
+                        end: job.endDate,
+                        color: job.backgroundColor
                     };
                     calendar.addEvent(currEvent);
                     that.nbUsers--;
@@ -136,13 +143,32 @@ $(document).ready(function () {
 
     });
 
-    function editDatetimeJob(info) {
+    // open modal for new jobs
+    function openNewJobModal(info) {
 
-        //parse to string and format
-        let start = info.event.start.toISOString().split('.')[0];
+        $('#new-job-start').val(info.startStr.split('+')[0]);
+        $('#new-job-end').val(info.endStr.split('+')[0]);
+
+        $('#newJobModal').on('shown.bs.modal', function () {
+            $('#new-job-users').trigger('focus')
+        }).modal();
+    }
+
+    function editDatetimeJob(info) {
+        console.log(info);
+
+        let start;
         let end;
 
-        if(typeof info.event.end !== 'undefined') {
+        if (typeof info.event.start !== 'undefined') {
+            //parse to string and format
+            start = info.event.start.toISOString().split('.')[0];
+        } else {
+            console.log('erreur avec la date de début');
+            return false;
+        }
+
+        if (typeof info.event.end !== 'undefined') {
             end = info.event.end.toISOString().split('.')[0];
         } else {
             end = start;
@@ -153,8 +179,9 @@ $(document).ready(function () {
             start: start,
             end: end
         };
+        console.log(job);
 
-        var editJobControllerUri = $('#data-from-twig').data('edit-job-controller');
+        let editJobControllerUri = $('#data-from-twig').data('edit-job-controller');
 
         $.ajax({
             url: editJobControllerUri,
@@ -166,6 +193,34 @@ $(document).ready(function () {
             async: true,
             success: function (response) {
                 console.log("event edited");
+            },
+            error: function (xhr, status, error) {
+                console.log(status);
+                console.log(xhr.responseText);
+                console.log(error);
+            }
+        });
+    }
+
+    function removeJob(info) {
+        info.event.remove();
+
+        let removeJobControllerUri = $('#data-from-twig').data('remove-job-controller');
+
+        let job = {
+            id: info.event.id
+        };
+
+        $.ajax({
+            url: removeJobControllerUri,
+            type: "POST",
+            dataType: 'json',
+            data: {
+                "job": job
+            },
+            async: true,
+            success: function (response) {
+                console.log("event removed");
             },
             error: function (xhr, status, error) {
                 console.log(status);
