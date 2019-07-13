@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Api;
+namespace App\Service;
 
 
 use PhpParser\Node\Stmt\Throw_;

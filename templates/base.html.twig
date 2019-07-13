@@ -29,7 +29,7 @@
                         <i class="fas fa-flag"></i>
                     </span>
                     <span class="text">
-                        Selectionner un festival
+                        {% trans %}Select festival{% endtrans %}
                     </span>
                 </a>
             {% else %}
@@ -78,7 +78,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('team_index') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Equipes</span></a>
+                    <span>{% trans %}Teams{% endtrans %}</span></a>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -86,7 +86,7 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Membres</span>
+                    <span>{% trans %}Members{% endtrans %}</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -94,9 +94,9 @@
 
                         {% if app.session.get('current-festival-id') != "" %}
                             <a class="collapse-item"
-                               href="{{ path('volunteer_availability_by_festival', {"id": app.session.get('current-festival-id')}) }}">Bénévoles</a>
+                               href="{{ path('volunteer_availability_by_festival', {"id": app.session.get('current-festival-id')}) }}">{% trans %}Volunteers{% endtrans %}</a>
                         {% endif %}
-                        <a class="collapse-item" href="{{ path('user_index') }}">Tous les utilisateurs</a>
+                        <a class="collapse-item" href="{{ path('user_index') }}">{% trans %}All users{% endtrans %}</a>
                     </div>
                 </div>
             </li>
@@ -112,32 +112,11 @@
                 Festival
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            {#        <li class="nav-item">#}
-            {#            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"#}
-            {#               aria-expanded="true" aria-controls="collapsePages">#}
-            {#                <i class="fas fa-fw fa-folder"></i>#}
-            {#                <span>Pages</span>#}
-            {#            </a>#}
-            {#            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">#}
-            {#                <div class="bg-white py-2 collapse-inner rounded">#}
-            {#                    <h6 class="collapse-header">Login Screens:</h6>#}
-            {#                    <a class="collapse-item" href="login.html">Login</a>#}
-            {#                    <a class="collapse-item" href="register.html">Register</a>#}
-            {#                    <a class="collapse-item" href="forgot-password.html">Forgot Password</a>#}
-            {#                    <div class="collapse-divider"></div>#}
-            {#                    <h6 class="collapse-header">Other Pages:</h6>#}
-            {#                    <a class="collapse-item" href="404.html">404 Page</a>#}
-            {#                    <a class="collapse-item" href="blank.html">Blank Page</a>#}
-            {#                </div>#}
-            {#            </div>#}
-            {#        </li>#}
-
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_index_index') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Mon planning</span></a>
+                    <span>{% trans %}My schedule{% endtrans %}</span></a>
             </li>
 
             <!-- Divider -->
@@ -170,7 +149,7 @@
                 <!-- Topbar Search -->
                 <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Rechercher..."
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="{% trans %}Search{% endtrans %}..."
                                aria-label="Search" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button">
@@ -207,18 +186,30 @@
                         </div>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_index_changelocale', {locale: 'fr_FR'}) }}">
+                            FR
+                        </a>
+                    </li>
+{#                    <div class="topbar-divider"></div>#}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_index_changelocale', {locale: 'en'}) }}">
+                            EN
+                        </a>
+                    </li>
                     <div class="topbar-divider d-none d-sm-block"></div>
+
 
                     {% if app.user is null %}
 
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_security_register') }}">
-                                Inscription
+                                {% trans %}Register{% endtrans %}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_security_login') }}">
-                                Connexion
+                                {% trans %}Sign in{% endtrans %}
                             </a>
                         </li>
 
@@ -233,18 +224,18 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ path('user_show', {id: app.user.id}) }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Paramètres
+                                    {% trans %}Parameters{% endtrans %}
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="{{ path('app_security_logout') }}">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Déconnexion
+                                    {% trans %}Logout{% endtrans %}
                                 </a>
                             </div>
                         </li>
@@ -300,24 +291,24 @@
 </a>
 
 <!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="{{ path('app_security_logout') }}">Logout</a>
-            </div>
-        </div>
-    </div>
-</div>
+{#<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"#}
+{#     aria-hidden="true">#}
+{#    <div class="modal-dialog" role="document">#}
+{#        <div class="modal-content">#}
+{#            <div class="modal-header">#}
+{#                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>#}
+{#                <button class="close" type="button" data-dismiss="modal" aria-label="Close">#}
+{#                    <span aria-hidden="true">×</span>#}
+{#                </button>#}
+{#            </div>#}
+{#            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>#}
+{#            <div class="modal-footer">#}
+{#                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>#}
+{#                <a class="btn btn-primary" href="{{ path('app_security_logout') }}">Logout</a>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}

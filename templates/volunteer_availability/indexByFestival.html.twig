@@ -3,7 +3,7 @@
 {% block title %}VolunteerAvailability index{% endblock %}
 
 {% block body %}
-    <h1>Bénévoles disponible pour {{ current_festival.name }}</h1>
+    <h1>Bénévoles disponibles pour {{ current_festival.name }}</h1>
 
     <table class="table">
         <thead>
@@ -27,8 +27,8 @@
                 <td>{{ volunteer_availability.startDate ? volunteer_availability.startDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ volunteer_availability.endDate ? volunteer_availability.endDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('volunteer_availability_show', {'id': volunteer_availability.id}) }}">show</a>
-                    <a href="{{ path('volunteer_availability_edit', {'id': volunteer_availability.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('volunteer_availability_show', {'id': volunteer_availability.id}) }}"><i class="far fa-eye"></i></a>
+                    <a class="btn btn-primary" href="{{ path('volunteer_availability_edit', {'id': volunteer_availability.id}) }}"><i class="fas fa-edit"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -39,5 +39,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('volunteer_availability_new') }}">Create new</a>
+    <a class="btn btn-primary" href="{{ path('volunteer_availability_new') }}">Ajouter un bénévole</a>
 {% endblock %}
