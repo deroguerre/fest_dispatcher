@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\TokenParser\SetTokenParser;
 
 /**
  * @Route("/festival")
@@ -197,16 +198,30 @@ class FestivalController extends AbstractController
                  * @var int $key
                  * @var User $value
                  */
-                foreach ( $userslist as $key => $value) {
-                    /** @var \Swift_Mime_SimpleMessage $mail */
-                    $mail
+//                foreach ( $userslist as $key => $value) {
+//                    /** @var \Swift_Mime_SimpleMessage $mail */
+//                    $mail
+//                        ->setSubject($data['title'])
+//                        ->setFrom($contactEmail)
+//                        ->setTo($value->getEmail())
+//                        ->setBody($data['body'], 'text/html');
+//                    dump($mail);
+//                    $mailer->send($mail);
+//                }
+
+
+                //test email
+                /** @var \Swift_Mime_SimpleMessage $mail */
+                $mail
                         ->setSubject($data['title'])
                         ->setFrom($contactEmail)
-                        ->setTo($value->getEmail())
+                        ->setTo("deroguerre@gmail.com")
                         ->setBody($data['body'], 'text/html');
                     dump($mail);
                     $mailer->send($mail);
-                }
+
+
+
                 $this->addFlash('success', 'Votre email a bien été envoyé');
                 return $this->redirectToRoute("festival_show", ['id'=> $festival->getId()]);
             }else {

@@ -62,14 +62,12 @@ class Team
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="teamsThatIManage")
-     * @ORM\Column(nullable=true)
      * @ORM\JoinTable(name="team_manager")
      */
     private $managers;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="teamsThatIHelp")
-     * @ORM\Column(nullable=true)
      * @ORM\JoinTable(name="team_volunteer")
      */
     private $volunteers;

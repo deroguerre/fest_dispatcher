@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Festival;
+use App\Entity\User;
 use App\Entity\VolunteerAvailability;
 use App\Form\VolunteerAvailabilityType;
 use App\Repository\VolunteerAvailabilityRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,10 +43,33 @@ class VolunteerAvailabilityController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="volunteer_availability_new", methods={"GET","POST"})
+     * @Route("/new/{festival}/{user}", name="volunteer_availability_new", methods={"GET","POST"}, defaults={"festival"=null,"user"=null})
+     * @ParamConverter("festival", options= {"mapping": {"festival": "id"}})
+     * @ParamConverter("user", options= {"mapping": {"user": "id"}})
      */
-    public function new(Request $request): Response
+    public function new(
+        ?Festival $festival,
+        ?User $user,
+        Request $request
+    ): Response
     {
+
+        //form with parameters
+        if( ($festival != null) && ($user != null)) {
+
+            $volunteerAvailability = new VolunteerAvailability();
+            $volunteerAvailability->setUser($user);
+            $volunteerAvailability->setFestival($festival);
+            $form = $this->createForm(VolunteerAvailabilityType::class, $volunteerAvailability);
+            $form->handleRequest($request);
+
+            return $this->render('volunteer_availability/new.html.twig', [
+                'volunteer_availability' => $volunteerAvailability,
+                'form' => $form->createView(),
+            ]);
+        }
+
+        //form without parameters
         $volunteerAvailability = new VolunteerAvailability();
         $form = $this->createForm(VolunteerAvailabilityType::class, $volunteerAvailability);
         $form->handleRequest($request);
