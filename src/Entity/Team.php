@@ -61,9 +61,18 @@ class Team
     private $backgroundColor;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="teams")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="teamsThatIManage")
+     * @ORM\Column(nullable=true)
+     * @ORM\JoinTable(name="team_manager")
      */
     private $managers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="teamsThatIHelp")
+     * @ORM\Column(nullable=true)
+     * @ORM\JoinTable(name="team_volunteer")
+     */
+    private $volunteers;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
@@ -97,6 +106,7 @@ class Team
         $this->managers = new ArrayCollection();
         $this->jobs = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->volunteers = new ArrayCollection();
     }
 
     public function __toString()
@@ -148,9 +158,9 @@ class Team
     }
 
     /**
-     * @return Collection|user[]
+     * @return Collection|user[]|null
      */
-    public function getManagers(): Collection
+    public function getManagers(): ?Collection
     {
         return $this->managers;
     }
@@ -274,6 +284,32 @@ class Team
     public function setFestival(?Festival $festival): self
     {
         $this->festival = $festival;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]|null
+     */
+    public function getVolunteers(): ?Collection
+    {
+        return $this->volunteers;
+    }
+
+    public function addVolunteer(User $volunteer): self
+    {
+        if (!$this->volunteers->contains($volunteer)) {
+            $this->volunteers[] = $volunteer;
+        }
+
+        return $this;
+    }
+
+    public function removeVolunteer(User $volunteer): self
+    {
+        if ($this->volunteers->contains($volunteer)) {
+            $this->volunteers->removeElement($volunteer);
+        }
 
         return $this;
     }

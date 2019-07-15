@@ -104,7 +104,12 @@ class User implements UserInterface
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Team", mappedBy="managers")
      */
-    private $teams;
+    private $teamsThatIManage;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Team", mappedBy="volunteers")
+     */
+    private $teamsThatIHelp;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Job", mappedBy="user")
@@ -116,11 +121,13 @@ class User implements UserInterface
      */
     private $volunteerAvailabilities;
 
+
     public function __construct()
     {
-        $this->teams = new ArrayCollection();
+        $this->teamsThatIManage = new ArrayCollection();
         $this->jobs = new ArrayCollection();
         $this->volunteerAvailabilities = new ArrayCollection();
+        $this->teamsThatIHelp = new ArrayCollection();
     }
 
     /**
@@ -353,26 +360,54 @@ class User implements UserInterface
     /**
      * @return Collection|Team[]
      */
-    public function getTeams(): Collection
+    public function getTeamsThatIManage(): Collection
     {
-        return $this->teams;
+        return $this->teamsThatIManage;
     }
 
-    public function addTeam(Team $team): self
+    public function addTeamThatIManage(Team $team): self
     {
-        if (!$this->teams->contains($team)) {
-            $this->teams[] = $team;
+        if (!$this->teamsThatIManage->contains($team)) {
+            $this->teamsThatIManage[] = $team;
             $team->addManager($this);
         }
 
         return $this;
     }
 
-    public function removeTeam(Team $team): self
+    public function removeTeamThatIManage(Team $team): self
     {
-        if ($this->teams->contains($team)) {
-            $this->teams->removeElement($team);
+        if ($this->teamsThatIManage->contains($team)) {
+            $this->teamsThatIManage->removeElement($team);
             $team->removeManager($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Team[]
+     */
+    public function getTeamsThatIHelp(): Collection
+    {
+        return $this->teamsThatIHelp;
+    }
+
+    public function addTeamThatIHelp(Team $team): self
+    {
+        if (!$this->teamsThatIHelp->contains($team)) {
+            $this->teamsThatIHelp[] = $team;
+            $team->addVolunteer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeamThatIHelp(Team $team): self
+    {
+        if ($this->teamsThatIHelp->contains($team)) {
+            $this->teamsThatIHelp->removeElement($team);
+            $team->removeVolunteer($this);
         }
 
         return $this;

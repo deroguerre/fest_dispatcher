@@ -33,7 +33,7 @@ class JobFixtures extends Fixture implements DependentFixtureInterface
             $endDate = $faker->dateTimeBetween($startDate, $volunteerAvailability->getEndDate())->setTime(rand(11,23), 0, 0);
 
             $job = new Job();
-            $job->setTitle($team->getName() . '_job')
+            $job->setTitle($user->getFirstname() . ' ' . $user->getLastname())
                 ->setUser($user)
                 ->setTeam($team)
                 ->setStartDate($startDate)

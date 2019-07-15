@@ -20,6 +20,7 @@ class TeamType extends AbstractType
             ])
             ->add('neededVolunteers')
             ->add('managers')
+            ->add('volunteers')
         ;
     }
 
