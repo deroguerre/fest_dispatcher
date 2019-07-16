@@ -28,26 +28,32 @@
                     <span class="icon text-white-50">
                         <i class="fas fa-flag"></i>
                     </span>
-                    <span class="text">
+                    <span class="text festival-menu-title">
                         {% trans %}Select festival{% endtrans %}
                     </span>
                 </a>
             {% else %}
-
-                <a href="{{ path('festival_change', {"id": 999}) }}"
-                   class="btn btn-success btn-icon-split selected-fest">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-flag"></i>
-                    </span>
-                    <span class="text">
-                        {{ render(controller('App\\Controller\\FestivalController::displayCurrentFestival')) }}
-                    </span>
-                </a>
+                <div class="btn-group" role="group" aria-label="">
+                    <a href="{{ path('festival_show', {"id": app.session.get('current-festival-id') }) }}"
+                       class="btn btn-success btn-icon-split show-fest">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-flag"></i>
+                        </span>
+                        <span class="text festival-menu-title">
+                            {{ render(controller('App\\Controller\\FestivalController::displayCurrentFestival')) }}
+                        </span>
+                    </a>
+                    <a href="{{ path('festival_change', {"id": 999}) }}" class="btn btn-success btn-icon-split change-fest">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+                <li class="nav-item change-fest" style="display: none;">
+                    <a href="{{ path('festival_change', {"id": 999}) }}" class="nav-link btn-success">
+                        <i class="fas fa-times"></i></a>
+                </li>
             {% endif %}
         {% endif %}
 
-        <!-- Divider -->
-        <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
@@ -62,67 +68,52 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
+
             <!-- Heading -->
             <div class="sidebar-heading">
-                Admin
+                {% if app.session.get('current-festival-id') == "" %}
+                    Admin generals
+                {% else %}
+                    Admin festival
+                {% endif %}
             </div>
 
-            <!-- Nav Item - Festival -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('festival_index') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Festivals</span></a>
-            </li>
+            {% if app.session.get('current-festival-id') == "" %}
+                <!-- Nav Item - Festival -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('festival_index') }}">
+                        <i class="far fa-fw fa-lemon"></i>
+                        <span>Festivals</span></a>
+                </li>
+            {% endif %}
 
             <!-- Nav Item -Equipe -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('team_index') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="far fa-fw fa-clipboard"></i>
                     <span>{% trans %}Teams{% endtrans %}</span></a>
             </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                   aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>{% trans %}Members{% endtrans %}</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        {#                    <h6 class="collapse-header">Login Screens:</h6>#}
+            {% if app.session.get('current-festival-id') == "" %}
+                <!-- Nav Item -Equipe -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('user_index') }}">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>{% trans %}Users{% endtrans %}</span></a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ path('volunteer_availability_by_festival', {"id": app.session.get('current-festival-id')}) }}">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>{% trans %}Volunteers{% endtrans %}</span></a>
+                </li>
+            {% endif %}
 
-                        {% if app.session.get('current-festival-id') != "" %}
-                            <a class="collapse-item"
-                               href="{{ path('volunteer_availability_by_festival', {"id": app.session.get('current-festival-id')}) }}">{% trans %}Volunteers{% endtrans %}</a>
-                        {% endif %}
-                        <a class="collapse-item" href="{{ path('user_index') }}">{% trans %}All users{% endtrans %}</a>
-                    </div>
-                </div>
-            </li>
         {% endif %}
 
         <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        {% if app.user %}
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Festival
-            </div>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_index_index') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>{% trans %}My schedule{% endtrans %}</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-        {% endif %}
+        <hr class="sidebar-divider d-none d-md-block">
 
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
@@ -149,7 +140,8 @@
                 <!-- Topbar Search -->
                 <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="{% trans %}Search{% endtrans %}..."
+                        <input type="text" class="form-control bg-light border-0 small"
+                               placeholder="{% trans %}Search{% endtrans %}..."
                                aria-label="Search" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button">
@@ -191,7 +183,7 @@
                             FR
                         </a>
                     </li>
-{#                    <div class="topbar-divider"></div>#}
+                    {#                    <div class="topbar-divider"></div>#}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_index_changelocale', {locale: 'en'}) }}">
                             EN

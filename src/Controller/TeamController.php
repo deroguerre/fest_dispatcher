@@ -20,8 +20,13 @@ class TeamController extends AbstractController
      */
     public function index(TeamRepository $teamRepository): Response
     {
+        $teams = $teamRepository->findAllAscByFestival();
+
+        dump($teams);
+//        die;
+
         return $this->render('team/index.html.twig', [
-            'teams' => $teamRepository->findAll(),
+            'teams' => $teams,
         ]);
     }
 
@@ -30,9 +35,12 @@ class TeamController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $defaultTeamColor = '#3c62d1';
+
         $team = new Team();
         $form = $this->createForm(TeamType::class, $team);
         $form->handleRequest($request);
+        $form->get('backgroundColor')->setData($defaultTeamColor);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();

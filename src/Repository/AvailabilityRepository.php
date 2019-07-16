@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\VolunteersAvailability;
+use App\Entity\VolunteerAvailability;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method VolunteersAvailability|null find($id, $lockMode = null, $lockVersion = null)
- * @method VolunteersAvailability|null findOneBy(array $criteria, array $orderBy = null)
- * @method VolunteersAvailability[]    findAll()
- * @method VolunteersAvailability[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method VolunteerAvailability|null find($id, $lockMode = null, $lockVersion = null)
+ * @method VolunteerAvailability|null findOneBy(array $criteria, array $orderBy = null)
+ * @method VolunteerAvailability[]    findAll()
+ * @method VolunteerAvailability[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class AvailabilityRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, VolunteersAvailability::class);
+        parent::__construct($registry, VolunteerAvailability::class);
     }
 
     // /**

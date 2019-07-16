@@ -1,11 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Team{% endblock %}
+{% block title %}{% trans %}New Team{% endtrans %}{% endblock %}
 
 {% block body %}
-    <h1>Create new Team</h1>
+    <h1 class="h3 mb-4 text-gray-800">{% trans %}Create new Team{% endtrans %}</h1>
 
-    {{ include('team/_form.html.twig') }}
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.festival) }}
+    {{ form_row(form.managers) }}
+    {{ form_row(form.volunteers) }}
+    {{ form_row(form.neededVolunteers) }}
+    {{ form_row(form.backgroundColor) }}
 
-    <a href="{{ path('team_index') }}">back to list</a>
+{#    {{ include('team/_form.html.twig') }}#}
+    <button class="btn btn-outline-success mb-4">{% trans %}Save{% endtrans %}</button>
+    <a class="btn btn-outline-primary mb-4" href="{{ path('team_index') }}">{% trans %}back to list{% endtrans %}</a>
 {% endblock %}

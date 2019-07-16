@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Team{% endblock %}
+{% block title %}{% trans %}Edit Team{% endtrans %}{% endblock %}
 
 {% block body %}
-    <h1>Edit Team</h1>
+    <h1 class="h3 mb-4 text-gray-800">{% trans %}Edit Team{% endtrans %}</h1>
 
 {#    {{ include('team/_form.html.twig', {'button_label': 'Update'}) }}#}
     {{ form_start(form) }}
