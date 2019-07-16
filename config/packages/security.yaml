@@ -1,4 +1,5 @@
 security:
+    access_denied_url: /
     encoders:
         App\Entity\User:
             algorithm: auto
@@ -50,5 +51,12 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         #- { path: ^/admin, roles: ROLE_ADMIN }
-         #- { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/, roles: [ROLE_ADMIN, ROLE_ORGANISATEUR, ROLE_RESPONSABLE]}
+
+    role_hierarchy:
+      ROLE_BENEVOLE: ROLE_USER
+      ROLE_PRO: ROLE_BENEVOLE
+      ROLE_RESPONSABLE : ROLE_BENEVOLE
+      ROLE_ORGANISATEUR: ROLE_RESPONSABLE
+      ROLE_ADMIN: ROLE_ORGANISATEUR

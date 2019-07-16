@@ -8,6 +8,7 @@ use App\Form\FestivalType;
 use App\Form\PrepareEmailAvailabilitiesType;
 use App\Repository\FestivalRepository;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ use Twig\TokenParser\SetTokenParser;
 
 /**
  * @Route("/festival")
+ * @Security("is_granted('ROLE_ORGANISATEUR')")
  */
 class FestivalController extends AbstractController
 {
