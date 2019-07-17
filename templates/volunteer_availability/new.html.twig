@@ -3,9 +3,19 @@
 {% block title %}New VolunteerAvailability{% endblock %}
 
 {% block body %}
-    <h1>Ajouter un bénévole</h1>
+
+    {% if isVolunteer is defined %}
+        <h1>{{ festival }}</h1>
+        <h2> Bonjour {{ user.firstname }}</h2>
+        <p> Merci de rentrer tes disponibilités pour le festival</p>
+    {% else %}
+        <h1>Ajouter un bénévole</h1>
+    {% endif %}
 
     {{ include('volunteer_availability/_form.html.twig') }}
 
-    <a href="{{ path('volunteer_availability_index') }}">back to list</a>
+    {% if isVolunteer is not defined %}
+        <a href="{{ path('volunteer_availability_index') }}">back to list</a>
+    {% endif %}
+
 {% endblock %}
