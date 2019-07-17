@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Festival;
 use App\Entity\User;
 use App\Entity\VolunteerAvailability;
+use App\Form\VolunteerAvailabilityForUserType;
 use App\Form\VolunteerAvailabilityType;
 use App\Repository\VolunteerAvailabilityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -53,19 +54,21 @@ class VolunteerAvailabilityController extends AbstractController
         Request $request
     ): Response
     {
-
         //form with parameters
         if( ($festival != null) && ($user != null)) {
 
             $volunteerAvailability = new VolunteerAvailability();
             $volunteerAvailability->setUser($user);
             $volunteerAvailability->setFestival($festival);
-            $form = $this->createForm(VolunteerAvailabilityType::class, $volunteerAvailability);
+            $form = $this->createForm(VolunteerAvailabilityForUserType::class, $volunteerAvailability);
             $form->handleRequest($request);
 
             return $this->render('volunteer_availability/new.html.twig', [
-                'volunteer_availability' => $volunteerAvailability,
                 'form' => $form->createView(),
+                'volunteer_availability' => $volunteerAvailability,
+                'isVolunteer' => true,
+                'user'=> $user,
+                'festival'=>$festival
             ]);
         }
 

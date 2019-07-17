@@ -12,11 +12,11 @@
                 <td>{{ volunteer_availability.id }}</td>
             </tr>
             <tr>
-                <th>StartDate</th>
+                <th> {% trans %}StartDate{% endtrans %}</th>
                 <td>{{ volunteer_availability.startDate ? volunteer_availability.startDate|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>EndDate</th>
+                <th>{% trans %}EndDate{% endtrans %}</th>
                 <td>{{ volunteer_availability.endDate ? volunteer_availability.endDate|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
