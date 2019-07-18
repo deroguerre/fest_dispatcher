@@ -44,8 +44,4 @@
 
     {{ include('festival/_delete_form.html.twig') }}
 
-    <div>
-        <p>Envoyer un email pour connaitre la disponibilité des bénévoles sur la période du festival</p>
-    </div>
-    <a class="btn btn-primary" href="{{ path('festival_email', {'id': festival.id}) }}">Préparer un email</a>
 {% endblock %}
