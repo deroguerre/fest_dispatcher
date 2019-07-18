@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Token;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -18,12 +20,13 @@ class EmailHelper
     private $templating;
     private $entityManager;
 
-    public function __construct(RouterInterface $router, ParameterBagInterface $params, SessionInterface $session, \Swift_Mailer $mailer)
+    public function __construct(RouterInterface $router, ParameterBagInterface $params, SessionInterface $session, \Swift_Mailer $mailer, EntityManagerInterface $entityManager)
     {
         $this->router = $router;
         $this->params = $params;
         $this->session = $session;
         $this->mailer = $mailer;
+        $this->entityManager = $entityManager;
     }
 
     public function NotifyForAvailability(string $subject, string $body, User $user)
@@ -31,16 +34,35 @@ class EmailHelper
         /** @var \Swift_Mime_SimpleMessage $mail */
         $mail = $this->mailer->createMessage();
 
+//        try {
+//            $randomString = (string)random_bytes(30);
+//        } catch (\Exception $e) {
+//            return $e;
+//        }
 
+        $uniqId = uniqid();
 
-        $customAvailabilityUrl = $this->router->generate('volunteer_availability_new', array(
+        $data = [
             'festival' => $this->session->get('current-festival-id'),
             'user' => $user->getId()
+        ];
+        $urlRelated = $this->router->generate('volunteer_availability_new', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $token = new Token();
+        $token
+            ->setValue($uniqId)
+            ->setData($data)
+            ->setCreationDate(new \DateTime("now"))
+            ->setUrlRelated($urlRelated);
+
+        $this->entityManager->persist($token);
+        $this->entityManager->flush();
+
+        $customAvailabilityUrl = $this->router->generate('volunteer_availability_new', array(
+            'token' => $uniqId
         ), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $body .= "<br>Saisir ses disponibilités : $customAvailabilityUrl";
-
-
 
         $mail
 //            ->setFrom($this->params->get('contact_email'))

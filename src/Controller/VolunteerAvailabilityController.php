@@ -3,19 +3,24 @@
 namespace App\Controller;
 
 use App\Entity\Festival;
+use App\Entity\Token;
 use App\Entity\User;
 use App\Entity\VolunteerAvailability;
 use App\Form\PrepareEmailAvailabilitiesType;
 use App\Form\VolunteerAvailabilityForUserType;
 use App\Form\VolunteerAvailabilityType;
+use App\Repository\FestivalRepository;
+use App\Repository\TokenRepository;
 use App\Repository\UserRepository;
 use App\Repository\VolunteerAvailabilityRepository;
 use App\Service\EmailHelper;
+use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -50,38 +55,61 @@ class VolunteerAvailabilityController extends AbstractController
     }
 
     /**
-     * @Route("/new/{festival}/{user}", name="volunteer_availability_new", methods={"GET","POST"}, defaults={"festival"=null,"user"=null}, requirements={"festival":"\d+","user":"\d+"})
-     * @ParamConverter("festival", options= {"mapping": {"festival": "id"}})
-     * @ParamConverter("user", options= {"mapping": {"user": "id"}})
+     * @Route("/new/{tokenValue}", name="volunteer_availability_new", methods={"GET","POST"}, defaults={"tokenValue"=null})
      * @throws \Exception
      */
     public function new(
-        ?Festival $festival,
-        ?User $user,
-        Request $request
+        ?string $tokenValue,
+        Request $request,
+        TokenRepository $tokenRepository,
+        UserRepository $userRepository,
+        FestivalRepository $festivalRepository
     ): Response
     {
 
-        $token = random_bytes(20);
-        dump($token);
+//        dump($tokenValue);
 //        die;
 
         //form with parameters
-        if (($festival != null) && ($user != null)) {
+        if ($tokenValue != "") {
 
-            $volunteerAvailability = new VolunteerAvailability();
-            $volunteerAvailability->setUser($user);
-            $volunteerAvailability->setFestival($festival);
-            $form = $this->createForm(VolunteerAvailabilityForUserType::class, $volunteerAvailability);
-            $form->handleRequest($request);
+            /**
+             * Check token exist on db
+             * @var Token $tokenValue
+             */
+            $token = $tokenRepository->findOneBy(['value' => $tokenValue]);
 
-            return $this->render('volunteer_availability/new.html.twig', [
-                'form' => $form->createView(),
-                'volunteer_availability' => $volunteerAvailability,
-                'isVolunteer' => true,
-                'user' => $user,
-                'festival' => $festival
-            ]);
+
+            if(!is_null($token)) {
+//
+//            dump($oToken);
+//            die;
+
+                $data = $token->getData();
+
+                $user = $userRepository->find($data['user']);
+//                dump($user);
+//                die;
+                $festival = $festivalRepository->find($data['festival']);
+
+                $volunteerAvailability = new VolunteerAvailability();
+                $volunteerAvailability->setUser($user);
+                $volunteerAvailability->setFestival($festival);
+
+                $form = $this->createForm(VolunteerAvailabilityForUserType::class, $volunteerAvailability);
+                $form->handleRequest($request);
+
+                return $this->render('volunteer_availability/new.html.twig', [
+                    'form' => $form->createView(),
+                    'volunteer_availability' => $volunteerAvailability,
+                    'token' => $token,
+                    'user' => $user,
+                    'festival' => $festival
+                ]);
+            } else {
+                dump("Ce token n'existe pas !");
+                throw new NotFoundHttpException();
+            }
         }
 
         //form without parameters
@@ -102,6 +130,8 @@ class VolunteerAvailabilityController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
 
     /**
      * @Route("/{id}", name="volunteer_availability_show", methods={"GET"})
