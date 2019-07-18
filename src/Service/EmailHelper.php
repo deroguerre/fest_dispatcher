@@ -34,12 +34,6 @@ class EmailHelper
         /** @var \Swift_Mime_SimpleMessage $mail */
         $mail = $this->mailer->createMessage();
 
-//        try {
-//            $randomString = (string)random_bytes(30);
-//        } catch (\Exception $e) {
-//            return $e;
-//        }
-
         $uniqId = uniqid();
 
         $data = [
@@ -59,7 +53,7 @@ class EmailHelper
         $this->entityManager->flush();
 
         $customAvailabilityUrl = $this->router->generate('volunteer_availability_new', array(
-            'token' => $uniqId
+            'tokenValue' => $uniqId
         ), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $body .= "<br>Saisir ses disponibilités : $customAvailabilityUrl";
@@ -67,6 +61,7 @@ class EmailHelper
         $mail
 //            ->setFrom($this->params->get('contact_email'))
             ->setFrom("no-reply@sandboxc2c8910fa65c4da0a4d787447df36060.mailgun.org")
+//            ->setTo($user->getEmail())
             ->setTo("deroguerre@gmail.com")
             ->setSubject($subject)
             ->setBody($body, 'text/html');

@@ -14,15 +14,13 @@ use App\Repository\TokenRepository;
 use App\Repository\UserRepository;
 use App\Repository\VolunteerAvailabilityRepository;
 use App\Service\EmailHelper;
-use Doctrine\ORM\EntityManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @Route("/volunteer/availability")
@@ -63,33 +61,25 @@ class VolunteerAvailabilityController extends AbstractController
         Request $request,
         TokenRepository $tokenRepository,
         UserRepository $userRepository,
-        FestivalRepository $festivalRepository
+        FestivalRepository $festivalRepository,
+        EntityManagerInterface $entityManager
     ): Response
     {
-
-//        dump($tokenValue);
-//        die;
 
         //form with parameters
         if ($tokenValue != "") {
 
             /**
-             * Check token exist on db
+             * Check if token exist in db
              * @var Token $tokenValue
              */
             $token = $tokenRepository->findOneBy(['value' => $tokenValue]);
 
-
-            if(!is_null($token)) {
-//
-//            dump($oToken);
-//            die;
+            if (!is_null($token)) {
 
                 $data = $token->getData();
 
                 $user = $userRepository->find($data['user']);
-//                dump($user);
-//                die;
                 $festival = $festivalRepository->find($data['festival']);
 
                 $volunteerAvailability = new VolunteerAvailability();
@@ -99,6 +89,15 @@ class VolunteerAvailabilityController extends AbstractController
                 $form = $this->createForm(VolunteerAvailabilityForUserType::class, $volunteerAvailability);
                 $form->handleRequest($request);
 
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager->persist($volunteerAvailability);
+                    $entityManager->remove($token);
+                    $entityManager->flush();
+
+                    $this->addFlash("success", "Merci d'avoir pris le temps de nous faire parvenir tes disponibilités");
+                    return $this->redirectToRoute('app_index_index');
+                }
+
                 return $this->render('volunteer_availability/new.html.twig', [
                     'form' => $form->createView(),
                     'volunteer_availability' => $volunteerAvailability,
@@ -107,8 +106,7 @@ class VolunteerAvailabilityController extends AbstractController
                     'festival' => $festival
                 ]);
             } else {
-                dump("Ce token n'existe pas !");
-                throw new NotFoundHttpException();
+                throw new Exception('Le token est invalide !');
             }
         }
 
@@ -118,7 +116,6 @@ class VolunteerAvailabilityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($volunteerAvailability);
             $entityManager->flush();
 
@@ -130,7 +127,6 @@ class VolunteerAvailabilityController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
 
 
     /**
@@ -189,7 +185,6 @@ class VolunteerAvailabilityController extends AbstractController
         Festival $festival,
         UserRepository $userRepository,
         Request $request,
-        \Swift_Mailer $mailer,
         EmailHelper $emailHelper
     )
     {
@@ -204,47 +199,33 @@ class VolunteerAvailabilityController extends AbstractController
                 $ignoredUsers = $request->request->get('volunteers');
                 $ignoredUsers = array_map('intval', explode(",", $ignoredUsers));
 
-                dump($ignoredUsers);
-
                 $userslist = $userRepository->findAllUsersExceptIds($ignoredUsers);
-
-                dump($userslist);
 
                 $data = $request->request->get('prepare_email_availabilities');
 
                 /**
-                 * @var int $key
                  * @var User $value
                  */
-//                foreach ( $userslist as $key => $value) {
-//                    /** @var \Swift_Mime_SimpleMessage $mail */
-//                    $mail
-//                        ->setSubject($data['title'])
-//                        ->setFrom($contactEmail)
-//                        ->setTo($value->getEmail())
-//                        ->setBody($data['body'], 'text/html');
-//                    dump($mail);
-//                    $mailer->send($mail);
+//                foreach ( $userslist as $user) {
+//                    $success = $emailHelper->NotifyForAvailability($data['title'], $data['body'], $user);
+//                    if(!$success) {
+//                        throw new Exception("Une erreur c'est produit");
+//                    }
 //                }
 
+                //to debug
                 $user = $userRepository->find('1');
+                $emailHelper->NotifyForAvailability($data['title'], $data['body'], $user);
 
-                $success = $emailHelper->NotifyForAvailability($data['title'], $data['body'], $user);
+                $this->addFlash("success","Les demandes de disponibilités sont envoyés !");
 
-//                $success = 1; // to test, delete it for prod
-                if($success > 0) {
-                    $this->addFlash('success', 'Votre email a bien été envoyé');
-                } else {
-                    $this->addFlash('success', "Une erreur c'est produit lors de l'envoi de l'email");
-                }
-
-                return $this->redirectToRoute("festival_show", ['id'=> $festival->getId()]);
-            }else {
-                $this->addFlash('error',"Le formulaire contient des erreurs");
+                return $this->redirectToRoute("volunteer_availability_by_festival", ['id' => $festival->getId()]);
+            } else {
+                $this->addFlash('error', "Le formulaire contient des erreurs");
             }
         }
 
-        return $this->render('festival/emailAvailabilities.html.twig', [
+        return $this->render('volunteer_availability/email.html.twig', [
             'form' => $prepareMailForm->createView(),
             'users' => $users
         ]);

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Festival;
 use App\Entity\User;
 use App\Repository\FestivalRepository;
 use App\Repository\TeamRepository;
@@ -10,7 +9,6 @@ use App\Repository\UserRepository;
 use App\Repository\VolunteerAvailabilityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,7 +24,6 @@ class IndexController extends AbstractController
         FestivalRepository $festivalRepository,
         TeamRepository $teamRepository,
         UserRepository $userRepository,
-        VolunteerAvailabilityRepository $availabilityRepository,
         SessionInterface $session,
         Request $request
     )

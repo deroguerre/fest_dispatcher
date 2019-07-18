@@ -7,9 +7,6 @@
 {% block body %}
     <h1 class="h3 mb-4 text-gray-800"> Préparation de l'email</h1>
 
-    <a href="{{ path('volunteer_availability_new', {festival:"5", user:"27" }) }}" class="btn btn-warming">TEST NEW
-        CONTROLLER</a>
-
     {{ form_start(form) }}
     {{ form_row(form.title) }}
     {{ form_row(form.body, {value: '
