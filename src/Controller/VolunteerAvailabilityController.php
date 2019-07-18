@@ -197,15 +197,11 @@ class VolunteerAvailabilityController extends AbstractController
 //                    $mailer->send($mail);
 //                }
 
-                $customAvailabilityUrl = $this->generateUrl('volunteer_availability_new', array(
-                    'festival' => $festival->getId(),
-                    'user' => 10
-                ), UrlGeneratorInterface::ABSOLUTE_URL);
+                $user = $userRepository->find('1');
 
-                $finalBody = $data['body'] . "<br>Saisir ses disponibilités : $customAvailabilityUrl";
+                $success = $emailHelper->NotifyForAvailability($data['title'], $data['body'], $user);
 
-                $success = $emailHelper->NotifyForAvailability($data['title'], $finalBody, "deroguerre@gmail.com");
-
+//                $success = 1; // to test, delete it for prod
                 if($success > 0) {
                     $this->addFlash('success', 'Votre email a bien été envoyé');
                 } else {
