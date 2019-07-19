@@ -4,13 +4,13 @@ framework:
             type: 'workflow'
             marking_store:
                 type: 'multiple_state'
+            supports:
+                -App\Entity\User
+                -App\Entity\Team
+                -App\Entity\Festival
+                -App\Entity\Job
+                -App\Entity\VolunteerAvailibility
             initial_place: 'initial_festival'
-                supports:
-                    -App\Entity\User
-                    -App\Entity\Team
-                    -App\Entity\Festival
-                    -App\Entity\Job
-                    -App\Entity\VolunteerAvailibility
             places:
                 -initial_festival
                 -initial_team
@@ -44,5 +44,28 @@ framework:
                     from: plannification_ok
                     to: festival_finish
 
+        volunteer_avavailibilities:
+            type: 'workflow'
+            marking_store:
+                type: 'single_state'
+            supports:
+                - App\Entity\User
+                - App\Entity\VolunteerAvailability
+            initial_place: prepare_email
+            places:
+                -prepare_email
+                -send_email
+                -volunteer_Availabilities
+                -save_availabilities
+            transitions:
+                draft_email
+                    from: send_email
+                    to: prepare_email
+                form_deployed
+                    from: volunteer_Availabilities
+                    to: send_email
+                volunteers_answers
+                    from: save_availabilities
+                    to: volunteer_Availabilities
 
 
