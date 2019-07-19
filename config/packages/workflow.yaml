@@ -1,0 +1,48 @@
+framework:
+    workflows:
+        festival:
+            type: 'workflow'
+            marking_store:
+                type: 'multiple_state'
+            initial_place: 'initial_festival'
+                supports:
+                    -App\Entity\User
+                    -App\Entity\Team
+                    -App\Entity\Festival
+                    -App\Entity\Job
+                    -App\Entity\VolunteerAvailibility
+            places:
+                -initial_festival
+                -initial_team
+                -initial_manager
+                -base_festival_set
+                -prepare_email_availabilities
+                -volunteer_availibilites_ok
+                -create_job
+                -plannification_ok
+                -festival_finish
+            Transitions:
+                create_festival
+                    from: initial_festival
+                    to: initial_team
+                create_team
+                    from: initial_team
+                    to: initial_manager
+                create_manager
+                    from: initial_manager
+                    to: base_festival_set
+                send_email
+                    from: base_festival_set
+                    to: prepare_email_availabilities
+                answer_email
+                    from: prepare_email_availabilities
+                    to: volunteer_availibilites_ok
+                create_job
+                    from: volunteer_availibilites_ok
+                    to: plannification_ok
+                festival_closed
+                    from: plannification_ok
+                    to: festival_finish
+
+
+
