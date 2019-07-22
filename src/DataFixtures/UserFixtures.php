@@ -27,24 +27,6 @@ class UserFixtures extends Fixture
 
         $faker = Factory::create("fr_FR");
 
-        for ($i = 0; $i < self::COUNT; $i++) {
-            $user = new User();
-
-            $user->setFirstname($faker->firstName)
-                ->setLastname($faker->lastName)
-                ->setEmail($faker->email)
-                ->setAddress($faker->address)
-                ->setZipcode($faker->postcode)
-                ->setCountry($faker->country)
-                ->setPassword($this->userPasswordEncorder->encodePassword(
-                    $user,
-
-                    'password'
-                ));
-
-            $manager->persist($user);
-            $this->addReference('user' .$i, $user);
-        }
         // personnal user
         $user = new User();
 
@@ -63,6 +45,26 @@ class UserFixtures extends Fixture
             ));
 
         $manager->persist($user);
+
+        // others users
+        for ($i = 0; $i < self::COUNT; $i++) {
+            $user = new User();
+
+            $user->setFirstname($faker->firstName)
+                ->setLastname($faker->lastName)
+                ->setEmail($faker->email)
+                ->setAddress($faker->address)
+                ->setZipcode($faker->postcode)
+                ->setCountry($faker->country)
+                ->setPassword($this->userPasswordEncorder->encodePassword(
+                    $user,
+
+                    'password'
+                ));
+
+            $manager->persist($user);
+            $this->addReference('user' .$i, $user);
+        }
 
         $manager->flush();
     }

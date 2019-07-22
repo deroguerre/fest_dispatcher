@@ -9,10 +9,16 @@
 
     {{ form_start(form) }}
     {{ form_row(form.title) }}
-    {{ form_row(form.body) }}
+    {{ form_row(form.body, {value: '
+        Bonjour à toutes et tous,<br>
+        si tu reçois ce mail c’est que tu as déjà été bénévole la ou les années précédentes.<br><br>
+        Tu es donc prioritaire pour t’inscrire ! Toutefois, nous te demandons de respecter les délais d’inscription afin que nous puissions, en temps et en heure, compléter les équipes en fonction des besoins.<br>
+        Tu trouvera dans ce mail un lien afin que tu puisse nous donner tes disponibilités.<br><br>
+        Les formulaires des disponibilités qui suit devra être rempli avant le ... !
+    '}) }}
 
     <input type="hidden" name="ignoredUsers">
-    
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Liste bénévoles</h6>
@@ -31,7 +37,7 @@
                     {% for user in users %}
                         <tr>
                             <td class="align-content-center" style="width: 10px;">
-                                <input type="checkbox"  class="volunteers-checkbox" value="{{user.id}}" checked>
+                                <input type="checkbox" class="volunteers-checkbox" value="{{ user.id }}" checked>
                             </td>
                             <td>{{ user.firstname }}</td>
                             <td>{{ user.lastname }}</td>
@@ -39,8 +45,6 @@
                     {% endfor %}
                     </tbody>
                 </table>
-
-                <a href="{{ path('volunteer_availability_new', {festival:"5", user:"31" }) }}" class="btn btn-warming">TEST NEW CONTROLLER</a>
             </div>
         </div>
     </div>
