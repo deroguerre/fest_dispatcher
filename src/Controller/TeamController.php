@@ -22,8 +22,19 @@ class TeamController extends AbstractController
     {
         $teams = $teamRepository->findAllAscByFestival();
 
-        dump($teams);
-//        die;
+
+        /** @var Team $team */
+        foreach ($teams as $team) {
+            $nbVolunteers = count($team->getVolunteers());
+
+            if($nbVolunteers > 0 && $team->getNeededVolunteers() > 0) {
+                $filling = round(($nbVolunteers / $team->getNeededVolunteers()) * 100, 0);
+            } else {
+                $filling = 0;
+            }
+
+            $team->{"filling"} = $filling;
+        }
 
         return $this->render('team/index.html.twig', [
             'teams' => $teams,
@@ -39,8 +50,8 @@ class TeamController extends AbstractController
 
         $team = new Team();
         $form = $this->createForm(TeamType::class, $team);
-        $form->handleRequest($request);
         $form->get('backgroundColor')->setData($defaultTeamColor);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -93,7 +104,7 @@ class TeamController extends AbstractController
      */
     public function delete(Request $request, Team $team): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $team->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($team);
             $entityManager->flush();

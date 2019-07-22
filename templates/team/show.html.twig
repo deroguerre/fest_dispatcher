@@ -7,26 +7,39 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ team.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ team.name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ team.description }}</td>
-            </tr>
-            <tr>
-                <th>BackgroundColor</th>
-                <td>{{ team.backgroundColor }}</td>
-            </tr>
-            <tr>
-                <th>NeededVolunteers</th>
-                <td>{{ team.neededVolunteers }}</td>
-            </tr>
+{#        <tr>#}
+{#            <th>Id</th>#}
+{#            <td>{{ team.id }}</td>#}
+{#        </tr>#}
+        <tr>
+            <th>{% trans %}Name{% endtrans %}</th>
+            <td>{{ team.name }}</td>
+        </tr>
+        <tr>
+            <th>{% trans %}Description{% endtrans %}</th>
+            <td>{{ team.description }}</td>
+        </tr>
+        <tr>
+            <th>{% trans %}Background color{% endtrans %}</th>
+            <td>{{ team.backgroundColor }}</td>
+        </tr>
+        <tr>
+            <th>{% trans %}Needed volunteers{% endtrans %}</th>
+            <td>{{ team.neededVolunteers }}</td>
+        </tr>
+        <tr>
+            <th>{% trans %}Volunteers{% endtrans %}</th>
+            <td>
+                <ul class="list-group">
+                    {% for volunteer in team.volunteers %}
+                        <li class="list-group-item">
+                            {{ volunteer.firstname }} {{ volunteer.lastname }}
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </td>
+        </tr>
         </tbody>
     </table>
 

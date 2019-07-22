@@ -2,14 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\Festival;
 use App\Entity\Job;
+use App\Entity\Team;
+use App\Entity\User;
+use App\Entity\VolunteerAvailability;
 use App\Form\JobType;
+use App\Repository\FestivalRepository;
 use App\Repository\JobRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
+use App\Repository\VolunteerAvailabilityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,14 +37,42 @@ class JobController extends AbstractController
     /**
      * @Route("/new", name="job_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(
+        Request $request,
+        FestivalRepository $festivalRepository,
+        VolunteerAvailabilityRepository $volunteerAvailabilityRepository,
+        SessionInterface $session
+    ): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
+
         $job = new Job();
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+
+            /** @var User $user */
+            $user = $job->getUser();
+            /** @var Team $team */
+            $team = $job->getTeam();
+            /** @var Festival $festival */
+            $festival = $team->getFestival();
+
+
+            if (!$team->getVolunteers()->contains($user)) {
+                $team->addVolunteer($user);
+            }
+
+            //add default availability for user if not exist
+            if (!$volunteerAvailabilityRepository->findOneBy(['festival' => $festival, 'user' => $user])) {
+                $availability = new VolunteerAvailability();
+                $availability
+                    ->setUser($user)
+                    ->setFestival($festival);
+                $entityManager->persist($availability);
+            }
+
             $entityManager->persist($job);
             $entityManager->flush();
 
@@ -58,7 +93,15 @@ class JobController extends AbstractController
      * @Route("/ajax_new", name="ajax_job_new", methods={"POST"}, options={"expose"=true})
      * @throws \Exception
      */
-    public function newFromAjax(Request $request, TeamRepository $teamRepository, UserRepository $userRepository): Response
+    public
+    function newFromAjax(
+        Request $request,
+        TeamRepository $teamRepository,
+        UserRepository $userRepository,
+        FestivalRepository $festivalRepository,
+        SessionInterface $session,
+        VolunteerAvailabilityRepository $volunteerAvailabilityRepository
+    ): Response
     {
 
         if ($request->isXmlHttpRequest()) {
@@ -79,6 +122,28 @@ class JobController extends AbstractController
                 ->setEndDate($endDate)
                 ->setBackgroundColor($backgroundColor);
 
+            //add user to team
+            if (!$team->getVolunteers()->contains($user)) {
+                $team->addVolunteer($user);
+            }
+
+            //useless ???
+//            if ($session->get('current-festival-id')) {
+//
+//                /** @var Festival $festival */
+//                $festival = $festivalRepository->find($session->get('current-festival-id'));
+//
+//                //add default availability for user if not exist
+//                if (!$volunteerAvailabilityRepository->findOneBy(['festival' => $festival, 'user' => $user])) {
+//                    $availability = new VolunteerAvailability();
+//                    $availability
+//                        ->setUser($job->getUser())
+//                        ->setFestival($festival);
+//                }
+//            } else {
+//                return new Response('no festival selected');
+//            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($job);
             $entityManager->flush();
@@ -98,7 +163,8 @@ class JobController extends AbstractController
     /**
      * @Route("/{id}", name="job_show", methods={"GET"})
      */
-    public function show(Job $job): Response
+    public
+    function show(Job $job): Response
     {
         return $this->render('job/show.html.twig', [
             'job' => $job,
@@ -108,7 +174,8 @@ class JobController extends AbstractController
     /**
      * @Route("/{id}/edit", name="job_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Job $job): Response
+    public
+    function edit(Request $request, Job $job): Response
     {
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
@@ -133,7 +200,8 @@ class JobController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function editFromAjax(Request $request, JobRepository $jobRepository)
+    public
+    function editFromAjax(Request $request, JobRepository $jobRepository)
     {
         if ($request->isXmlHttpRequest()) {
 
@@ -165,7 +233,8 @@ class JobController extends AbstractController
     /**
      * @Route("/{id}", name="job_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Job $job): Response
+    public
+    function delete(Request $request, Job $job): Response
     {
         if ($this->isCsrfTokenValid('delete' . $job->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -184,7 +253,8 @@ class JobController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function removeFromAjax(Request $request, JobRepository $jobRepository)
+    public
+    function removeFromAjax(Request $request, JobRepository $jobRepository)
     {
         if ($request->isXmlHttpRequest()) {
 

@@ -53,6 +53,7 @@ $(document).ready(function () {
         type: "GET",
         url: window.location.href + "api/jobs",
         dataType: "json",
+        async: false,
         success: function (jobs) {
             jobs.forEach(function (event) {
                 let currEvent = {
@@ -64,11 +65,21 @@ $(document).ready(function () {
                 };
                 calendar.addEvent(currEvent)
             });
+
+            //event color switcher btn
+            $('.fc-header-toolbar').after('<button class="btn btn-primary btn-sm mb-2 event-color-switch">disable color</button>');
         }
     });
 
     // click on save btn
     $('#new-job-save').on('click', function () {
+
+        //user input control
+        if (!$('#new-job-users option:selected').get().length > 0) {
+
+            $('#new-job-users').addClass("is-invalid");
+            return;
+        }
 
         var that = this;
         var spinner = $('.spinner-border');
@@ -91,7 +102,7 @@ $(document).ready(function () {
             console.log("team", team);
 
             let job = {
-                title: user.text,
+                title: team.text().toUpperCase() + ': ' + user.text,
                 team: team.val(),
                 user: user.value,
                 startDate: start,
@@ -229,5 +240,28 @@ $(document).ready(function () {
             }
         });
     }
+
+    //event color switcher
+    $('.event-color-switch').on('click', function () {
+        if ($(this).hasClass("toggled")) {
+            $(this).removeClass("toggled");
+            $('.fc-event').each(function () {
+                $(this).css("background-color", $(this).data("color"));
+                $(this).css("border-color", $(this).data("color"));
+            });
+        } else {
+            $(this).addClass("toggled");
+            $('.fc-event').each(function (index) {
+                $(this).data("color", this.style.backgroundColor);
+                $(this).css("background-color", "#4e73df");
+                $(this).css("border-color", "#4e73df");
+            });
+        }
+    });
+
+    //event control user is selected
+    $('#new-job-users').change(function () {
+        $(this).removeClass("is-invalid");
+    });
 
 });

@@ -1,10 +1,12 @@
 add: ajouter
+Address : Adresse
 All users: Tous les utilisateurs
 to: au
 Background color: Couleur
 back to list: retour à la liste
 close: fermer
 Color: Couleur
+Country: Pays
 Create new: Ajouter
 Create new Team: Ajouter une équipe
 Delete: Supprimer
@@ -13,7 +15,9 @@ edit: modifier
 End: Fin
 Festival *: Festival *
 Filling of team: Remplissage de l'équipe
+Firstname: Prenom
 from: du
+Lastname: Nom
 Logout: Déconnexion
 Managers *: Managers *
 Members: Membres
@@ -25,11 +29,13 @@ Needed volunteers: Bénévoles nécessaires
 New Team: Ajouter une équipe
 no teams found: aucune équipe trouvée
 Parameters: Paramètres
+Phone: Téléphone
 Register: S'inscrire
 Save: Enregistrer
 Search: Rechercher
 Select festival: Selectionner un festival
 StartDate: Date de début
+Skills: Compétences
 EndDate: Date de fin
 Sign in: Se connecter
 Start: Début
@@ -37,4 +43,5 @@ Team: Equipe
 Teams: Equipes
 Users: Utilisateurs
 Volunteers: Bénévoles
+Zipcode: Code postale
 
