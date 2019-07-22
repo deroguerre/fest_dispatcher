@@ -7,10 +7,6 @@
 
     <table class="table">
         <tbody>
-{#        <tr>#}
-{#            <th>Id</th>#}
-{#            <td>{{ team.id }}</td>#}
-{#        </tr>#}
         <tr>
             <th>{% trans %}Name{% endtrans %}</th>
             <td>{{ team.name }}</td>
@@ -20,8 +16,23 @@
             <td>{{ team.description }}</td>
         </tr>
         <tr>
+            <th>{% trans %}Managers{% endtrans %}</th>
+            <td>
+                <ul class="list-group">
+                    {% for volunteer in team.managers %}
+                        <li class="list-group-item">
+                            {{ volunteer.firstname }} {{ volunteer.lastname }}
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </td>
+        </tr>
+        <tr>
             <th>{% trans %}Background color{% endtrans %}</th>
-            <td>{{ team.backgroundColor }}</td>
+            <td>
+                <div class="" style="background-color: {{ team.backgroundColor }}; width: 30px; height: 30px"></div>
+            </td>
         </tr>
         <tr>
             <th>{% trans %}Needed volunteers{% endtrans %}</th>
@@ -43,11 +54,16 @@
         </tbody>
     </table>
 
+    <a class="btn btn-outline-primary"
+       href="{{ path('team_edit', {'id': team.id}) }}">{% trans %}Edit{% endtrans %}</a>
 
-    <a class="btn btn-outline-primary" href="{{ path('team_index') }}">{% trans %}back to list{% endtrans %}</a>
+    <form class="" style="display: inline" method="post" action="{{ path('team_delete', {'id': team.id}) }}" onsubmit="return confirm('{% trans %}Are you sure you want to delete this team?{% endtrans %}');">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ team.id) }}">
+        <button class="btn btn-outline-danger">{% trans %}Delete{% endtrans %}</button>
+    </form>
 
-    <a class="btn btn-outline-primary" href="{{ path('team_edit', {'id': team.id}) }}">{% trans %}edit{% endtrans %}</a>
-
-    {{ include('team/_delete_form.html.twig') }}
+    <a class="btn btn-outline-secondary float-right"
+       href="{{ path('team_index') }}">{% trans %}Back to list{% endtrans %}</a>
 
 {% endblock %}

@@ -79,7 +79,7 @@ class Team
     private $neededVolunteers;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Job", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="App\Entity\Job", mappedBy="team", cascade={"remove"})
      * @Groups("festival")
      */
     private $jobs;

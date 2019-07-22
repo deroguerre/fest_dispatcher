@@ -46,11 +46,9 @@ class TeamController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $defaultTeamColor = '#3c62d1';
 
         $team = new Team();
         $form = $this->createForm(TeamType::class, $team);
-        $form->get('backgroundColor')->setData($defaultTeamColor);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -88,7 +86,7 @@ class TeamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('team_index', [
+            return $this->redirectToRoute('team_show', [
                 'id' => $team->getId(),
             ]);
         }

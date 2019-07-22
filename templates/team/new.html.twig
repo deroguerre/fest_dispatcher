@@ -12,9 +12,8 @@
     {{ form_row(form.managers) }}
     {{ form_row(form.volunteers) }}
     {{ form_row(form.neededVolunteers) }}
-    {{ form_row(form.backgroundColor) }}
+    {{ form_row(form.backgroundColor, {'value': "#3c62d1"}) }}
+    <button class="btn btn-outline-primary">{% trans %}Save{% endtrans %}</button>
     {{ form_end(form) }}
-
-    {{ include('team/_form.html.twig') }}
 
 {% endblock %}

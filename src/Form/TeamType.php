@@ -30,12 +30,14 @@ class TeamType extends AbstractType
             ->add('managers', EntityType::class, [
                 'class' => User::class,
                 'label' => 'Managers',
-                'multiple' => true
+                'multiple' => true,
+                'required' => false
             ])
             ->add('volunteers', EntityType::class, [
                 'class' => User::class,
                 'label' => 'Volunteers',
-                'multiple' => true
+                'multiple' => true,
+                'required' => false
             ])
             ->add('neededVolunteers')
             ->add('backgroundColor', ColorType::class, [
