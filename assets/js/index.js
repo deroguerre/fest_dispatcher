@@ -49,27 +49,41 @@ $(document).ready(function () {
     calendar.render();
 
     // populate fullcalendar with jobs
-    $.ajax({
-        type: "GET",
-        url: window.location.href + "api/jobs",
-        dataType: "json",
-        async: false,
-        success: function (jobs) {
-            jobs.forEach(function (event) {
-                let currEvent = {
-                    id: event.id,
-                    title: event.title,
-                    start: event.startDate,
-                    end: event.endDate,
-                    color: event.backgroundColor
-                };
-                calendar.addEvent(currEvent)
-            });
-
-            //event color switcher btn
-            $('.fc-header-toolbar').after('<button class="btn btn-primary btn-sm mb-2 event-color-switch">disable color</button>');
-        }
+    let jobs = $('#data-from-twig').data('jobs-by-festival');
+    jobs.forEach(function (event) {
+        let currEvent = {
+            id: event.id,
+            title: event.title,
+            start: event.startDate,
+            end: event.endDate,
+            color: event.backgroundColor
+        };
+        calendar.addEvent(currEvent)
     });
+
+    // populate fullcalendar with jobs
+    // $.ajax({
+    //     type: "GET",
+    //     url: window.location.href + "api/jobs",
+    //     dataType: "json",
+    //     async: false,
+    //     success: function (jobs) {
+    //         jobs.forEach(function (event) {
+    //             let currEvent = {
+    //                 id: event.id,
+    //                 title: event.title,
+    //                 start: event.startDate,
+    //                 end: event.endDate,
+    //                 color: event.backgroundColor
+    //             };
+    //             calendar.addEvent(currEvent)
+    //         });
+    //
+    //         //event color switcher btn
+    //     }
+    // });
+
+    $('.fc-header-toolbar').after('<button class="btn btn-primary btn-sm mb-2 event-color-switch">disable color</button>');
 
     // click on save btn
     $('#new-job-save').on('click', function () {

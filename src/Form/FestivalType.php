@@ -21,10 +21,14 @@ class FestivalType extends AbstractType
             ->add('startDate', DateType::class, [
                 'label' => 'Début',
                 'required' => false,
+                'html5' => true,
+                'widget' => 'single_text',
             ])
             ->add('endDate', DateType::class, [
                 'label' => 'Fin',
                 'required' => false,
+                'html5' => true,
+                'widget' => 'single_text',
             ])
             ->add('address', TextType::class, [
                 'label' => 'Adresse',

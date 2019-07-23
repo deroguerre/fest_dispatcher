@@ -23,6 +23,10 @@
         </a>
 
         {% if app.user %}
+
+{#            {{ dump(render(controller('App\\Controller\\FestivalController::displayCurrentFestival'))) }}#}
+{#            {{ dump(app.session.get('current-festival-id')) }}#}
+
             {% if render(controller('App\\Controller\\FestivalController::displayCurrentFestival')) == "" %}
                 <a href="{{ path('app_index_index') }}" class="btn btn-warning btn-icon-split selected-fest">
                     <span class="icon text-white-50">

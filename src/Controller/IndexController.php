@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Festival;
+use App\Entity\Job;
+use App\Entity\Team;
 use App\Entity\User;
 use App\Repository\FestivalRepository;
+use App\Repository\JobRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
 use App\Repository\VolunteerAvailabilityRepository;
@@ -11,6 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 
 class IndexController extends AbstractController
@@ -24,34 +30,46 @@ class IndexController extends AbstractController
         FestivalRepository $festivalRepository,
         TeamRepository $teamRepository,
         UserRepository $userRepository,
+        JobRepository $jobRepository,
         SessionInterface $session,
+        SerializerInterface $serializer,
         Request $request
     )
     {
-        $renderData = [];
+        $rendererData = [];
 
         $festivals = $festivalRepository->findAll();
-        $renderData['festivals'] = $festivals;
+        $rendererData['festivals'] = $festivals;
 
         $currentFestival = null;
         if ($session->get('current-festival-id') != null) {
+
+            /** @var Festival $festival */
             $festival = $festivalRepository->find($session->get('current-festival-id'));
             $currentFestival = $festival;
-            $renderData['currentFestival'] = $currentFestival;
+            $rendererData['currentFestival'] = $currentFestival;
 
+            /** @var Team $teams */
             $teams = $teamRepository->findBy(['festival' => $currentFestival]);
-            $renderData['teams'] = $teams;
+            $rendererData['teams'] = $teams;
 
             /** @var User $volunteers */
             $volunteers = $userRepository->findVolunteersByFestival($festival);
-            $renderData['volunteers'] = $volunteers;
+            $rendererData['volunteers'] = $volunteers;
+
+            /** @var Job $jobs */
+            $jobs = $jobRepository->findByFestival($festival);
+            $rendererData['jobs'] = $serializer->serialize($jobs, 'json');
+
+//            dump($rendererData['jobs']);
+//            die;
 
         }
 
 //        $request->setLocale('en');
         dump($request->getLocale());
 
-        return $this->render('index/index.html.twig', $renderData);
+        return $this->render('index/index.html.twig', $rendererData);
     }
 
     /**

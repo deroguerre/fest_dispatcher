@@ -19,6 +19,16 @@ class JobRepository extends ServiceEntityRepository
         parent::__construct($registry, Job::class);
     }
 
+    public function findByFestival($festival) {
+
+        return $this->createQueryBuilder('j')
+            ->join('j.team', 't')
+            ->where('t.festival = :id')
+            ->setParameter('id', $festival)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Job[] Returns an array of Job objects
     //  */

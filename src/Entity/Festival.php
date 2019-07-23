@@ -74,12 +74,12 @@ class Festival
     private $country;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\VolunteerAvailability", mappedBy="festival")
+     * @ORM\OneToMany(targetEntity="App\Entity\VolunteerAvailability", mappedBy="festival", cascade={"remove"})
      */
     private $volunteerAvailabilities;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="festival")
+     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="festival", cascade={"remove"})
      */
     private $teams;
 

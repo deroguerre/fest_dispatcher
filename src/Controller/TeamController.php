@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Festival;
 use App\Entity\Team;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -18,10 +20,18 @@ class TeamController extends AbstractController
     /**
      * @Route("/", name="team_index", methods={"GET"})
      */
-    public function index(TeamRepository $teamRepository): Response
+    public function index(TeamRepository $teamRepository, SessionInterface $session): Response
     {
-        $teams = $teamRepository->findAllAscByFestival();
+        $currentFestival = $session->get("current-festival-id");
 
+        dump($currentFestival);
+//        die;
+
+        if($currentFestival != null) {
+            $teams = $teamRepository->findByFestival($currentFestival);
+        } else {
+            $teams = $teamRepository->findAllAscByFestival();
+        }
 
         /** @var Team $team */
         foreach ($teams as $team) {

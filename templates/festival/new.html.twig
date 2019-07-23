@@ -3,9 +3,15 @@
 {% block title %}New Festival{% endblock %}
 
 {% block body %}
-    <h1 class="h3 mb-4 text-gray-800">Create new Festival</h1>
+    <h1 class="h3 mb-4 text-gray-800">{% trans %}Create new Festival{% endtrans %}</h1>
 
-    {{ include('festival/_form.html.twig') }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_row(form.startDate) }}
+    {{ form_row(form.endDate) }}
+    <button class="btn btn-outline-primary">{% trans %}Save{% endtrans %}</button>
+    <a href="{{ path('festival_index') }}"
+       class="btn btn-outline-secondary float-right">{% trans %}Back to list{% endtrans %}</a>
+    {{ form_end(form) }}
 
-    <a href="{{ path('festival_index') }}" class="btn btn-secondary">back to list</a>
 {% endblock %}

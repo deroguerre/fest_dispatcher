@@ -22,10 +22,10 @@ class FestivalController extends AbstractController
 
     public function __construct(SessionInterface $session, FestivalRepository $festivalRepository)
     {
-        if ($session->get('current-festival-id') != null) {
-            $festival = $festivalRepository->find($session->get('current-festival-id'));
-            $this->currentFestival = $festival;
-        }
+//        if ($session->get('current-festival-id') != null) {
+//            $festival = $festivalRepository->find($session->get('current-festival-id'));
+//            $this->currentFestival = $festival;
+//        }
     }
 
     /**
@@ -57,6 +57,7 @@ class FestivalController extends AbstractController
             $entityManager->persist($festival);
             $entityManager->flush();
 
+            $this->addFlash('success', "Le festival " . $festival->getName() . " est enregistré");
             return $this->redirectToRoute('festival_index');
         }
 
@@ -129,18 +130,31 @@ class FestivalController extends AbstractController
     public function select(Festival $festival, SessionInterface $session)
     {
         $session->set('current-festival-id', $festival->getId());
+        $this->currentFestival = $festival;
         return $this->redirectToRoute('app_index_index');
     }
 
     /**
      * @return Response
      */
-    public function displayCurrentFestival()
+    public function displayCurrentFestival(SessionInterface $session, FestivalRepository $festivalRepository)
     {
         $response = new Response();
-        if ($this->currentFestival != null) {
+
+        //display if current festival exist
+        if($this->currentFestival != null) {
             $response->setContent($this->currentFestival->getName());
+        } else {
+            //check in the session
+            $currentFestivalId = $session->get('current-festival-id');
+            if ($currentFestivalId != null) {
+
+                $this->currentFestival = $festivalRepository->find($currentFestivalId);
+                $response->setContent($this->currentFestival->getName());
+            }
         }
+
+
         return $response;
     }
 
@@ -154,6 +168,5 @@ class FestivalController extends AbstractController
         $session->clear();
         return $this->redirectToRoute("app_index_index");
     }
-
 
 }
