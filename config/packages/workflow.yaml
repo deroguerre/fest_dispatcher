@@ -1,6 +1,6 @@
 framework:
     workflows:
-        volunteers_availibilities_workflow:
+        volunteers_availabilities_workflow:
             type: 'workflow'
             marking_store:
                 type: 'single_state'
