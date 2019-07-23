@@ -44,7 +44,7 @@ framework:
                     from: plannification_ok
                     to: festival_finish
 
-        volunteer_avavailibilities:
+        volunteer_availibilities_workflow:
             type: 'workflow'
             marking_store:
                 type: 'single_state'
