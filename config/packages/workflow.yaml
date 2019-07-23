@@ -1,71 +1,26 @@
 framework:
     workflows:
-        festival:
-            type: 'workflow'
-            marking_store:
-                type: 'multiple_state'
-            supports:
-                -App\Entity\User
-                -App\Entity\Team
-                -App\Entity\Festival
-                -App\Entity\Job
-                -App\Entity\VolunteerAvailibility
-            initial_place: 'initial_festival'
-            places:
-                -initial_festival
-                -initial_team
-                -initial_manager
-                -base_festival_set
-                -prepare_email_availabilities
-                -volunteer_availibilites_ok
-                -create_job
-                -plannification_ok
-                -festival_finish
-            Transitions:
-                create_festival
-                    from: initial_festival
-                    to: initial_team
-                create_team
-                    from: initial_team
-                    to: initial_manager
-                create_manager
-                    from: initial_manager
-                    to: base_festival_set
-                send_email
-                    from: base_festival_set
-                    to: prepare_email_availabilities
-                answer_email
-                    from: prepare_email_availabilities
-                    to: volunteer_availibilites_ok
-                create_job
-                    from: volunteer_availibilites_ok
-                    to: plannification_ok
-                festival_closed
-                    from: plannification_ok
-                    to: festival_finish
-
-        volunteer_availibilities_workflow:
+        volunteers_availibilities_workflow:
             type: 'workflow'
             marking_store:
                 type: 'single_state'
             supports:
-                - App\Entity\User
                 - App\Entity\VolunteerAvailability
             initial_place: prepare_email
             places:
                 -prepare_email
                 -send_email
-                -volunteer_Availabilities
+                -Answers_volunteers_Availabilities
                 -save_availabilities
             transitions:
                 draft_email
-                    from: send_email
-                    to: prepare_email
-                form_deployed
-                    from: volunteer_Availabilities
+                    from: prepare_email
                     to: send_email
+                form_deployed
+                    from: send_email
+                    to: Answers_volunteers_Availabilities
                 volunteers_answers
-                    from: save_availabilities
-                    to: volunteer_Availabilities
+                    from: Answers_volunteers_Availabilities
+                    to: save_availabilities
 
 
