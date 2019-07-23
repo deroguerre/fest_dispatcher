@@ -28,11 +28,16 @@ class TeamType extends AbstractType
                 'label' => 'Festival *'
             ])
             ->add('managers', EntityType::class, [
-                'class' => Team::class,
-                'label' => 'Managers'
+                'class' => User::class,
+                'label' => 'Managers',
+                'multiple' => true,
+                'required' => false
             ])
             ->add('volunteers', EntityType::class, [
-                'class' => User::class
+                'class' => User::class,
+                'label' => 'Volunteers',
+                'multiple' => true,
+                'required' => false
             ])
             ->add('neededVolunteers')
             ->add('backgroundColor', ColorType::class, [

@@ -12,9 +12,8 @@
     {{ form_row(form.managers) }}
     {{ form_row(form.volunteers) }}
     {{ form_row(form.neededVolunteers) }}
-    {{ form_row(form.backgroundColor) }}
+    {{ form_row(form.backgroundColor, {'value': "#3c62d1"}) }}
+    <button class="btn btn-outline-primary">{% trans %}Save{% endtrans %}</button>
+    {{ form_end(form) }}
 
-{#    {{ include('team/_form.html.twig') }}#}
-    <button class="btn btn-outline-success mb-4">{% trans %}Save{% endtrans %}</button>
-    <a class="btn btn-outline-primary mb-4" href="{{ path('team_index') }}">{% trans %}back to list{% endtrans %}</a>
 {% endblock %}

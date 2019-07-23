@@ -56,9 +56,10 @@ class Team
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Festival", inversedBy="teams")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $backgroundColor;
+    private $festival;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="teamsThatIManage")
@@ -78,13 +79,13 @@ class Team
     private $neededVolunteers;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Job", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="App\Entity\Job", mappedBy="team", cascade={"remove"})
      * @Groups("festival")
      */
     private $jobs;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="team", cascade={"remove"})
      */
     private $notes;
 
@@ -94,10 +95,10 @@ class Team
     private $subteams;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Festival", inversedBy="teams")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=30, nullable=true)
      */
-    private $festival;
+    private $backgroundColor;
+
 
     public function __construct()
     {
@@ -156,26 +157,57 @@ class Team
     }
 
     /**
-     * @return Collection|user[]|null
+     * @return Collection|User[]|null
      */
     public function getManagers(): ?Collection
     {
         return $this->managers;
     }
 
-    public function addManager(user $manager): self
+
+    public function addManager(User $manager): self
     {
         if (!$this->managers->contains($manager)) {
             $this->managers[] = $manager;
+            $manager->addTeamThatIManage($this);
         }
 
         return $this;
     }
 
-    public function removeManager(user $manager): self
+    public function removeManager(User $manager): self
     {
         if ($this->managers->contains($manager)) {
             $this->managers->removeElement($manager);
+            $manager->removeTeamThatIManage($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]|null
+     */
+    public function getVolunteers(): ?Collection
+    {
+        return $this->volunteers;
+    }
+
+    public function addVolunteer(User $volunteer): self
+    {
+        if (!$this->volunteers->contains($volunteer)) {
+            $this->volunteers[] = $volunteer;
+            $volunteer->addTeamThatIHelp($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVolunteer(User $volunteer): self
+    {
+        if ($this->volunteers->contains($volunteer)) {
+            $this->volunteers->removeElement($volunteer);
+            $volunteer->removeTeamThatIHelp($this);
         }
 
         return $this;
@@ -282,32 +314,6 @@ class Team
     public function setFestival(?Festival $festival): self
     {
         $this->festival = $festival;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]|null
-     */
-    public function getVolunteers(): ?Collection
-    {
-        return $this->volunteers;
-    }
-
-    public function addVolunteer(User $volunteer): self
-    {
-        if (!$this->volunteers->contains($volunteer)) {
-            $this->volunteers[] = $volunteer;
-        }
-
-        return $this;
-    }
-
-    public function removeVolunteer(User $volunteer): self
-    {
-        if ($this->volunteers->contains($volunteer)) {
-            $this->volunteers->removeElement($volunteer);
-        }
 
         return $this;
     }

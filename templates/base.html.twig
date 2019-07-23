@@ -115,6 +115,18 @@
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            debug
+        </div>
+
+        <!-- Nav Item -Equipe -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('job_index') }}">
+                <i class="fas fa-wrench"></i>
+                <span>{% trans %}Jobs{% endtrans %}</span></a>
+        </li>
+
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -262,7 +274,7 @@
         <!-- End of Main Content -->
 
         <!-- Footer -->
-        <footer class="sticky-footer bg-white">
+        <footer class="sticky-footer bg-white mt-4">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
                     <span>Copyright &copy; FestDispatcher 2019</span>

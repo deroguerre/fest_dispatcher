@@ -29,11 +29,11 @@ class JobFixtures extends Fixture implements DependentFixtureInterface
             /** @var Team $team */
             $team = $this->getReference('team' . $nbTeam);
 
-            $startDate = $faker->dateTimeBetween($volunteerAvailability->getStartDate(), $volunteerAvailability->getEndDate())->setTime(rand(0,10), 0, 0);
-            $endDate = $faker->dateTimeBetween($startDate, $volunteerAvailability->getEndDate())->setTime(rand(11,23), 0, 0);
+            $startDate = $faker->dateTimeBetween($volunteerAvailability->getStartDate(), $volunteerAvailability->getEndDate())->setTime(rand(0, 10), 0, 0);
+            $endDate = $faker->dateTimeBetween($startDate, $volunteerAvailability->getEndDate())->setTime(rand(11, 23), 0, 0);
 
             $job = new Job();
-            $job->setTitle($user->getFirstname() . ' ' . $user->getLastname())
+            $job->setTitle(strtoupper($team->getName()) . ': ' . $user->getLastname() . ' ' . $user->getFirstname())
                 ->setUser($user)
                 ->setTeam($team)
                 ->setStartDate($startDate)
@@ -42,7 +42,7 @@ class JobFixtures extends Fixture implements DependentFixtureInterface
 
 
             $manager->persist($job);
-            $this->addReference('job'.$i, $job);
+            $this->addReference('job' . $i, $job);
         }
 
         $manager->flush();

@@ -3,42 +3,44 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h1 class="h3 mb-4 text-gray-800">Liste des contacts</h1>
 <div class="container"></div>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
+{#                <th>Id</th>#}
+                <th>{% trans %}Lastname{% endtrans %}</th>
+                <th>{% trans %}Firstname{% endtrans %}</th>
                 <th>Email</th>
 {#                <th>Password</th>#}
-                <th>Roles</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Zipcode</th>
-                <th>Country</th>
-                <th>Skills</th>
+{#                <th>Roles</th>#}
+                <th>{% trans %}Phone{% endtrans %}</th>
+                <th>{% trans %}Address{% endtrans %}</th>
+                <th>{% trans %}Zipcode{% endtrans %}</th>
+                <th>{% trans %}Country{% endtrans %}</th>
+                <th>{% trans %}Skills{% endtrans %}</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.firstname }}</td>
+{#                <td>{{ user.id }}</td>#}
                 <td>{{ user.lastname }}</td>
+                <td>{{ user.firstname }}</td>
                 <td>{{ user.email }}</td>
 {#                <td>{{ user.password }}</td>#}
-                <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>
+{#                <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>#}
                 <td>{{ user.phone }}</td>
                 <td>{{ user.address }}</td>
                 <td>{{ user.zipcode }}</td>
                 <td>{{ user.country }}</td>
                 <td>{{ user.skills ? user.skills|join(', ') : '' }}</td>
                 <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('user_show', {'id': user.id}) }}"><i
+                                class="far fa-eye"></i></a>
+                    <a class="btn btn-primary" href="{{ path('user_edit', {'id': user.id}) }}"><i
+                                class="far fa-edit"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -49,5 +51,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('user_new') }}">Create new</a>
+    <a class="btn btn-primary" href="{{ path('user_new') }}">{% trans %}Create new{% endtrans %}</a>
 {% endblock %}

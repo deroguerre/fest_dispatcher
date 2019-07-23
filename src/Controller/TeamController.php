@@ -22,8 +22,19 @@ class TeamController extends AbstractController
     {
         $teams = $teamRepository->findAllAscByFestival();
 
-        dump($teams);
-//        die;
+
+        /** @var Team $team */
+        foreach ($teams as $team) {
+            $nbVolunteers = count($team->getVolunteers());
+
+            if($nbVolunteers > 0 && $team->getNeededVolunteers() > 0) {
+                $filling = round(($nbVolunteers / $team->getNeededVolunteers()) * 100, 0);
+            } else {
+                $filling = 0;
+            }
+
+            $team->{"filling"} = $filling;
+        }
 
         return $this->render('team/index.html.twig', [
             'teams' => $teams,
@@ -35,12 +46,10 @@ class TeamController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $defaultTeamColor = '#3c62d1';
 
         $team = new Team();
         $form = $this->createForm(TeamType::class, $team);
         $form->handleRequest($request);
-        $form->get('backgroundColor')->setData($defaultTeamColor);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -77,7 +86,7 @@ class TeamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('team_index', [
+            return $this->redirectToRoute('team_show', [
                 'id' => $team->getId(),
             ]);
         }
@@ -93,7 +102,7 @@ class TeamController extends AbstractController
      */
     public function delete(Request $request, Team $team): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $team->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($team);
             $entityManager->flush();

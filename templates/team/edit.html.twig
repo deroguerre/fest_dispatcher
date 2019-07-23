@@ -5,25 +5,27 @@
 {% block body %}
     <h1 class="h3 mb-4 text-gray-800">{% trans %}Edit Team{% endtrans %}</h1>
 
-{#    {{ include('team/_form.html.twig', {'button_label': 'Update'}) }}#}
+    {#    {{ include('team/_form.html.twig', {'button_label': 'Update'}) }}#}
     {{ form_start(form) }}
     {{ form_row(form.name) }}
     {{ form_row(form.description) }}
+    {{ form_row(form.festival) }}
     {{ form_row(form.managers) }}
     {{ form_row(form.volunteers) }}
     {{ form_row(form.neededVolunteers) }}
     {{ form_row(form.backgroundColor) }}
-
-    <div class="text-right">
-        <button type="submit" class="btn btn-primary">
-            Enregistrer
-        </button>
-        <a href="{{ path('team_index') }}" class="btn btn-outline-secondary">
-            Retour
-        </a>
-    </div>
-
+    <button type="submit" class="btn btn-outline-primary">{% trans %}Save{% endtrans %}</button>
     {{ form_end(form) }}
 
-    {{ include('team/_delete_form.html.twig') }}
+    <form class="" style="display: inline" method="post" action="{{ path('team_delete', {'id': team.id}) }}"
+          onsubmit="return confirm('Are you sure you want to delete this item?');">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ team.id) }}">
+        <button class="btn btn-outline-danger">{% trans %}Delete{% endtrans %}</button>
+    </form>
+
+    <a href="{{ path('team_index') }}"
+       class="btn btn-outline-secondary float-right">{% trans %}Back to list{% endtrans %}</a>
+
+
 {% endblock %}

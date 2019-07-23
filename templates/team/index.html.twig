@@ -6,10 +6,8 @@
     <h1 class="h3 mb-4 text-gray-800">{% trans %}Teams{% endtrans %}</h1>
 
     <div class="row">
-        {% dump(teams) %}
-        {% for team in teams %}
 
-            {% dump(team) %}
+        {% for team in teams %}
 
             <div class="col-xl-3 col-md-6 mb-4">
                 <a href="{{ path('team_show', {'id': team.id}) }}" class="card shadow h-100 py-2"
@@ -19,20 +17,28 @@
                             <div class="col mr-2">
                                 <div class="h5 font-weight-bold text-info text-uppercase mb-3">{{ team.name }}</div>
                                 <div class="text-xs mb-0 mr-3 font-weight-bold text-gray-800">{% trans %}Festival : &nbsp;{% endtrans %}{{ team.festival }}</div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="text-xs mb-0 mr-3 font-weight-bold text-gray-800">{% trans %}Filling of team{% endtrans %}</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress progress-sm mr-2">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
-                                                 aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                {% if team.neededVolunteers > 0 %}
+
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto">
+                                            <div class="text-xs mb-0 mr-3 font-weight-bold text-gray-800">{% trans %}Filling of team{% endtrans %}</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="progress progress-sm mr-2">
+                                                <div class="progress-bar bg-info" role="progressbar"
+                                                     style="width: {{ team.filling }}%"
+                                                     aria-valuenow="{{ team.filling }}" aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
+
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>
@@ -77,6 +83,6 @@
     {#        </tbody>#}
     {#    </table>#}
 
-    <a class="btn btn-primary mb-4" href="{{ path('team_new') }}">{% trans %}Create new{% endtrans %}</a>
+    <a class="btn btn-outline-primary" href="{{ path('team_new') }}">{% trans %}Create new{% endtrans %}</a>
 
 {% endblock %}

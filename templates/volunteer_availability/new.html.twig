@@ -13,8 +13,15 @@
 
     {{ include('volunteer_availability/_form.html.twig') }}
 
+    {{ form_start(form) }}
+    {{ form_row(form.user) }}
+    {{ form_row(form.festival) }}
+    {{ form_row(form.startDate) }}
+    {{ form_row(form.endDate) }}
+    {{ form_end(form) }}
+
     {% if token is not defined %}
-        <a href="{{ path('volunteer_availability_index') }}">back to list</a>
+        <a href="{{ path('volunteer_availability_index') }}">{% trans %}back to list{% endtrans %}</a>
     {% endif %}
 
 {% endblock %}

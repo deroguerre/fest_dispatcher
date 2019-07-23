@@ -8,11 +8,12 @@
 //}
 
 .festival-card {
+  text-decoration: none !important;
   //cursor: pointer;
 }
 
 #calendar {
-  height: 80vh;
+  height: 78vh;
 }
 
 .new-job-modal {
@@ -23,4 +24,12 @@
 
 .new-job-spinner {
   display: none;
+}
+
+.fc-header-toolbar {
+  margin-bottom: 5px !important;
+}
+
+.event-color-switch {
+  padding: 0 5px;
 }
