@@ -1,0 +1,26 @@
+framework:
+    workflows:
+        volunteers_availabilities_workflow:
+            type: 'workflow'
+            marking_store:
+                type: 'single_state'
+            supports:
+                - App\Entity\VolunteerAvailability
+            initial_place: prepare_email
+            places:
+                - prepare_email
+                - send_email
+                - Answers_volunteers_Availabilities
+                - save_availabilities
+            transitions:
+                draft_email:
+                    from: prepare_email
+                    to: send_email
+                form_deployed:
+                    from: send_email
+                    to: Answers_volunteers_Availabilities
+                volunteers_answers:
+                    from: Answers_volunteers_Availabilities
+                    to: save_availabilities
+
+

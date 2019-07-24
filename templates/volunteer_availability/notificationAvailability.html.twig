@@ -1,0 +1,12 @@
+<h3>Nouvelles disponibilités</h3>
+A destination du festival : {{ festival }}.
+
+Le bénévole {{ volunteerName }} a ajouté les disponibilités suivantes :
+
+<ul>
+    {% for volunteer_availability in volunteer_availabilities %}
+        <li>{{ startDate }}</li>
+        <li>{{ endDate }}</li>
+    {% endfor %}
+</ul>
+
