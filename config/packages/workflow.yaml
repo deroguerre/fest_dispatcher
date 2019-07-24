@@ -8,18 +8,18 @@ framework:
                 - App\Entity\VolunteerAvailability
             initial_place: prepare_email
             places:
-                -prepare_email
-                -send_email
-                -Answers_volunteers_Availabilities
-                -save_availabilities
+                - prepare_email
+                - send_email
+                - Answers_volunteers_Availabilities
+                - save_availabilities
             transitions:
-                draft_email
+                draft_email:
                     from: prepare_email
                     to: send_email
-                form_deployed
+                form_deployed:
                     from: send_email
                     to: Answers_volunteers_Availabilities
-                volunteers_answers
+                volunteers_answers:
                     from: Answers_volunteers_Availabilities
                     to: save_availabilities
 

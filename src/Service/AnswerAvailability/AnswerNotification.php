@@ -39,7 +39,7 @@ class AnswerNotification
     {
         $message = (new \Swift_Message('New Availability'))
             ->setFrom('contact@festdispatcher.fr')
-            ->setTo($volunteerAvailability->getUser()->addRole('Role_Admin')->getEmail())
+            ->setTo('admin@admin.com')
             ->setBody(
                 $this->twig->render(
                     'volunteer_Availability/Notification.html.twig',
@@ -52,7 +52,6 @@ class AnswerNotification
                 ),
                 'text/html'
             );
-
         $this->mailer->send($message);
     }
 }
