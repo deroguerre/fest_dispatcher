@@ -57,7 +57,7 @@
     <a class="btn btn-outline-primary"
        href="{{ path('team_edit', {'id': team.id}) }}">{% trans %}Edit{% endtrans %}</a>
 
-    <form class="" style="display: inline" method="post" action="{{ path('team_delete', {'id': team.id}) }}" onsubmit="return confirm('{% trans %}Are you sure you want to delete this team?{% endtrans %}');">
+    <form style="display: inline" method="post" action="{{ path('team_delete', {'id': team.id}) }}" onsubmit="return confirm('{% trans %}Are you sure you want to delete this team?{% endtrans %}');">
         <input type="hidden" name="_method" value="DELETE">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ team.id) }}">
         <button class="btn btn-outline-danger">{% trans %}Delete{% endtrans %}</button>

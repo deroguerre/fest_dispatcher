@@ -9,11 +9,11 @@
     <table class="table mt-lg-3">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>{%  trans %}Name{% endtrans %}</th>
+            {#            <th>Id</th>#}
+            <th>{% trans %}Name{% endtrans %}</th>
             <th>Debut</th>
             <th>Fin</th>
-            {#                <th>Addresse</th>#}
+            <th>{% trans %}Address{% endtrans %}</th>
             {#                <th>Code postal</th>#}
             {#                <th>Pays</th>#}
             <th>actions</th>
@@ -22,11 +22,11 @@
         <tbody>
         {% for festival in festivals %}
             <tr>
-                <td>{{ festival.id }}</td>
+                {#                <td>{{ festival.id }}</td>#}
                 <td><a href="{{ path('festival_show', {'id': festival.id}) }}">{{ festival.name }}</a></td>
-                <td>{{ festival.startDate ? festival.startDate|date('Y-m-d') : '' }}</td>
-                <td>{{ festival.endDate ? festival.endDate|date('Y-m-d') : '' }}</td>
-                {#                <td>{{ festival.address }}</td>#}
+                <td>{{ festival.startDate ? festival.startDate|date('d/m/Y') : '' }}</td>
+                <td>{{ festival.endDate ? festival.endDate|date('d/m/Y') : '' }}</td>
+                <td>{{ festival.address }} {{ festival.zipcode }} {{ festival.country }}</td>
                 {#                <td>{{ festival.zipcode }}</td>#}
                 {#                <td>{{ festival.country }}</td>#}
                 <td>
@@ -44,6 +44,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('festival_new') }}" class="btn btn-primary mb-4">Ajouter</a>
+    <a href="{{ path('festival_new') }}" class="btn btn-outline-primary">{% trans %}Add{% endtrans %}</a>
 
 {% endblock %}
