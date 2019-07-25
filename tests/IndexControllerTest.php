@@ -2,39 +2,37 @@
 
 namespace App\Tests;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+use Symfony\Component\Panther\PantherTestCase;
 use Symfony\Component\VarDumper\Test\VarDumperTestTrait;
 
-class IndexControllerTest extends WebTestCase
+class IndexControllerTest extends PantherTestCase
 {
     use VarDumperTestTrait;
-
+    
     public function testIndexPage()
     {
-        $client = static::createClient();
+        $client = static::createPantherClient();
         $crawler = $client->request('GET', '/');
-
+        sleep(2);
+        $this->assertCount(1, $crawler->filter('h1'));
+        $this->assertSame(['Connexion'], $crawler->filter('h1')->text());
+        $this->assertCount(1,$crawler->filter('form'));
+        $this->assertCount(3,$crawler->filter('div'));
+        sleep(2);
+        $this->assertSame(['Email', 'Mot de passe'], $crawler->filter('input')->extract('type'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        // asserts that the response matches a given CSS selector.
-//        $this->assertGreaterThan(0, $crawler->filter('.festival-card')->count());
-
     }
-
 //    public function testAdminIndexPage() {
 //
 //        $client = static::createClient([], [
 //            'PHP_AUTH_USER' => 'admin@admin.com',
 //            'PHP_AUTH_PW'   => 'password',
 //        ]);
+//        sleep(4);
 //
 //        $crawler = $client->request('GET', '/');
-//
-//        $this->assertContains('admin', $crawler->filter('.sidebar-heading')->text());
-//
 //    }
 
 }

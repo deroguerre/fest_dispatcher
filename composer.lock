@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f16ba8e152af46159048635975231b54",
+    "content-hash": "85f3e3c3e916974957b3250c7b4a10b2",
     "packages": [
         {
             "name": "api-platform/api-pack",
@@ -7150,16 +7150,16 @@
         },
         {
             "name": "symfony/panther",
-            "version": "v0.4.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/panther.git",
-                "reference": "6581f7bc0498f0328fe955a2894ffc40070d2bcb"
+                "reference": "3cf171ad57807d872480be305dd684baca79d4d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/panther/zipball/6581f7bc0498f0328fe955a2894ffc40070d2bcb",
-                "reference": "6581f7bc0498f0328fe955a2894ffc40070d2bcb",
+                "url": "https://api.github.com/repos/symfony/panther/zipball/3cf171ad57807d872480be305dd684baca79d4d8",
+                "reference": "3cf171ad57807d872480be305dd684baca79d4d8",
                 "shasum": ""
             },
             "require": {
@@ -7216,7 +7216,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2019-06-11T14:14:33+00:00"
+            "time": "2019-06-21T12:58:36+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
@@ -7543,7 +7543,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "symfony/panther": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
