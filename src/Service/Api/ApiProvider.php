@@ -1,18 +1,18 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Service\Api;
 
 
-use PhpParser\Node\Stmt\Throw_;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class ApiRequest
+class ApiProvider
 {
 
-    private $httpClient, $apiUrl;
+    private $httpClient;
+    private $apiUrl;
 
     /**
      * ApiRequest constructor.
@@ -20,10 +20,10 @@ class ApiRequest
      * @param string $apiUrl
      */
     public function __construct(HttpClientInterface $httpClient, string $apiUrl = "http://127.0.0.1:8000/api/")
-    {
-        $this->httpClient = $httpClient;
-        $this->apiUrl = $apiUrl;
-    }
+{
+    $this->httpClient = $httpClient;
+    $this->apiUrl = $apiUrl;
+}
 
     /**
      * @param string $url
@@ -36,29 +36,28 @@ class ApiRequest
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      */
     public function request(string $url, string $method = 'GET')
-    {
+{
 
-        try {
+    try {
 
-            $response = $this->httpClient->request($method, $url);
+        $response = $this->httpClient->request($method, $url);
 
-            if ($response->getStatusCode() == 200) {
+        if ($response->getStatusCode() == 200) {
 
-                try {
+            try {
 
-                    return $response->toArray();
+                return $response->toArray();
 
-                } catch (DecodingExceptionInterface $exception) {
+            } catch (DecodingExceptionInterface $exception) {
 
-                    throw $exception;
-
-
-                }
-
+                throw $exception;
             }
-        } catch (TransportExceptionInterface $exception) {
 
-            throw $exception;
         }
+    } catch (TransportExceptionInterface $exception) {
+
+        throw $exception;
     }
+}
+
 }
