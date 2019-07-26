@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription - {{ parent() }}{% endblock %}
+{% block title %}{% trans %}Inscription{% endtrans %} - {{ parent() }}{% endblock %}
 
 {% block body %}
     {{ form_start(form) }}
@@ -16,7 +16,7 @@
     {{ form_row(form.skills) }}
     <div class="text-right">
         <button type="submit" class="btn btn-outline-primary">
-            Enregistrer
+            {% trans %}Save{% endtrans %}
         </button>
     </div>
     {{ form_end(form) }}

@@ -1,25 +1,36 @@
 Add: Ajouter
+Add Volunteer: Ajouter un bénévole
+Add slots: Ajouter des créneaux
 Address : Adresse
 All users: Tous les utilisateurs
 Are you sure you want to delete this team?: Êtes-vous sûr de vouloir supprimer cette équipe ?
+Availability request: Demande de disponibilités
 To: Au
 Background color: Couleur
 Back to list: Retour à la liste
 Close: Fermer
 Color: Couleur
+Connect: Se connecter
 Country: Pays
 Create new: Ajouter
 Create new Festival: Créer un festival
 Create new Team: Créer une équipe
+Create new Job: Créer un nouveau job
 Delete: Supprimer
 Edit: Modifier
 Edit Team: Modifier l'équipe
+Edit Job: Modifier un job
 End: Fin
+EndDate: Date de fin
 Festival *: Festival *
 Filling of team: Remplissage de l'équipe
-Firstname: Prenom
+Firstname: Prénom
 From: Du
 Lastname: Nom
+List: List
+List of contact: Liste des contacts
+List of Volunteers: Liste des bénévoles
+Login: Se connecter
 Logout: Déconnexion
 Managers *: Managers *
 Members: Membres
@@ -27,23 +38,29 @@ My schedule: Mon planning
 Name: Nom
 Name *: Nom *
 Needed Volunteers: Bénévoles nécessaires
-Needed volunteers: Bénévoles nécessaires
 New Team: Ajouter une équipe
 No teams found: Aucune équipe trouvée
+No records found: Aucun résultat trouvé
 Parameters: Paramètres
+Password: Mot de passe
 Phone: Téléphone
 Register: S'inscrire
 Save: Enregistrer
 Search: Rechercher
 Select festival: Selectionner un festival
+Send: Envoyer
 StartDate: Date de début
-Skills: Compétences
-EndDate: Date de fin
-Sign in: Se connecter
 Start: Début
+Skills: Compétences
+Registration: Inscription
+Sign in: Se connecter
 Team: Équipe
 Teams: Équipes
+Title: Titre
 Update: Modifier
 Users: Utilisateurs
+User: Utilisateur
 Volunteers: Bénévoles
+Volunteer: Bénévole
+VolunteerAvailability: Disponibilité
 Zipcode: Code postale

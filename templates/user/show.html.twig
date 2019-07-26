@@ -3,62 +3,65 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1>{% trans %}User{% endtrans %}</h1>
 <div class="container"><table class="table">
         <tbody>
+{#        <tr>#}
+{#            <th>Id</th>#}
+{#            <td>{{ user.id }}</td>#}
+{#        </tr>#}
         <tr>
-            <th>Id</th>
-            <td>{{ user.id }}</td>
-        </tr>
-        <tr>
-            <th>Firstname</th>
+            <th>{% trans %}Firstname{% endtrans %}</th>
             <td>{{ user.firstname }}</td>
         </tr>
         <tr>
-            <th>Lastname</th>
+            <th>{% trans %}Lastname{% endtrans %}</th>
             <td>{{ user.lastname }}</td>
         </tr>
         <tr>
-            <th>Email</th>
+            <th>{% trans %}Email{% endtrans %}</th>
             <td>{{ user.email }}</td>
         </tr>
+{#        <tr>#}
+{#            <th>Password</th>#}
+{#            <td>{{ user.password }}</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <th>Roles</th>#}
+{#            <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>#}
+{#        </tr>#}
         <tr>
-            <th>Password</th>
-            <td>{{ user.password }}</td>
-        </tr>
-        <tr>
-            <th>Roles</th>
-            <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>
-        </tr>
-        <tr>
-            <th>Phone</th>
+            <th>{% trans %}Phone{% endtrans %}</th>
             <td>{{ user.phone }}</td>
         </tr>
         <tr>
-            <th>Address</th>
+            <th>{% trans %}Address{% endtrans %}</th>
             <td>{{ user.address }}</td>
         </tr>
         <tr>
-            <th>Zipcode</th>
+            <th>{% trans %}Zipcode{% endtrans %}</th>
             <td>{{ user.zipcode }}</td>
         </tr>
         <tr>
-            <th>Country</th>
+            <th>{% trans %}Country{% endtrans %}</th>
             <td>{{ user.country }}</td>
         </tr>
         <tr>
-            <th>Skills</th>
+            <th>{% trans %}Skills{% endtrans %}</th>
             <td>{{ user.skills ? user.skills|join(', ') : '' }}</td>
         </tr>
         </tbody>
     </table>
 
+    <a class="btn btn-outline-primary" href="{{ path('user_edit', {'id': user.id}) }}">{% trans %}Edit{% endtrans %}</a>
 
+    <form style="display: inline" method="post" action="{{ path('user_delete', {'id': user.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+        <button class="btn btn-outline-danger">{% trans %}Delete{% endtrans %}</button>
+    </form>
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    <a class="btn btn-outline-secondary float-right" href="{{ path('user_index') }}">{% trans %}Back to list{% endtrans %}</a>
 
-    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user/_delete_form.html.twig') }}
 </div>
 {% endblock %}

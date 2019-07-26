@@ -23,7 +23,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Liste bénévoles</h6>
+            <h6 class="m-0 font-weight-bold text-primary">{% trans %}Liste des bénévoles{% endtrans %}</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -31,8 +31,8 @@
                     <thead>
                     <tr>
                         <th></th>
-                        <th>Nom</th>
-                        <th>Prénom</th>
+                        <th>{% trans %}Nom{% endtrans %}</th>
+                        <th>{% trans %}Prénom{% endtrans %}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    <button class="btn btn-primary submit mb-4 float-right">Envoyer</button>
+    <button class="btn btn-primary submit mb-4 float-right">{% trans %}Send{%  endtrans %}</button>
 
     {{ form_end(form) }}
 

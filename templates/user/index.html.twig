@@ -3,7 +3,7 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1 class="h3 mb-4 text-gray-800">Liste des contacts</h1>
+    <h1 class="h3 mb-4 text-gray-800">{% trans %}List of contact{% endtrans %}</h1>
 <div class="container"></div>
     <table class="table">
         <thead>
@@ -45,7 +45,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="12">no records found</td>
+                <td colspan="12">{% trans %}no records found{% endtrans %}</td>
             </tr>
         {% endfor %}
         </tbody>

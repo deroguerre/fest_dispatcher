@@ -3,9 +3,11 @@
 {% block title %}New Job{% endblock %}
 
 {% block body %}
-    <h1>Create new Job</h1>
+    <h1>{% trans %}Create new Job{%endtrans %}</h1>
 
     {{ include('job/_form.html.twig') }}
 
-    <a href="{{ path('job_index') }}">back to list</a>
+<a href="{{ path('job_index') }}"
+   class="btn btn-outline-secondary float-right">{% trans %}Back to list{% endtrans %}</a>
+{{ form_end(form) }}
 {% endblock %}

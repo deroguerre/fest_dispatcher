@@ -8,34 +8,36 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
-                <th>BackgroundColor</th>
-                <th>actions</th>
+{#                <th>Id</th>#}
+                <th>{% trans %}Title{% endtrans %}</th>
+                <th>{% trans %}StartDate{% endtrans %}</th>
+                <th>{% trans %}EndDate{% endtrans %}</th>
+                <th>{% trans %}BackgroundColor{% endtrans %}</th>
+                <th>{% trans %}actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
         {% for job in jobs %}
             <tr>
-                <td>{{ job.id }}</td>
+{#                <td>{{ job.id }}</td>#}
                 <td>{{ job.title }}</td>
                 <td>{{ job.startDate ? job.startDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ job.endDate ? job.endDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ job.backgroundColor }}</td>
                 <td>
-                    <a href="{{ path('job_show', {'id': job.id}) }}">show</a>
-                    <a href="{{ path('job_edit', {'id': job.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('job_show', {'id': job.id}) }}"><i
+                                class="far fa-eye"></i></a>
+                    <a class="btn btn-primary" href="{{ path('job_edit', {'id': job.id}) }}"><i
+                                class="far fa-edit"></i></a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">{% trans %}no records found{% endtrans %}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('job_new') }}">Create new</a>
+    <a href="{{ path('job_new') }}">{% trans %}Create new{% endtrans %}</a>
 {% endblock %}

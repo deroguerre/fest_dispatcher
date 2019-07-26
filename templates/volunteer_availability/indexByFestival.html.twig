@@ -8,13 +8,13 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
-            <th>Festival</th>
-            <th>Debut</th>
-            <th>Fin</th>
-            <th>actions</th>
+            <th>{% trans %}Nom{% endtrans %}</th>
+            <th>{% trans %}Prénom{% endtrans %}</th>
+            <th>{% trans %}Email{% endtrans %}</th>
+            <th>{% trans %}Festival<{% endtrans %}/th>
+            <th>{% trans %}Debut{% endtrans %}</th>
+            <th>{% trans %}Fin{% endtrans %}</th>
+            <th>{% trans %}actions{% endtrans %}</th>
         </tr>
         </thead>
         <tbody>
@@ -24,8 +24,8 @@
                 <td>{{ volunteer_availability.user.firstname }}</td>
                 <td>{{ volunteer_availability.user.email }}</td>
                 <td>{{ volunteer_availability.festival.name }}</td>
-                <td>{{ volunteer_availability.startDate ? volunteer_availability.startDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ volunteer_availability.endDate ? volunteer_availability.endDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ volunteer_availability.startDate ? volunteer_availability.startDate|date('Y-m-d H:i') : '' }}</td>
+                <td>{{ volunteer_availability.endDate ? volunteer_availability.endDate|date('Y-m-d H:i') : '' }}</td>
                 <td>
                     <a class="btn btn-primary"
                        href="{{ path('volunteer_availability_show', {'id': volunteer_availability.id}) }}"><i
@@ -37,13 +37,13 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="8">{% trans %}no records found{% endtrans %}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href="{{ path('volunteer_availability_new') }}">Ajouter un bénévole</a>
+    <a class="btn btn-primary" href="{{ path('volunteer_availability_new') }}">{% trans %}Add{% endtrans %} {% trans %}Volunteer{% endtrans %}</a>
 
-    <a class="btn btn-primary" href="{{ path('volunteer_availability_prepare_email', {'id': current_festival.id}) }}">Demande de disponibilités</a>
+    <a class="btn btn-primary" href="{{ path('volunteer_availability_prepare_email', {'id': current_festival.id}) }}">{% trans %}Availability request{% endtrans %}</a>
 {% endblock %}

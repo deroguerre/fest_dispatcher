@@ -3,11 +3,11 @@
 {% block title %}Edit Job{% endblock %}
 
 {% block body %}
-    <h1>Edit Job</h1>
+    <h1 class="h3 mb-4 text-gray-800">{% trans %}Edit Job{% endtrans %}</h1>
 
     {{ include('job/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('job_index') }}">back to list</a>
+    <a class="btn btn-outline-secondary float-right" href="{{ path('job_index') }}">{% trans %}Back to list{% endtrans %}</a>
 
     {{ include('job/_delete_form.html.twig') }}
 {% endblock %}

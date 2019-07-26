@@ -3,11 +3,11 @@
 {% block title %}Edit Festival{% endblock %}
 
 {% block body %}
-    <h1 class="h3 mb-4 text-gray-800">Edit Festival</h1>
+    <h1 class="h3 mb-4 text-gray-800">{% trans %}Edit{% endtrans %} {% trans %}Festival{% endtrans %}</h1>
 
     {{ include('festival/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('festival_index') }}">back to list</a>
+    <a class="btn btn-outline-secondary float-right" href="{{ path('festival_index') }}">{% trans %}Back to list{% endtrans %}</a>
 
     {{ include('festival/_delete_form.html.twig') }}
 {% endblock %}

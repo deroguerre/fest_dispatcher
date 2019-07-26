@@ -6,9 +6,9 @@
 
     {% if token is defined %}
         <h1 class="h3 mb-4 text-gray-800">{{ festival }}</h1>
-        <p> Merci de saisir tes disponibilités pour le festival</p>
+        <p>Merci de saisir tes disponibilités pour le festival</p>
     {% else %}
-        <h1 class="h3 mb-4 text-gray-800">Ajouter un bénévole</h1>
+        <h1 class="h3 mb-4 text-gray-800">{% trans %}Add Volunteer{% endtrans %}</h1>
     {% endif %}
 
     {{ include('volunteer_availability/_form.html.twig') }}
@@ -21,7 +21,8 @@
     {{ form_end(form) }}
 
     {% if token is not defined %}
-        <a href="{{ path('volunteer_availability_index') }}">{% trans %}back to list{% endtrans %}</a>
+        <a href="{{ path('volunteer_availability_index') }}"
+           class="btn btn-outline-secondary float-right">{% trans %}Back to list{% endtrans %}</a
     {% endif %}
 
 {% endblock %}

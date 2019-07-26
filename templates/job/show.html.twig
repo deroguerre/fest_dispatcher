@@ -8,31 +8,36 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ job.id }}</td>
+{#                <th>Id</th>#}
+{#                <td>{{ job.id }}</td>#}
             </tr>
             <tr>
-                <th>Title</th>
+                <th>{% trans %}Title{% endtrans %}</th>
                 <td>{{ job.title }}</td>
             </tr>
             <tr>
-                <th>StartDate</th>
+                <th>{% trans %}StartDate{% endtrans %}</th>
                 <td>{{ job.startDate ? job.startDate|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>EndDate</th>
+                <th>{% trans %}EndDate{% endtrans %}</th>
                 <td>{{ job.endDate ? job.endDate|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>BackgroundColor</th>
+                <th>{% trans %}BackgroundColor{% endtrans %}</th>
                 <td>{{ job.backgroundColor }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('job_index') }}">back to list</a>
+    <a class="btn btn-outline-primary" href="{{ path('job_edit', {'id': job.id}) }}">{% trans %}Edit{% endtrans %}</a>
 
-    <a href="{{ path('job_edit', {'id': job.id}) }}">edit</a>
+    <form style="display: inline" method="post" action="{{ path('job_delete', {'id': job.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ job.id) }}">
+        <button class="btn btn-outline-danger">{% trans %}Delete{% endtrans %}</button>
+    </form>
 
-    {{ include('job/_delete_form.html.twig') }}
+    <a class="btn btn-outline-secondary float-right" href="{{ path('job_index') }}">{% trans %}Back to list{% endtrans %}</a>
+
 {% endblock %}

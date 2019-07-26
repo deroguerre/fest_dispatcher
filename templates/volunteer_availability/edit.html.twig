@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit VolunteerAvailability{% endblock %}
+{% block title %}{% trans %}Edit {% endtrans %}{% trans %}VolunteerAvailability{% endtrans %}{% endblock %}
 
 {% block body %}
-    <h1>Edit VolunteerAvailability</h1>
+    <h1></h1>
+    <h1 class="h3 mb-4 text-gray-800">{% trans %}Edit{% endtrans %} {% trans %}VolunteerAvailability{% endtrans %}</h1>
+
 
     {{ include('volunteer_availability/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('volunteer_availability_index') }}">back to list</a>
+    <a class="btn btn-outline-secondary float-right" href="{{ path('volunteer_availability_index') }}">{% trans %}Back to list{% endtrans %}</a>
+
 
     {{ include('volunteer_availability/_delete_form.html.twig') }}
 {% endblock %}
