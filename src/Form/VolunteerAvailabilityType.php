@@ -20,6 +20,7 @@ class VolunteerAvailabilityType extends AbstractType
             ->add('festival')
             ->add('startDate')
             ->add('endDate')
+
         ;
     }
 

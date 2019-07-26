@@ -14,6 +14,10 @@ class VolunteerAvailabilityForUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+        ->add('user', EntityType::class, [
+            "class" => User::class
+        ])
+            ->add('festival')
             ->add('startDate')
             ->add('endDate')
         ;

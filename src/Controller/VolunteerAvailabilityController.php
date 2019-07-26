@@ -214,7 +214,7 @@ class VolunteerAvailabilityController extends AbstractController
 //                }
 
                 //to debug
-                $user = $userRepository->find('1');
+                $user = $userRepository->findOneByEmail('admin@admin.com');
                 $emailHelper->NotifyForAvailability($data['title'], $data['body'], $user);
 
                 $this->addFlash("success","Les demandes de disponibilités sont envoyés !");

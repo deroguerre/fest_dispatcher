@@ -31,6 +31,7 @@ class EmailHelper
 
     public function NotifyForAvailability(string $subject, string $body, User $user)
     {
+
         /** @var \Swift_Mime_SimpleMessage $mail */
         $mail = $this->mailer->createMessage();
 
