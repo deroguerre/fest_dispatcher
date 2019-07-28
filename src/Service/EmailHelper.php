@@ -58,18 +58,18 @@ class EmailHelper
         ), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $body .= "<br>Saisir ses disponibilités : $customAvailabilityUrl";
-
-        $mail
-//            ->setFrom($this->params->get('contact_email'))
-            ->setFrom("no-reply@sandboxc2c8910fa65c4da0a4d787447df36060.mailgun.org")
+        foreach ($data as $key => $value) {
+            $mail
+        ->setFrom($this->params->get('contact_email'))
+//            ->setFrom("no-reply@sandboxc2c8910fa65c4da0a4d787447df36060.mailgun.org")
+        ->addBcc($user->getEmail())
 //            ->setTo($user->getEmail())
-            ->setTo("deroguerre@gmail.com")
-            ->setSubject($subject)
-            ->setBody($body, 'text/html');
-        dump($mail);
+//            ->setTo("example@example.com")
+        ->setSubject($subject)
+        ->setBody($body, 'text/html');
 
         $success = $this->mailer->send($mail);
-
         return $success;
+        }
     }
 }

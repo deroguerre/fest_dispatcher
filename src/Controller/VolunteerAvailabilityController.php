@@ -203,19 +203,17 @@ class VolunteerAvailabilityController extends AbstractController
 
                 $data = $request->request->get('prepare_email_availabilities');
 
-                /**
-                 * @var User $value
-                 */
-//                foreach ( $userslist as $user) {
-//                    $success = $emailHelper->NotifyForAvailability($data['title'], $data['body'], $user);
-//                    if(!$success) {
-//                        throw new Exception("Une erreur c'est produit");
-//                    }
-//                }
+                foreach ( $userslist as $user) {
+                    $success = $emailHelper->NotifyForAvailability($data['title'], $data['body'], $user);
+                    if(!$success) {
+                        throw new Exception("Une erreur s'est produite");
+                    }
+                }
 
                 //to debug
-                $user = $userRepository->findOneByEmail('admin@admin.com');
+//                $user = $userRepository->findOneByEmail('admin@admin.com');
                 $emailHelper->NotifyForAvailability($data['title'], $data['body'], $user);
+
 
                 $this->addFlash("success","Les demandes de disponibilités sont envoyés !");
 
