@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.27.0",
+        "@symfony/webpack-encore": "^4.1.1",
         "core-js": "^3.0.0",
         "expose-loader": "^0.7.5",
         "jquery": "^3.4.1",
